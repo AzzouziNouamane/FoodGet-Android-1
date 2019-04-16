@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".RegisterActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/foodget" />
+
+    <LinearLayout
+        style="@style/linearStyle"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView3"
+            style="@style/textView_Style"
+            android:text="@string/username" />
+
+        <EditText
+            android:id="@+id/textUser"
+            style="@style/editText_style"
+            android:autofillHints="@string/username"
+            android:inputType="textEmailAddress" />
+
+        <TextView
+            android:id="@+id/textView4"
+            style="@style/textView_Style"
+            android:text="@string/password" />
+
+        <EditText
+            android:id="@+id/textPass"
+            style="@style/editText_style"
+            android:autofillHints="@string/password"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/textView5"
+            style="@style/textView_Style"
+            android:text="@string/confirmPassword" />
+
+        <EditText
+            android:id="@+id/textPassConfirmation"
+            style="@style/editText_style"
+            android:autofillHints="@string/confirmPassword"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/registerButton"
+        style="@style/buttonStyle"
+        android:text="@string/register" />
+
+    <TextView
+        android:id="@+id/loginText"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textAlignment="center"
+        android:textColor="#000"
+        android:textSize="15dp"
+        android:text="@string/login"
+        android:textAllCaps="true"/>
+
+</LinearLayout>

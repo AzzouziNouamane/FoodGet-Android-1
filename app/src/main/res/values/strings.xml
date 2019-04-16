@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FoodGet</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="password">Mot de passe</string>
+    <string name="confirmPassword">Confirmez Mot de passe</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+</resources>

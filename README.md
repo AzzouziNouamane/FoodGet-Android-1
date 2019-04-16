@@ -1,1 +1,0 @@
-# FoodGet-Android
