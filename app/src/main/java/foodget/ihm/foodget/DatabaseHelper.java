@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -18,11 +19,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
+        addUser("julie", "123", "julie@gmail.com", "Julie");
+        addUser("bruno", "123", "bruno@gmail.com", "Bruno");
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("CREATE TABLE registeruser (ID INTEGER PRIMARY KEY AUTOINCREMENT,username TEXT , password TEXT, email TEXT, fName TEXT)");
+
     }
 
     @Override
