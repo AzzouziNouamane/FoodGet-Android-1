@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     EditText mTextUserName;
     EditText mTextPassword;
     Button mLoginButton;
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         mTextUserName = (EditText)findViewById(R.id.textUser);
         mTextPassword = (EditText)findViewById(R.id.textPass);
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         mTextViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
+                Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(registerIntent);
             }
         });
@@ -42,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
                 String pass= mTextPassword.getText().toString().trim();
                 Boolean res = db.checkUser(user, pass);
                 if(res == true) {
-                    Toast.makeText(MainActivity.this, "Successfully Logged IN", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Successfully Logged IN", Toast.LENGTH_SHORT).show();
+                    Intent loginIntent = new Intent(LoginActivity.this, MainMenu.class);
+                    startActivity(loginIntent);
                 }
                 else {
-                    Toast.makeText(MainActivity.this, "Wrong username/password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Wrong username/password", Toast.LENGTH_SHORT).show();
                 }
             }
         });

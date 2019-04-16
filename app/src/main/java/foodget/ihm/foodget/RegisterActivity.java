@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         mTextViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent loginIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(loginIntent);
             }
         });
@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
                         long val = db.addUser(username, password, email, fName);
                         if( val > 0) {
                             Toast.makeText(RegisterActivity.this, "Inscription réussie !", Toast.LENGTH_SHORT).show();
-                            Intent registerIntent = new Intent(RegisterActivity.this, MainActivity.class);
+                            Intent registerIntent = new Intent(RegisterActivity.this, LoginActivity.class);
                             startActivity(registerIntent);
                         }
                         else {
