@@ -5,15 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
+    android:gravity="center_horizontal"
     android:background="@color/colorPrimaryDark"
     tools:context=".RegisterActivity">
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/foodget" />
+        app:srcCompat="@drawable/foodget_register" />
 
     <LinearLayout
         style="@style/linearStyle"
@@ -27,8 +27,27 @@
         <EditText
             android:id="@+id/textUser"
             style="@style/editText_style"
-            android:autofillHints="@string/username"
+            android:inputType="text" />
+
+        <TextView
+            android:id="@+id/textViewE"
+            style="@style/textView_Style"
+            android:text="@string/email" />
+
+        <EditText
+            android:id="@+id/textEmail"
+            style="@style/editText_style"
             android:inputType="textEmailAddress" />
+
+        <TextView
+            android:id="@+id/textViewP"
+            style="@style/textView_Style"
+            android:text="@string/firstName" />
+
+        <EditText
+            android:id="@+id/textFname"
+            style="@style/editText_style"
+            android:inputType="text" />
 
         <TextView
             android:id="@+id/textView4"
@@ -38,7 +57,6 @@
         <EditText
             android:id="@+id/textPass"
             style="@style/editText_style"
-            android:autofillHints="@string/password"
             android:inputType="textPassword" />
 
         <TextView
@@ -49,7 +67,6 @@
         <EditText
             android:id="@+id/textPassConfirmation"
             style="@style/editText_style"
-            android:autofillHints="@string/confirmPassword"
             android:inputType="textPassword" />
     </LinearLayout>
 
@@ -65,7 +82,7 @@
         android:layout_width="wrap_content"
         android:textAlignment="center"
         android:textColor="#000"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:text="@string/login"
         android:textAllCaps="true"/>
 

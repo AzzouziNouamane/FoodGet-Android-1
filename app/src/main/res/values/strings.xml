@@ -4,6 +4,8 @@
     <string name="username">Nom d\'utilisateur</string>
     <string name="password">Mot de passe</string>
     <string name="confirmPassword">Confirmez Mot de passe</string>
-    <string name="register">Register</string>
-    <string name="login">Login</string>
+    <string name="register">Inscription</string>
+    <string name="login">Connexion</string>
+    <string name="email">Email</string>
+    <string name="firstName">Prenom</string>
 </resources>
