@@ -8,4 +8,14 @@
     <string name="login">Connexion</string>
     <string name="email">Email</string>
     <string name="firstName">Prenom</string>
+    <string name="accueil">Acceuil</string>
+    <string name="panier">Panier</string>
+    <string name="alertes">Alertes</string>
+    <string name="compte">Mon Compte</string>
+    <string name="newmail">Ancienne adresse  mail</string>
+    <string name="newmailconfirm">Nouvelle adresse mail</string>
+    <string name="newname">Nouveau Prénom</string>
+    <string name="newpass">Nouveau mot de passe</string>
+    <string name="newpassconfirm">Confirmer mot de passe</string>
+    <string name="oldpassword">Mot de passe actuel</string>
 </resources>

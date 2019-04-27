@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/navigation_acceuil"
+        android:title="@string/accueil"
+        />
+
+
+    <item
+        android:id="@+id/navigation_alertes"
+        android:title="@string/alertes" />
+
+    <item
+        android:id="@+id/navigation_compte"
+        android:title="@string/compte" />
+
+
+</menu>
