@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, 1);
         addUser("julie", "123", "julie@gmail.com", "Julie");
         addUser("bruno", "123", "bruno@gmail.com", "Bruno");
+        addUser("nidal","test","nidal@gmail.com","Nidal");
     }
 
     @Override
@@ -60,4 +61,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if(count > 0) return true;
         else return false;
     }
+
+    public int UpdatePassword(String OldPass,String NewPass){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("password",NewPass);
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.update(TABLE_NAME, contentValues,"password",null);
+        return 0;
+    }
+
 }

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -15,6 +16,8 @@ public class NewPasswordActivity extends AppCompatActivity {
     EditText mTextOldPass;
     Button mSubmit;
     DatabaseHelper db;
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -38,10 +41,27 @@ public class NewPasswordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
+        mSubmit=(Button) findViewById(R.id.ConfirmButton) ;
+        mTextNewPass=(EditText) findViewById(R.id.textnewpass);
+        mTextConfirmPass=(EditText) findViewById(R.id.textnewpassconfirm);
+        mTextOldPass=(EditText) findViewById(R.id.textoldpass);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mSubmit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                String oldpass=mTextOldPass.getText().toString().trim();
+                String newpass=mTextNewPass.getText().toString().trim();
+                String newpassconfirm=mTextConfirmPass.getText().toString().trim();
+                if (newpass.equals(newpassconfirm)){
+                    db.UpdatePassword(oldpass,newpass);
+                }
+
+            }
+        });
 
     }
 
