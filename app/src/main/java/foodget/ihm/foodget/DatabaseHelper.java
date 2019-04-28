@@ -151,4 +151,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<User> getListOfUsers() {
         return listOfUsers;
     }
+
+    public int UpdatePassword(String OldPass,String NewPass){
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("password",NewPass);
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.update(TABLE_NAME, contentValues,"password",null);
+        return 0;
+    }
 }
