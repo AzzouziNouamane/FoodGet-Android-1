@@ -9,16 +9,112 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".MainMenu">
 
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="413dp"
-        android:layout_height="178dp"
-        android:layout_marginBottom="491dp"
-        app:layout_constraintBottom_toTopOf="@+id/navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/foodget" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/foodget" />
+
+        <LinearLayout
+            style="@style/linearStyle"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/welcomeView"
+                style="@style/textView_Style"
+                />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/linearStyle"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/textView_Style"
+                android:text="Historique de vos dépenses :" />
+
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ListView
+                android:id="@+id/shopping_list"
+                android:layout_width="match_parent"
+                android:layout_height="199dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:textSize="20dp"
+                android:id="@+id/foodText"
+                android:text="@string/product"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/priceText"
+                android:layout_marginLeft="95dp"
+                android:textSize="20dp"
+                android:text="@string/price"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/add_food"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:digits="0123456789."
+                android:id="@+id/add_price"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_data"
+                android:text="Ajouter"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 
     <android.support.design.widget.BottomNavigationView
@@ -36,7 +132,9 @@
         app:itemTextColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/navigation" >
+
+    </android.support.design.widget.BottomNavigationView>
 
 
 

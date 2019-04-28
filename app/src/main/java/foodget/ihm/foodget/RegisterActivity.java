@@ -58,7 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.makeText(RegisterActivity.this, "Mots de passes différents !", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        long val = db.addUser(username, password, email, fName);
+                        User newUser = new User(username, password, email, fName);
+                        long val = db.addUser(newUser);
                         if( val > 0) {
                             Toast.makeText(RegisterActivity.this, "Inscription réussie !", Toast.LENGTH_SHORT).show();
                             Intent registerIntent = new Intent(RegisterActivity.this, LoginActivity.class);

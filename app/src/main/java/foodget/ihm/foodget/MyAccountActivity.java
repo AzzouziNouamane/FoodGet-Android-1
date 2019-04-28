@@ -16,6 +16,7 @@ public class MyAccountActivity extends AppCompatActivity {
     Button UpdateName;
     Button UpdatePassWord;
     Button Logout;
+    User currentUser;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -26,11 +27,13 @@ public class MyAccountActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_acceuil:
                     Intent MainMenuIntent = new Intent(MyAccountActivity.this,MainMenu.class);
+                    MainMenuIntent.putExtra("USER", currentUser);
                     startActivity(MainMenuIntent);
                     break;
 
                 case R.id.navigation_compte:
                     Intent MyAccountIntent = new Intent(MyAccountActivity.this,MyAccountActivity.class);
+                    MyAccountIntent.putExtra("USER", currentUser);
                     startActivity(MyAccountIntent);
                     break;
             }
@@ -49,7 +52,9 @@ public class MyAccountActivity extends AppCompatActivity {
         UpdatePassWord = (Button) findViewById(R.id.ModifierMDPButton);
         Logout = (Button) findViewById(R.id.LogoutButton);
 
-
+        Bundle data = getIntent().getExtras();
+        User tempUser = (User) data.getParcelable("USER");
+        currentUser = tempUser;
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 

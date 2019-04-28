@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity {
+import java.io.Serializable;
+
+public class LoginActivity extends AppCompatActivity{
     EditText mTextUserName;
     EditText mTextPassword;
     Button mLoginButton;
@@ -41,15 +43,24 @@ public class LoginActivity extends AppCompatActivity {
                 String user = mTextUserName.getText().toString().trim();
                 String pass= mTextPassword.getText().toString().trim();
                 Boolean res = db.checkUser(user, pass);
-                if(res == true) {
-                    Toast.makeText(LoginActivity.this, "Successfully Logged IN", Toast.LENGTH_SHORT).show();
-                    Intent loginIntent = new Intent(LoginActivity.this, MainMenu.class);
-                    startActivity(loginIntent);
+                if(user.equals("") || pass.equals("")) {
+                    Toast.makeText(LoginActivity.this, "Nom d'utilisateur ou Mot de passe incorrecte", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(LoginActivity.this, "Wrong username/password", Toast.LENGTH_SHORT).show();
+                    if(res == true) {
+                        Toast.makeText(LoginActivity.this, "Successfully Logged IN", Toast.LENGTH_SHORT).show();
+                        Intent loginIntent = new Intent(LoginActivity.this, MainMenu.class);
+                        User currentUser = db.userLogged(user, pass);
+                        loginIntent.putExtra("USER", currentUser);
+
+                        startActivity(loginIntent);
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this, "Wrong username/password", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
+
+        }
         });
     }
 }
