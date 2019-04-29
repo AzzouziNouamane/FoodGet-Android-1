@@ -117,10 +117,6 @@ public class MainMenu extends AppCompatActivity {
                     total += newShopping.getPrice();
                     welcomeView.setText("Bonjour " + currentUser.getfName() + "\n" + "Vous avez dépensé " + total + " €" );
                     Log.d(TAG, "viewData: total " + total + " getPrice() " + newShopping.getPrice());
-                } else {
-                    Intent ToLoginPageIntent = new Intent(MainMenu.this,LoginActivity.class);
-                    Toast.makeText(this, "Erreur de programme. Veuillez vous reconnecter", Toast.LENGTH_SHORT).show();
-                    startActivity(ToLoginPageIntent);
                 }
 
             }

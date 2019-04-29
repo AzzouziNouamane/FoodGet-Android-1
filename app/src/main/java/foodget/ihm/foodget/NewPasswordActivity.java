@@ -16,7 +16,7 @@ public class NewPasswordActivity extends AppCompatActivity {
     EditText mTextOldPass;
     Button mSubmit;
     DatabaseHelper db;
-
+    User currentUser;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -27,11 +27,13 @@ public class NewPasswordActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_acceuil:
                     Intent MainMenuIntent = new Intent(NewPasswordActivity.this,MainMenu.class);
+                    MainMenuIntent.putExtra("USER", currentUser);
                     startActivity(MainMenuIntent);
                     break;
 
                 case R.id.navigation_compte:
                     Intent MyAccountIntent = new Intent(NewPasswordActivity.this,MyAccountActivity.class);
+                    MyAccountIntent.putExtra("USER", currentUser);
                     startActivity(MyAccountIntent);
                     break;
             }
@@ -63,6 +65,9 @@ public class NewPasswordActivity extends AppCompatActivity {
             }
         });
 
+        Bundle data = getIntent().getExtras();
+        User tempUser = (User) data.getParcelable("USER");
+        currentUser = tempUser;
     }
 
 

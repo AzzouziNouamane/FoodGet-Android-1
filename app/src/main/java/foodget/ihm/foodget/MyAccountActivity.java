@@ -64,6 +64,7 @@ public class MyAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent NewMailIntent= new Intent(MyAccountActivity.this,NewMailActivity.class);
+                NewMailIntent.putExtra("USER", currentUser);
                 startActivity(NewMailIntent);
             }
         });
@@ -71,6 +72,7 @@ public class MyAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent NewNameIntent= new Intent(MyAccountActivity.this,NewNameActivity.class);
+                NewNameIntent.putExtra("USER", currentUser);
                 startActivity(NewNameIntent);
             }
         });
@@ -78,6 +80,7 @@ public class MyAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent NewPasswordIntent= new Intent(MyAccountActivity.this,NewPasswordActivity.class);
+                NewPasswordIntent.putExtra("USER", currentUser);
                 startActivity(NewPasswordIntent);
             }
         });

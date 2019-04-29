@@ -135,6 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("fName", user.getfName());
         long res = db.insert(TABLE_NAME, null, contentValues);
         listOfUsers.add(user);
+
         db.close();
         return res;
     }

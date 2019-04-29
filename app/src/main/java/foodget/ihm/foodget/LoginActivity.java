@@ -52,7 +52,6 @@ public class LoginActivity extends AppCompatActivity{
                         Intent loginIntent = new Intent(LoginActivity.this, MainMenu.class);
                         User currentUser = db.userLogged(user, pass);
                         loginIntent.putExtra("USER", currentUser);
-
                         startActivity(loginIntent);
                     }
                     else {

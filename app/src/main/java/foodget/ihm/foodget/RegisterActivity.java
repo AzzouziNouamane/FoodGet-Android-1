@@ -63,6 +63,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if( val > 0) {
                             Toast.makeText(RegisterActivity.this, "Inscription réussie !", Toast.LENGTH_SHORT).show();
                             Intent registerIntent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            Toast.makeText(RegisterActivity.this, db.getListOfUsers().get(1).getfName(), Toast.LENGTH_LONG).show();
                             startActivity(registerIntent);
                         }
                         else {
