@@ -19,6 +19,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import foodget.ihm.foodget.activities.MainMenu;
+import foodget.ihm.foodget.activities.MyAccountActivity;
+import foodget.ihm.foodget.models.Shopping;
+import foodget.ihm.foodget.models.User;
+
 public class MyCartActivity extends AppCompatActivity {
 
     User currentUser;
@@ -36,13 +41,13 @@ public class MyCartActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_accueil:
-                    Intent MainMenuIntent = new Intent(MyCartActivity.this,MainMenu.class);
+                    Intent MainMenuIntent = new Intent(MyCartActivity.this, MainMenu.class);
                     MainMenuIntent.putExtra("USER", currentUser);
                     startActivity(MainMenuIntent);
                     break;
 
                 case R.id.navigation_compte:
-                    Intent MyAccountIntent = new Intent(MyCartActivity.this,MyAccountActivity.class);
+                    Intent MyAccountIntent = new Intent(MyCartActivity.this, MyAccountActivity.class);
                     MyAccountIntent.putExtra("USER", currentUser);
                     startActivity(MyAccountIntent);
                     break;
@@ -67,14 +72,14 @@ public class MyCartActivity extends AppCompatActivity {
         Bundle data = getIntent().getExtras();
         User tempUser = (User) data.getParcelable("USER");
         currentUser = tempUser;
-    //    Log.d(TAG, "onCreate: " + tempUser);
+        //    Log.d(TAG, "onCreate: " + tempUser);
 
         viewData();
         lists_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String text = lists_list.getItemAtPosition(position).toString();
-                Toast.makeText(MyCartActivity.this, ""+text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyCartActivity.this, "" + text, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -86,7 +91,7 @@ public class MyCartActivity extends AppCompatActivity {
         else {
             tv_listes.setText("Vos listes :");
             adapter = new ArrayAdapter<>(this, R.layout.da_food, listItem);
-         //   FoodListAdapter adapterFood = new FoodListAdapter(this, R.layout.da_food, listItem);
+            //   FoodListAdapter adapterFood = new FoodListAdapter(this, R.layout.da_food, listItem);
             lists_list.setAdapter(adapter);
         }
     }

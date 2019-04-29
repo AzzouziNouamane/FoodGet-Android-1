@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
+import foodget.ihm.foodget.activities.LoginActivity;
+
 public class SplashActivity extends AppCompatActivity {
     private final int SPLASH_DURATION = 2000;
 

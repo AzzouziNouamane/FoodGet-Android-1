@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.models.User;
 
 public class NewMailActivity extends AppCompatActivity {
     EditText mTextNewMail;

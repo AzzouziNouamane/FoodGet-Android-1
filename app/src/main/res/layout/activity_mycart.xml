@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/colorPrimaryDark"
-    tools:context=".MainMenu">
+    tools:context=".activities.MainMenu">
 
     <LinearLayout
         android:id="@+id/linearLayout"

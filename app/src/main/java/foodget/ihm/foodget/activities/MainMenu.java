@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.FoodListAdapter;
+import foodget.ihm.foodget.MyCartActivity;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.User;

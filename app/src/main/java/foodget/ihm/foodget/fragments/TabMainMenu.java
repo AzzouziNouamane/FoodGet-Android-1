@@ -58,7 +58,7 @@ public class TabMainMenu extends Fragment {
         if(tempUser != null) {
             welcomeView.setText("Bonjour " + tempUser.getfName() + "\n" + "Vous avez dépensé " + total + " €" );
         }
-        viewData();
+        //viewData();
         shoppingView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
