@@ -103,16 +103,22 @@ public class MainMenu extends AppCompatActivity {
         add_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Shopping newShopping= new Shopping(add_food.getText().toString().trim(), Double.parseDouble(add_price.getText().toString().trim()));
                 String food = add_food.getText().toString().trim();
-                if(!food.equals("") && db.addFood(newShopping, currentUser)) {
-                    Toast.makeText(MainMenu.this, "data added", Toast.LENGTH_SHORT).show();
-                    add_food.setText("");
-                    add_price.setText("");
-                    listItem.clear();
-                    viewData();
-                } else {
-                    Toast.makeText(MainMenu.this, "Data not added", Toast.LENGTH_SHORT).show();
+                if(!add_price.getText().toString().trim().equals("")) {
+                    Double price = Double.parseDouble(add_price.getText().toString().trim());
+                    Shopping newShopping= new Shopping(food, price);
+                    if ( (!food.equals("") ||  price.equals("")) && db.addFood(newShopping, currentUser) ) {
+                        Toast.makeText(MainMenu.this, "data added", Toast.LENGTH_SHORT).show();
+                        add_food.setText("");
+                        add_price.setText("");
+                        listItem.clear();
+                        viewData();
+                    } else {
+                        Toast.makeText(MainMenu.this, "Data not added", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(MainMenu.this, "Ajoutez un prix !", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -120,6 +126,7 @@ public class MainMenu extends AppCompatActivity {
 
     public void viewData() {
         Cursor cursor = db.viewData();
+        total = 0.0;
         if (cursor.getCount() == 0) {
             Toast.makeText(this, "No data to view", Toast.LENGTH_SHORT).show();
         } else {
