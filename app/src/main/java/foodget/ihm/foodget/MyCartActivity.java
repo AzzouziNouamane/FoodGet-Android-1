@@ -82,9 +82,9 @@ public class MyCartActivity extends AppCompatActivity {
 
     public void viewData() {
         Cursor cursor = db.viewData();
-        if (cursor.getCount() == 0) tv_listes.setText("Vous n'vez pas encore créé des listes");
+        if (cursor.getCount() == 0) tv_listes.setText("Vous n'avez pas encore créé des listes");
         else {
-            tv_listes.setText("Vos listes:");
+            tv_listes.setText("Vos listes :");
             adapter = new ArrayAdapter<>(this, R.layout.da_food, listItem);
          //   FoodListAdapter adapterFood = new FoodListAdapter(this, R.layout.da_food, listItem);
             lists_list.setAdapter(adapter);
