@@ -9,6 +9,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import static android.media.tv.TvContract.Programs.Genres.SHOPPING;
+
 import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.User;
 
@@ -18,6 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "register.db";
     public static final String TABLE_NAME = "registeruser";
     public static final String FOOD_TABLE = "fooduser";
+    public static final String LIST_TABLE = "listsuser";
     public static final String COL_1 = "ID";
     public static final String COL_2 = "username";
     public static final String COL_3 = "password";
@@ -59,12 +62,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("email", user.getEmail());
         contentValues.put("fName", user.getfName());
         sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+
         Shopping shopping = new Shopping("Pomme", 2.0);
         ContentValues contentValuesShop = new ContentValues();
         contentValuesShop.put(FOOD, shopping.getFood());
         contentValuesShop.put(PRICE, shopping.getPrice());
         contentValuesShop.put(COL_2, user.getUsername());
         sqLiteDatabase.insert(FOOD_TABLE, null, contentValuesShop);
+
+        Shopping shopping2 = new Shopping("Bananes", 4.0);
+        ContentValues contentValuesShop2 = new ContentValues();
+        contentValuesShop2.put(FOOD, shopping2.getFood());
+        contentValuesShop2.put(PRICE, shopping2.getPrice());
+        contentValuesShop2.put(COL_2, user.getUsername());
+        sqLiteDatabase.insert(FOOD_TABLE, null, contentValuesShop2);
+
         Log.d(TAG, "DatabaseHelper: Created");
         listOfUsers.add(user);
     }
@@ -138,6 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("fName", user.getfName());
         long res = db.insert(TABLE_NAME, null, contentValues);
         listOfUsers.add(user);
+
         db.close();
         return res;
     }

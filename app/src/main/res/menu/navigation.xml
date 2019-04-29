@@ -3,10 +3,8 @@
 
 
     <item
-        android:id="@+id/navigation_acceuil"
-        android:title="@string/accueil"
-        />
-
+        android:id="@+id/navigation_accueil"
+        android:title="@string/accueil" />
 
     <item
         android:id="@+id/navigation_alertes"

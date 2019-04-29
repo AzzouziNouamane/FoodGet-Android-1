@@ -33,6 +33,8 @@ public class MainMenu extends AppCompatActivity {
     EditText add_price;
     TextView welcomeView;
     Button add_data;
+    Button btn_cart;
+    Button btn_stats;
     ArrayList<Shopping> listItem;
     ArrayAdapter adapter;
     ListView shoppingView;
@@ -45,7 +47,7 @@ public class MainMenu extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_acceuil:
+                case R.id.navigation_accueil:
                     Intent MainMenuIntent = new Intent(MainMenu.this,MainMenu.class);
                     MainMenuIntent.putExtra("USER", currentUser);
                     startActivity(MainMenuIntent);
@@ -71,6 +73,8 @@ public class MainMenu extends AppCompatActivity {
         db = new DatabaseHelper(this);
         welcomeView = findViewById(R.id.welcomeView);
         add_data = findViewById(R.id.add_data);
+        btn_cart = findViewById(R.id.btn_cart);
+        btn_stats = findViewById(R.id.btn_stats);
         add_food = (EditText)findViewById(R.id.add_food);
         add_price = (EditText)findViewById(R.id.add_price);
         listItem = new ArrayList<>();
@@ -93,19 +97,34 @@ public class MainMenu extends AppCompatActivity {
             }
         });
 
+        btn_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent MyCartIntent = new Intent(MainMenu.this, MyCartActivity.class);
+                MyCartIntent.putExtra("USER", currentUser);
+                startActivity(MyCartIntent);
+            }
+        });
+
         add_data.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Shopping newShopping= new Shopping(add_food.getText().toString().trim(), Double.parseDouble(add_price.getText().toString().trim()));
                 String food = add_food.getText().toString().trim();
-                if(!food.equals("") && db.addFood(newShopping, currentUser)) {
-                    Toast.makeText(MainMenu.this, "data added", Toast.LENGTH_SHORT).show();
-                    add_food.setText("");
-                    add_price.setText("");
-                    listItem.clear();
-                    viewData();
-                } else {
-                    Toast.makeText(MainMenu.this, "Data not added", Toast.LENGTH_SHORT).show();
+                if(!add_price.getText().toString().trim().equals("")) {
+                    Double price = Double.parseDouble(add_price.getText().toString().trim());
+                    Shopping newShopping= new Shopping(food, price);
+                    if ( (!food.equals("") ||  price.equals("")) && db.addFood(newShopping, currentUser) ) {
+                        Toast.makeText(MainMenu.this, "data added", Toast.LENGTH_SHORT).show();
+                        add_food.setText("");
+                        add_price.setText("");
+                        listItem.clear();
+                        viewData();
+                    } else {
+                        Toast.makeText(MainMenu.this, "Data not added", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(MainMenu.this, "Ajoutez un prix !", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -113,6 +132,7 @@ public class MainMenu extends AppCompatActivity {
 
     public void viewData() {
         Cursor cursor = db.viewData();
+        total = 0.0;
         if (cursor.getCount() == 0) {
             Toast.makeText(this, "No data to view", Toast.LENGTH_SHORT).show();
         } else {
@@ -123,10 +143,6 @@ public class MainMenu extends AppCompatActivity {
                     total += newShopping.getPrice();
                     welcomeView.setText("Bonjour " + currentUser.getfName() + "\n" + "Vous avez dépensé " + total + " €" );
                     Log.d(TAG, "viewData: total " + total + " getPrice() " + newShopping.getPrice());
-                } else {
-                    Intent ToLoginPageIntent = new Intent(MainMenu.this,LoginActivity.class);
-                    Toast.makeText(this, "Erreur de programme. Veuillez vous reconnecter", Toast.LENGTH_SHORT).show();
-                    startActivity(ToLoginPageIntent);
                 }
 
             }

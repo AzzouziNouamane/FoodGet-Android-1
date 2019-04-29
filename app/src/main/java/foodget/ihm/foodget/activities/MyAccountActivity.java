@@ -26,7 +26,7 @@ public class MyAccountActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_acceuil:
+                case R.id.navigation_accueil:
                     Intent MainMenuIntent = new Intent(MyAccountActivity.this,MainMenu.class);
                     MainMenuIntent.putExtra("USER", currentUser);
                     startActivity(MainMenuIntent);
@@ -65,6 +65,7 @@ public class MyAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent NewMailIntent= new Intent(MyAccountActivity.this,NewMailActivity.class);
+                NewMailIntent.putExtra("USER", currentUser);
                 startActivity(NewMailIntent);
             }
         });
@@ -72,6 +73,7 @@ public class MyAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent NewNameIntent= new Intent(MyAccountActivity.this,NewNameActivity.class);
+                NewNameIntent.putExtra("USER", currentUser);
                 startActivity(NewNameIntent);
             }
         });
@@ -79,6 +81,7 @@ public class MyAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent NewPasswordIntent= new Intent(MyAccountActivity.this,NewPasswordActivity.class);
+                NewPasswordIntent.putExtra("USER", currentUser);
                 startActivity(NewPasswordIntent);
             }
         });

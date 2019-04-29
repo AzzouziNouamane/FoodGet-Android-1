@@ -16,6 +16,7 @@ public class NewNameActivity extends AppCompatActivity {
     EditText mTextNewName;
     Button mSubmit;
     DatabaseHelper db;
+    User currentUser;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -23,13 +24,15 @@ public class NewNameActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_acceuil:
+                case R.id.navigation_accueil:
                     Intent MainMenuIntent = new Intent(NewNameActivity.this,MainMenu.class);
+                    MainMenuIntent.putExtra("USER", currentUser);
                     startActivity(MainMenuIntent);
                     break;
 
                 case R.id.navigation_compte:
                     Intent MyAccountIntent = new Intent(NewNameActivity.this,MyAccountActivity.class);
+                    MyAccountIntent.putExtra("USER", currentUser);
                     startActivity(MyAccountIntent);
                     break;
             }
@@ -44,6 +47,10 @@ public class NewNameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_name);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        Bundle data = getIntent().getExtras();
+        User tempUser = (User) data.getParcelable("USER");
+        currentUser = tempUser;
     }
 
 }
