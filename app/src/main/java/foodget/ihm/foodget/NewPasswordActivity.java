@@ -25,7 +25,7 @@ public class NewPasswordActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_acceuil:
+                case R.id.navigation_accueil:
                     Intent MainMenuIntent = new Intent(NewPasswordActivity.this,MainMenu.class);
                     MainMenuIntent.putExtra("USER", currentUser);
                     startActivity(MainMenuIntent);

@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    android:paddingLeft="@dimen/fab_margin"
-    android:paddingTop="@dimen/fab_margin"
-    android:paddingRight="@dimen/fab_margin"
-    android:paddingBottom="@dimen/fab_margin"
+    android:paddingLeft="@dimen/fab_padding"
+    android:paddingTop="@dimen/fab_padding"
+    android:paddingRight="@dimen/fab_padding"
+    android:paddingBottom="@dimen/fab_padding"
     tools:context=".LoginActivity">
 
     <LinearLayout

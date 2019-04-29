@@ -18,9 +18,32 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="400dp"
+            android:layout_height="150dp"
             app:srcCompat="@drawable/foodget" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp">
+
+            <Button
+                android:id="@+id/btn_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Panier" />
+
+            <Button
+                android:id="@+id/btn_stats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="STATS" />
+
+        </LinearLayout>
 
         <LinearLayout
             style="@style/linearStyle"

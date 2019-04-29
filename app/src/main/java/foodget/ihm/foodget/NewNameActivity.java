@@ -21,7 +21,7 @@ public class NewNameActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_acceuil:
+                case R.id.navigation_accueil:
                     Intent MainMenuIntent = new Intent(NewNameActivity.this,MainMenu.class);
                     MainMenuIntent.putExtra("USER", currentUser);
                     startActivity(MainMenuIntent);

@@ -27,6 +27,8 @@ public class MainMenu extends AppCompatActivity {
     EditText add_price;
     TextView welcomeView;
     Button add_data;
+    Button btn_cart;
+    Button btn_stats;
     ArrayList<Shopping> listItem;
     ArrayAdapter adapter;
     ListView shoppingView;
@@ -39,7 +41,7 @@ public class MainMenu extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_acceuil:
+                case R.id.navigation_accueil:
                     Intent MainMenuIntent = new Intent(MainMenu.this,MainMenu.class);
                     MainMenuIntent.putExtra("USER", currentUser);
                     startActivity(MainMenuIntent);
@@ -65,6 +67,8 @@ public class MainMenu extends AppCompatActivity {
         db = new DatabaseHelper(this);
         welcomeView = findViewById(R.id.welcomeView);
         add_data = findViewById(R.id.add_data);
+        btn_cart = findViewById(R.id.btn_cart);
+        btn_stats = findViewById(R.id.btn_stats);
         add_food = (EditText)findViewById(R.id.add_food);
         add_price = (EditText)findViewById(R.id.add_price);
         listItem = new ArrayList<>();
@@ -84,6 +88,15 @@ public class MainMenu extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String text = shoppingView.getItemAtPosition(position).toString();
                 Toast.makeText(MainMenu.this, ""+text, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btn_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent MyCartIntent = new Intent(MainMenu.this, MyCartActivity.class);
+                MyCartIntent.putExtra("USER", currentUser);
+                startActivity(MyCartIntent);
             }
         });
 
