@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/colorPrimaryDark"
-    tools:context=".NewMailActivity">
+    tools:context=".activities.NewMailActivity">
 
     <ImageView
         android:id="@+id/imageView3"

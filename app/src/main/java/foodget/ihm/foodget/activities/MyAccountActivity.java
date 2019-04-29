@@ -1,6 +1,5 @@
-package foodget.ihm.foodget;
+package foodget.ihm.foodget.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+
+import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.models.User;
 
 public class MyAccountActivity extends AppCompatActivity {
     Button UpdateMail;

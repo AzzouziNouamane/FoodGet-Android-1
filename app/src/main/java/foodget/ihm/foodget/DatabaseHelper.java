@@ -6,9 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import foodget.ihm.foodget.models.Shopping;
+import foodget.ihm.foodget.models.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -23,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_5 = "fName";
     public static final String FOOD = "food";
     public static final String PRICE = "price";
+    public static User connectedUser;
     public User currentUser;
     public static final ArrayList<User> listOfUsers = new ArrayList<>();
 

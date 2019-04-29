@@ -1,4 +1,4 @@
-package foodget.ihm.foodget;
+package foodget.ihm.foodget.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import foodget.ihm.foodget.DatabaseHelper;
+import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.models.User;
 
 public class RegisterActivity extends AppCompatActivity {
 

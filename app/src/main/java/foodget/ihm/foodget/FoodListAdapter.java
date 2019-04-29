@@ -8,7 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import foodget.ihm.foodget.models.Shopping;
 
 public class FoodListAdapter extends ArrayAdapter<Shopping> {
 

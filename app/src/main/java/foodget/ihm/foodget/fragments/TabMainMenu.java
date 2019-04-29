@@ -1,14 +1,14 @@
-package foodget.ihm.foodget;
+package foodget.ihm.foodget.fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,7 +19,14 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainMenu extends AppCompatActivity {
+import foodget.ihm.foodget.DatabaseHelper;
+import foodget.ihm.foodget.FoodListAdapter;
+import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.activities.LoginActivity;
+import foodget.ihm.foodget.models.Shopping;
+import foodget.ihm.foodget.models.User;
+
+public class TabMainMenu extends Fragment {
 
     String TAG = "MAINMENU";
     DatabaseHelper db;
@@ -33,57 +40,30 @@ public class MainMenu extends AppCompatActivity {
     User currentUser;
     Double total = 0.0;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_acceuil:
-                    Intent MainMenuIntent = new Intent(MainMenu.this,MainMenu.class);
-                    MainMenuIntent.putExtra("USER", currentUser);
-                    startActivity(MainMenuIntent);
-                    break;
-
-                case R.id.navigation_compte:
-                    Intent MyAccountIntent = new Intent(MainMenu.this,MyAccountActivity.class);
-                    MyAccountIntent.putExtra("USER", currentUser);
-                    startActivity(MyAccountIntent);
-                    break;
-            }
-            return false;
-        }
-    };
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_menu);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //inflate fragment_tab1
+        final View view = inflater.inflate(R.layout.activity_main_menu, container, false);
 
-        db = new DatabaseHelper(this);
-        welcomeView = findViewById(R.id.welcomeView);
-        add_data = findViewById(R.id.add_data);
-        add_food = (EditText)findViewById(R.id.add_food);
-        add_price = (EditText)findViewById(R.id.add_price);
+        db = new DatabaseHelper(getContext());
+        welcomeView = view.findViewById(R.id.welcomeView);
+        add_data = view.findViewById(R.id.add_data);
+        add_food = (EditText)view.findViewById(R.id.add_food);
+        add_price = (EditText)view.findViewById(R.id.add_price);
         listItem = new ArrayList<>();
-        shoppingView = findViewById(R.id.shopping_list);
-        Bundle data = getIntent().getExtras();
-        User tempUser = (User) data.getParcelable("USER");
+        shoppingView = view.findViewById(R.id.shopping_list);
+        User tempUser = DatabaseHelper.connectedUser;
         currentUser = tempUser;
         Log.d(TAG, "onCreate: " + tempUser);
         if(tempUser != null) {
             welcomeView.setText("Bonjour " + tempUser.getfName() + "\n" + "Vous avez dépensé " + total + " €" );
         }
-
-
         viewData();
         shoppingView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String text = shoppingView.getItemAtPosition(position).toString();
-                Toast.makeText(MainMenu.this, ""+text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), ""+text, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -93,24 +73,26 @@ public class MainMenu extends AppCompatActivity {
                 Shopping newShopping= new Shopping(add_food.getText().toString().trim(), Double.parseDouble(add_price.getText().toString().trim()));
                 String food = add_food.getText().toString().trim();
                 if(!food.equals("") && db.addFood(newShopping, currentUser)) {
-                    Toast.makeText(MainMenu.this, "data added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "data added", Toast.LENGTH_SHORT).show();
                     add_food.setText("");
                     add_price.setText("");
                     listItem.clear();
                     viewData();
                 } else {
-                    Toast.makeText(MainMenu.this, "Data not added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Data not added", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+        return view;
     }
 
     public void viewData() {
         Cursor cursor = db.viewData();
         if (cursor.getCount() == 0) {
-            Toast.makeText(this, "No data to view", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No data to view", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
+                System.out.println(currentUser);
                 if(cursor.getString(3).equals(currentUser.getUsername())) {
                     Shopping newShopping = new Shopping(cursor.getString(1), cursor.getDouble(2));
                     listItem.add(newShopping);
@@ -118,16 +100,18 @@ public class MainMenu extends AppCompatActivity {
                     welcomeView.setText("Bonjour " + currentUser.getfName() + "\n" + "Vous avez dépensé " + total + " €" );
                     Log.d(TAG, "viewData: total " + total + " getPrice() " + newShopping.getPrice());
                 } else {
-                    Intent ToLoginPageIntent = new Intent(MainMenu.this,LoginActivity.class);
-                    Toast.makeText(this, "Erreur de programme. Veuillez vous reconnecter", Toast.LENGTH_SHORT).show();
+                    Intent ToLoginPageIntent = new Intent(getContext(), LoginActivity.class);
+                    Toast.makeText(getContext(), "Erreur de programme. Veuillez vous reconnecter", Toast.LENGTH_SHORT).show();
                     startActivity(ToLoginPageIntent);
                 }
 
             }
 
-            adapter = new ArrayAdapter<>(this, R.layout.da_food, listItem);
-            FoodListAdapter adapterFood = new FoodListAdapter(this, R.layout.da_food, listItem);
+            adapter = new ArrayAdapter(getContext(), R.layout.da_food, listItem);
+            FoodListAdapter adapterFood = new FoodListAdapter(getContext(), R.layout.da_food, listItem);
             shoppingView.setAdapter(adapterFood);
         }
     }
+
+
 }

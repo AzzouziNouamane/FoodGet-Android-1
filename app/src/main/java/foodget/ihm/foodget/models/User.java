@@ -1,9 +1,7 @@
-package foodget.ihm.foodget;
+package foodget.ihm.foodget.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.io.Serializable;
 
 public class User implements Parcelable {
     private String username;

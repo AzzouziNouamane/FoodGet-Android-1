@@ -1,4 +1,4 @@
-package foodget.ihm.foodget;
+package foodget.ihm.foodget.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +9,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.Serializable;
+import foodget.ihm.foodget.DatabaseHelper;
+import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.models.User;
 
 public class LoginActivity extends AppCompatActivity{
     EditText mTextUserName;
@@ -49,10 +51,8 @@ public class LoginActivity extends AppCompatActivity{
                 else {
                     if(res == true) {
                         Toast.makeText(LoginActivity.this, "Successfully Logged IN", Toast.LENGTH_SHORT).show();
-                        Intent loginIntent = new Intent(LoginActivity.this, MainMenu.class);
-                        User currentUser = db.userLogged(user, pass);
-                        loginIntent.putExtra("USER", currentUser);
-
+                        DatabaseHelper.connectedUser = db.userLogged(user, pass);
+                        Intent loginIntent = new Intent(getApplicationContext(), ManagementActivity.class);
                         startActivity(loginIntent);
                     }
                     else {

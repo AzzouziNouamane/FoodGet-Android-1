@@ -1,4 +1,4 @@
-package foodget.ihm.foodget;
+package foodget.ihm.foodget.models;
 
 public class Shopping {
 

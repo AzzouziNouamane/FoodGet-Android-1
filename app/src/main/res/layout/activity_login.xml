@@ -9,7 +9,7 @@
     android:paddingTop="@dimen/fab_margin"
     android:paddingRight="@dimen/fab_margin"
     android:paddingBottom="@dimen/fab_margin"
-    tools:context=".LoginActivity">
+    tools:context=".activities.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
