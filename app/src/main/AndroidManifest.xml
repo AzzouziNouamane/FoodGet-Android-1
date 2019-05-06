@@ -11,9 +11,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activities.MyAccountActivity" />
         <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".MyCartActivity" />
+        <activity android:name=".activities.MyCartActivity" />
         <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".activities.ForgottenPasswordActivity$SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
