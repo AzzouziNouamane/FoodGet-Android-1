@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.adapters.PageAdapter;
+import foodget.ihm.foodget.models.User;
 
 
 public class ManagementActivity extends AppCompatActivity {
@@ -25,7 +26,8 @@ public class ManagementActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Mon compte"));
 
         //create a PageAdapter for 3 tabs max
-        adapter = new PageAdapter( getSupportFragmentManager(), tabLayout.getTabCount());
+        User loggedUser = getIntent().getExtras().getParcelable("user");
+        adapter = new PageAdapter( getSupportFragmentManager(), tabLayout.getTabCount(), loggedUser);
 
         //adapt the viewPager with the adapter
         viewPager.setAdapter(adapter);

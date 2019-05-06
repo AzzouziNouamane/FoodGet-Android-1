@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.models.User;
 
 public class ForgottenPasswordActivity extends AppCompatActivity {
     EditText mTextNewPass;
@@ -30,13 +31,13 @@ public class ForgottenPasswordActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_accueil:
                     Intent MainMenuIntent = new Intent(ForgottenPasswordActivity.this,MainMenu.class);
-                    MainMenuIntent.putExtra("USER", currentUser);
+                    //MainMenuIntent.putExtra("USER", currentUser);
                     startActivity(MainMenuIntent);
                     break;
 
                 case R.id.navigation_compte:
                     Intent MyAccountIntent = new Intent(ForgottenPasswordActivity.this,MyAccountActivity.class);
-                    MyAccountIntent.putExtra("USER", currentUser);
+                    //MyAccountIntent.putExtra("USER", currentUser);
                     startActivity(MyAccountIntent);
                     break;
             }

@@ -30,6 +30,16 @@
             android:inputType="text" />
 
         <TextView
+            android:id="@+id/textViewP"
+            style="@style/textView_Style"
+            android:text="@string/firstName" />
+
+        <EditText
+            android:id="@+id/textFname"
+            style="@style/editText_style"
+            android:inputType="text" />
+
+        <TextView
             android:id="@+id/textViewE"
             style="@style/textView_Style"
             android:text="@string/email" />
@@ -52,7 +62,7 @@
         <TextView
             android:id="@+id/textView5"
             style="@style/textView_Style"
-            android:text="Confirmer le mot de passe" />
+            android:text="@string/confirmPassword" />
 
         <EditText
             android:id="@+id/textPassConfirmation"

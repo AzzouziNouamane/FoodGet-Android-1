@@ -10,6 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import foodget.ihm.foodget.activities.MainMenu;
+import foodget.ihm.foodget.activities.MyAccountActivity;
+import foodget.ihm.foodget.models.User;
+
 public class ForgottenPasswordActivity extends AppCompatActivity {
     EditText mTextNewPass;
     EditText mTextConfirmPass;
@@ -26,13 +30,13 @@ public class ForgottenPasswordActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_accueil:
-                    Intent MainMenuIntent = new Intent(ForgottenPasswordActivity.this,MainMenu.class);
+                    Intent MainMenuIntent = new Intent(ForgottenPasswordActivity.this, MainMenu.class);
                     MainMenuIntent.putExtra("USER", currentUser);
                     startActivity(MainMenuIntent);
                     break;
 
                 case R.id.navigation_compte:
-                    Intent MyAccountIntent = new Intent(ForgottenPasswordActivity.this,MyAccountActivity.class);
+                    Intent MyAccountIntent = new Intent(ForgottenPasswordActivity.this, MyAccountActivity.class);
                     MyAccountIntent.putExtra("USER", currentUser);
                     startActivity(MyAccountIntent);
                     break;

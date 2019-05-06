@@ -52,13 +52,12 @@ public class TabMainMenu extends Fragment {
         add_price = (EditText)view.findViewById(R.id.add_price);
         listItem = new ArrayList<>();
         shoppingView = view.findViewById(R.id.shopping_list);
-        User tempUser = DatabaseHelper.connectedUser;
-        currentUser = tempUser;
-        Log.d(TAG, "onCreate: " + tempUser);
-        if(tempUser != null) {
-            welcomeView.setText("Bonjour " + tempUser.getfName() + "\n" + "Vous avez dépensé " + total + " €" );
+        currentUser = this.getArguments().getParcelable("user");
+        Log.d(TAG, "onCreate: " + currentUser);
+        if(currentUser != null) {
+            welcomeView.setText("Bonjour " + currentUser.getfName() + "\n" + "Vous avez dépensé " + total + " €" );
         }
-        //viewData();
+        viewData();
         shoppingView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -88,6 +87,7 @@ public class TabMainMenu extends Fragment {
 
     public void viewData() {
         Cursor cursor = db.viewData();
+        Log.d(TAG, "onCreate: " + currentUser);
         if (cursor.getCount() == 0) {
             Toast.makeText(getContext(), "No data to view", Toast.LENGTH_SHORT).show();
         } else {
