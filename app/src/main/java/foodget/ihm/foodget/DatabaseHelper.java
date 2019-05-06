@@ -32,8 +32,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static User connectedUser;
     public static final ArrayList<User> listOfUsers = new ArrayList<>();
 
-    private SQLiteDatabase database;
-
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL_2 + " TEXT, " +
