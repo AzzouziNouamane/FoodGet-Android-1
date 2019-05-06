@@ -19,6 +19,7 @@ public class LoginActivity extends AppCompatActivity{
     Button mLoginButton;
     TextView mTextViewRegister;
     DatabaseHelper db;
+    private User loggedUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +45,16 @@ public class LoginActivity extends AppCompatActivity{
             public void onClick(View v) {
                 String user = mTextUserName.getText().toString().trim();
                 String pass= mTextPassword.getText().toString().trim();
-                Boolean res = db.checkUser(user, pass);
+                boolean res = db.checkUser(user, pass);
                 if(user.equals("") || pass.equals("")) {
                     Toast.makeText(LoginActivity.this, "Nom d'utilisateur ou Mot de passe incorrecte", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    if(res == true) {
+                    if(res) {
                         Toast.makeText(LoginActivity.this, "Successfully Logged IN", Toast.LENGTH_SHORT).show();
-                        DatabaseHelper.connectedUser = db.userLogged(user, pass);
+                        loggedUser = db.userLogged(user, pass);
                         Intent loginIntent = new Intent(getApplicationContext(), ManagementActivity.class);
+                        loginIntent.putExtra("user",loggedUser);
                         startActivity(loginIntent);
                     }
                     else {

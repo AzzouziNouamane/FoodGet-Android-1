@@ -29,7 +29,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FOOD = "food";
     public static final String PRICE = "price";
     public static User connectedUser;
-    public User currentUser;
     public static final ArrayList<User> listOfUsers = new ArrayList<>();
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
@@ -157,10 +156,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public User userLogged(String username, String password) {
         for(int i = 0; i < listOfUsers.size(); i++) {
-            if(listOfUsers.get(i).getUsername().equals(username) && listOfUsers.get(i).getPassword().equals(password)) {
+            if(listOfUsers.get(i).getUsername().equalsIgnoreCase(username) && listOfUsers.get(i).getPassword().equalsIgnoreCase(password)) {
                 return listOfUsers.get(i);
             }
+            Log.d(TAG, "Utilisateur : "+ listOfUsers.get(i).getUsername() + " mot de passe : "+listOfUsers.get(i).getPassword());
         }
+        Log.d(TAG, "Liste d'utilisateurs : "+ listOfUsers.size());
         return null;
     }
 
