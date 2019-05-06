@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static android.media.tv.TvContract.Programs.Genres.SHOPPING;
 
@@ -31,6 +32,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static User connectedUser;
     public static final ArrayList<User> listOfUsers = new ArrayList<>();
 
+    private SQLiteDatabase database;
+
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL_2 + " TEXT, " +
@@ -49,6 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, 2);
 
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -81,9 +85,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        initializeUsers(db);
+    }
+
+    @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(sqLiteDatabase);
+    }
+
+    private void initializeUsers(SQLiteDatabase db){
+        String[] columns = {COL_1,COL_2,COL_3,COL_4,COL_5};
+        Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
+        while(cursor.moveToNext()){
+            int id = cursor.getInt(0);
+            String username = cursor.getString(1);
+            String password = cursor.getString(2);
+            String email = cursor.getString(3);
+            String fname = cursor.getString(4);
+            User user = new User(username,password,email,fname);
+            listOfUsers.add(user);
+        }
+        cursor.close();
     }
 
     public long addUser(String username, String password, String email, String fName) {

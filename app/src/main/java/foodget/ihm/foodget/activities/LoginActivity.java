@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity{
         mTextViewRegister = (TextView)findViewById(R.id.registerText);
         db = new DatabaseHelper(this);
 
+
         mTextViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
