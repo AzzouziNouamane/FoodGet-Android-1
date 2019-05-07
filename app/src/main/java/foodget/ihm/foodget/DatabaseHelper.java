@@ -9,36 +9,33 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import static android.media.tv.TvContract.Programs.Genres.SHOPPING;
-
 import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    public static final String TAG = "DatabaseHelper";
-    public static final String DATABASE_NAME = "register.db";
-    public static final String TABLE_NAME = "registeruser";
-    public static final String FOOD_TABLE = "fooduser";
+    private static final String TAG = "DatabaseHelper";
+    private static final String DATABASE_NAME = "register.db";
+    private static final String TABLE_NAME = "registeruser";
+    private static final String FOOD_TABLE = "fooduser";
     public static final String LIST_TABLE = "listsuser";
-    public static final String COL_1 = "ID";
-    public static final String COL_2 = "username";
-    public static final String COL_3 = "password";
-    public static final String COL_4 = "email";
-    public static final String COL_5 = "fName";
-    public static final String FOOD = "food";
-    public static final String PRICE = "price";
-    public static User connectedUser;
-    public static final ArrayList<User> listOfUsers = new ArrayList<>();
+    private static final String COL_1 = "ID";
+    private static final String COL_2 = "username";
+    private static final String COL_3 = "password";
+    private static final String COL_4 = "email";
+    private static final String COL_5 = "fName";
+    private static final String FOOD = "food";
+    private static final String PRICE = "price";
+    private static final ArrayList<User> listOfUsers = new ArrayList<>();
 
-    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
+    private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
             COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL_2 + " TEXT, " +
             COL_3 + " TEXT, " +
             COL_4 + " TEXT, " +
             COL_5 + " TEXT"  + ");";
 
-    public static final String CREATE_TABLE_FOOD = "CREATE TABLE " + FOOD_TABLE + " (" +
+    private static final String CREATE_TABLE_FOOD = "CREATE TABLE " + FOOD_TABLE + " (" +
             COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             FOOD + " TEXT, " +
             PRICE + " INT, " +
@@ -47,8 +44,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 2);
-
     }
+
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -81,9 +78,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        initializeUsers(db);
+    }
+
+    @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        onCreate(sqLiteDatabase);
+    }
+
+    private void initializeUsers(SQLiteDatabase db){
+        String[] columns = {COL_1,COL_2,COL_3,COL_4,COL_5};
+        Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
+        while(cursor.moveToNext()){
+            // int id = cursor.getInt(0);
+            String username = cursor.getString(1);
+            String password = cursor.getString(2);
+            String email = cursor.getString(3);
+            String fname = cursor.getString(4);
+            User user = new User(username,password,email,fname);
+            listOfUsers.add(user);
+        }
+        cursor.close();
     }
 
     public long addUser(String username, String password, String email, String fName) {
@@ -109,15 +126,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
 
-        if(count > 0) return true;
-        else return false;
+        return count > 0;
     }
 
     public Cursor viewData() {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + FOOD_TABLE;
-        Cursor cursor = db.rawQuery(query, null);
-        return cursor;
+        return db.rawQuery(query, null);
     }
 
     public boolean insertData(String food) {
@@ -169,11 +184,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return listOfUsers;
     }
 
-    public int UpdatePassword(String OldPass,String NewPass){
+    public void UpdatePassword(String OldPass, String NewPass){
         ContentValues contentValues = new ContentValues();
         contentValues.put("password",NewPass);
         SQLiteDatabase db = this.getWritableDatabase();
         db.update(TABLE_NAME, contentValues,"password",null);
-        return 0;
     }
 }

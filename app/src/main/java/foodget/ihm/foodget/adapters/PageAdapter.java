@@ -24,11 +24,20 @@ public class PageAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int i) {
         Fragment fragment = null;
         Bundle bundle = new Bundle();
-        bundle.putParcelable("user",loggedUser);
-        switch (i){
-            case 0 : fragment = new TabMainMenu(); fragment.setArguments(bundle); break;
-            case 1 : fragment = new TabAlerts(); fragment.setArguments(bundle); break;
-            case 2 : fragment = new TabMyAccount(); fragment.setArguments(bundle); break;
+        bundle.putParcelable("user", loggedUser);
+        switch (i) {
+            case 0:
+                fragment = new TabMainMenu();
+                fragment.setArguments(bundle);
+                break;
+            case 1:
+                fragment = new TabAlerts();
+                fragment.setArguments(bundle);
+                break;
+            case 2:
+                fragment = new TabMyAccount();
+                fragment.setArguments(bundle);
+                break;
         }
         return fragment;
     }

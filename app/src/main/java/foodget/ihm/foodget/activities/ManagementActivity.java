@@ -19,7 +19,7 @@ public class ManagementActivity extends AppCompatActivity {
         setContentView(R.layout.activity_management);
 
         final ViewPager viewPager = findViewById(R.id.container);
-        TabLayout tabLayout = findViewById(R.id.menu);
+        final TabLayout tabLayout = findViewById(R.id.menu);
 
         tabLayout.addTab(tabLayout.newTab().setText("Accueil"));
         tabLayout.addTab(tabLayout.newTab().setText("Alertes"));
@@ -33,11 +33,14 @@ public class ManagementActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         //listener on tab selected (set the current num tab in the viewPager)
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(
+                tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setAdapter(adapter);
+//                viewPager.setAdapter(adapter);
                 viewPager.setCurrentItem( tab.getPosition() );
+//                System.out.println(tab.getPosition());
             }
 
             @Override
