@@ -1,8 +1,8 @@
 package foodget.ihm.foodget.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.StaticContentUsers;
 import foodget.ihm.foodget.models.User;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -29,13 +30,13 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mTextUserName = (EditText)findViewById(R.id.textUser);
-        mTextPassword = (EditText)findViewById(R.id.textPass);
-        mTextEmail = (EditText)findViewById(R.id.textEmail);
-        mTextFName = (EditText)findViewById(R.id.textFname);
-        mConfirmPassword = (EditText)findViewById(R.id.textPassConfirmation);
-        mRegisterButton = (Button)findViewById(R.id.registerButton);
-        mTextViewLogin = (TextView)findViewById(R.id.loginText);
+        mTextUserName = findViewById(R.id.textUser);
+        mTextPassword = findViewById(R.id.textPass);
+        mTextEmail = findViewById(R.id.textEmail);
+        mTextFName = findViewById(R.id.textFname);
+        mConfirmPassword = findViewById(R.id.textPassConfirmation);
+        mRegisterButton = findViewById(R.id.registerButton);
+        mTextViewLogin = findViewById(R.id.loginText);
         db = new DatabaseHelper(this);
 
         mTextViewLogin.setOnClickListener(new View.OnClickListener() {
@@ -63,11 +64,11 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                     else {
                         User newUser = new User(username, password, email, fName);
-                        long val = db.addUser(newUser);
+                        long val = StaticContentUsers.createUserInDataBase(newUser, db);
                         if( val > 0) {
                             Toast.makeText(RegisterActivity.this, "Inscription réussie !", Toast.LENGTH_SHORT).show();
                             Intent registerIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            Toast.makeText(RegisterActivity.this, db.getListOfUsers().get(1).getfName(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, StaticContentUsers.getRegisteredUsers().get(1).getfName(), Toast.LENGTH_LONG).show();
                             startActivity(registerIntent);
                         }
                         else {

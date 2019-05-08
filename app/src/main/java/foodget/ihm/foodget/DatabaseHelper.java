@@ -7,39 +7,53 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.util.ArrayList;
-
+import foodget.ihm.foodget.models.Alert;
+import foodget.ihm.foodget.models.Alerts;
 import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "DatabaseHelper";
-    private static final String DATABASE_NAME = "register.db";
-    private static final String TABLE_NAME = "registeruser";
-    private static final String FOOD_TABLE = "fooduser";
-    public static final String LIST_TABLE = "listsuser";
-    private static final String COL_1 = "ID";
-    private static final String COL_2 = "username";
-    private static final String COL_3 = "password";
-    private static final String COL_4 = "email";
-    private static final String COL_5 = "fName";
-    private static final String FOOD = "food";
-    private static final String PRICE = "price";
-    private static final ArrayList<User> listOfUsers = new ArrayList<>();
 
-    private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" +
-            COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COL_2 + " TEXT, " +
-            COL_3 + " TEXT, " +
-            COL_4 + " TEXT, " +
-            COL_5 + " TEXT"  + ");";
+    private static final String DATABASE_NAME = "register.db";
+
+    private static final String USER_TABLE = "registeruser";
+    private static final String FOOD_TABLE = "fooduser";
+    private static final String ALERTS_TABLE = "alertsuser";
+
+    private static final String ID = "ID";
+    private static final String USER_NAME = "username";
+    private static final String USER_PASSWORD = "password";
+    private static final String USER_EMAIL = "email";
+    private static final String USER_FIRSTNAME = "fName";
+
+
+    private static final String FOOD_NAME = "food";
+    private static final String FOOD_PRICE = "price";
+
+    private static final String ALERT_STRING = "alert";
+    private static final String ALERT_DATE = "date";
+
+
+    private static final String CREATE_TABLE = "CREATE TABLE " + USER_TABLE + " (" +
+            ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            USER_NAME + " TEXT, " +
+            USER_PASSWORD + " TEXT, " +
+            USER_EMAIL + " TEXT, " +
+            USER_FIRSTNAME + " TEXT" + ");";
 
     private static final String CREATE_TABLE_FOOD = "CREATE TABLE " + FOOD_TABLE + " (" +
-            COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            FOOD + " TEXT, " +
-            PRICE + " INT, " +
-            COL_2 + " TEXT"  + ");";
+            ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            FOOD_NAME + " TEXT, " +
+            FOOD_PRICE + " INT, " +
+            USER_NAME + " TEXT" + ");";
+
+    private static final String CREATE_TABLE_ALERTS = "CREATE TABLE " + ALERTS_TABLE + " (" +
+            ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            USER_NAME + " TEXT, " +
+            ALERT_STRING + " DATE, " +
+            ALERT_DATE + " TEXT" + ");";
 
 
     public DatabaseHelper(Context context) {
@@ -51,30 +65,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE);
         sqLiteDatabase.execSQL(CREATE_TABLE_FOOD);
+        sqLiteDatabase.execSQL(CREATE_TABLE_ALERTS);
+
+        //Utilisateur par défaut
         User user = new User("julie", "123", "julie@gmail.ocm", "julie");
         ContentValues contentValues = new ContentValues();
         contentValues.put("username", user.getUsername());
         contentValues.put("password", user.getPassword());
         contentValues.put("email", user.getEmail());
         contentValues.put("fName", user.getfName());
-        sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+        sqLiteDatabase.insert(USER_TABLE, null, contentValues);
 
+        //Produits achetés par défaut
         Shopping shopping = new Shopping("Pomme", 2.0);
         ContentValues contentValuesShop = new ContentValues();
-        contentValuesShop.put(FOOD, shopping.getFood());
-        contentValuesShop.put(PRICE, shopping.getPrice());
-        contentValuesShop.put(COL_2, user.getUsername());
+        contentValuesShop.put(FOOD_NAME, shopping.getFood());
+        contentValuesShop.put(FOOD_PRICE, shopping.getPrice());
+        contentValuesShop.put(USER_NAME, user.getUsername());
         sqLiteDatabase.insert(FOOD_TABLE, null, contentValuesShop);
 
         Shopping shopping2 = new Shopping("Bananes", 4.0);
         ContentValues contentValuesShop2 = new ContentValues();
-        contentValuesShop2.put(FOOD, shopping2.getFood());
-        contentValuesShop2.put(PRICE, shopping2.getPrice());
-        contentValuesShop2.put(COL_2, user.getUsername());
+        contentValuesShop2.put(FOOD_NAME, shopping2.getFood());
+        contentValuesShop2.put(FOOD_PRICE, shopping2.getPrice());
+        contentValuesShop2.put(USER_NAME, user.getUsername());
         sqLiteDatabase.insert(FOOD_TABLE, null, contentValuesShop2);
 
+
+        //Alerte de bienvenue
+        Alert alertWelcome = new Alert(Alerts.WELCOME.toString().replace("%username%", user.getfName()), "19/01/19 18:52");
+        ContentValues contentValuesAlertWelcome = new ContentValues();
+        contentValuesAlertWelcome.put(ALERT_STRING, alertWelcome.getAlert());
+        contentValuesAlertWelcome.put(ALERT_DATE, alertWelcome.getDate());
+        contentValuesAlertWelcome.put(USER_NAME, user.getUsername());
+        sqLiteDatabase.insert(ALERTS_TABLE, null, contentValuesAlertWelcome);
+
+
         Log.d(TAG, "DatabaseHelper: Created");
-        listOfUsers.add(user);
+        StaticContentUsers.addUserFromDataBase(user);
     }
 
     @Override
@@ -85,75 +113,81 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + USER_TABLE);
     }
 
-    private void initializeUsers(SQLiteDatabase db){
-        String[] columns = {COL_1,COL_2,COL_3,COL_4,COL_5};
-        Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null);
-        while(cursor.moveToNext()){
+    private void initializeUsers(SQLiteDatabase db) {
+        String[] columns = {ID, USER_NAME, USER_PASSWORD, USER_EMAIL, USER_FIRSTNAME};
+        Cursor cursor = db.query(USER_TABLE, columns, null, null, null, null, null);
+        while (cursor.moveToNext()) {
             // int id = cursor.getInt(0);
             String username = cursor.getString(1);
             String password = cursor.getString(2);
             String email = cursor.getString(3);
             String fname = cursor.getString(4);
-            User user = new User(username,password,email,fname);
-            listOfUsers.add(user);
+            User user = new User(username, password, email, fname);
+            StaticContentUsers.addUserFromDataBase(user);
         }
         cursor.close();
     }
 
-    public long addUser(String username, String password, String email, String fName) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("username", username);
-        contentValues.put("password", password);
-        contentValues.put("email", email);
-        contentValues.put("fName", fName);
-        long res = db.insert(TABLE_NAME, null, contentValues);
-        listOfUsers.add(new User(username, password, email, fName));
-        db.close();
-        return res;
-    }
 
-    public boolean checkUser(String username, String password) {
-        String[] columns = {COL_1};
+    //Vérification de la combinaison utilisateur / mot de passe
+    public User checkUser(String username, String password) {
+        String[] columns = {ID};
         SQLiteDatabase db = getReadableDatabase();
-        String selection = COL_2 + "=?" + " and " + COL_3 + "=?";
-        String[] selectionArgs = { username, password};
-        Cursor cursor = db.query(TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        String selection = USER_NAME + "=?" + " and " + USER_PASSWORD + "=?";
+        String[] selectionArgs = {username, password};
+        Cursor cursor = db.query(USER_TABLE, columns, selection, selectionArgs, null, null, null);
         int count = cursor.getCount();
         cursor.close();
         db.close();
-
-        return count > 0;
+        if (count > 0) {
+            return StaticContentUsers.getUser(username);
+        }
+        return null;
     }
 
-    public Cursor viewData() {
+    public Cursor viewMenuData() {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + FOOD_TABLE;
         return db.rawQuery(query, null);
     }
 
-    public boolean insertData(String food) {
+    public Cursor viewAlertsData() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + ALERTS_TABLE;
+        return db.rawQuery(query, null);
+    }
+
+    public boolean insertFood(String food) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-            contentValues.put(COL_5, food);
-        long result = db.insert(TABLE_NAME, null, contentValues);
-        viewData();
+        contentValues.put(USER_FIRSTNAME, food);
+        long result = db.insert(USER_TABLE, null, contentValues);
+        viewMenuData();
         return result != -1;
     }
 
     public boolean addFood(Shopping shopping, User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(FOOD, shopping.getFood());
-        contentValues.put(PRICE, shopping.getPrice());
-        contentValues.put(COL_2, user.getUsername());
+        contentValues.put(FOOD_NAME, shopping.getFood());
+        contentValues.put(FOOD_PRICE, shopping.getPrice());
+        contentValues.put(USER_NAME, user.getUsername());
         long result = db.insert(FOOD_TABLE, null, contentValues);
         return result != -1;
     }
 
+    public boolean addAlert(Alert alert, User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(ALERT_STRING, alert.getAlert());
+        contentValues.put(ALERT_DATE, alert.getDate());
+        contentValues.put(USER_NAME, user.getUsername());
+        long result = db.insert(ALERTS_TABLE, null, contentValues);
+        return result != -1;
+    }
 
     public long addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -162,32 +196,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("password", user.getPassword());
         contentValues.put("email", user.getEmail());
         contentValues.put("fName", user.getfName());
-        long res = db.insert(TABLE_NAME, null, contentValues);
-        listOfUsers.add(user);
-
+        long res = db.insert(USER_TABLE, null, contentValues);
         db.close();
         return res;
     }
 
-    public User userLogged(String username, String password) {
-        for(int i = 0; i < listOfUsers.size(); i++) {
-            if(listOfUsers.get(i).getUsername().equalsIgnoreCase(username) && listOfUsers.get(i).getPassword().equalsIgnoreCase(password)) {
-                return listOfUsers.get(i);
-            }
-            Log.d(TAG, "Utilisateur : "+ listOfUsers.get(i).getUsername() + " mot de passe : "+listOfUsers.get(i).getPassword());
-        }
-        Log.d(TAG, "Liste d'utilisateurs : "+ listOfUsers.size());
-        return null;
-    }
-
-    public ArrayList<User> getListOfUsers() {
-        return listOfUsers;
-    }
-
-    public void UpdatePassword(String OldPass, String NewPass){
+    public void UpdatePassword(String OldPass, String NewPass) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put("password",NewPass);
+        contentValues.put("password", NewPass);
         SQLiteDatabase db = this.getWritableDatabase();
-        db.update(TABLE_NAME, contentValues,"password",null);
+        db.update(USER_TABLE, contentValues, "password", null);
     }
+
+
 }
