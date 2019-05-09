@@ -6,13 +6,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,7 +59,7 @@ public class MyCartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mycart);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         db = new DatabaseHelper(this);
@@ -70,7 +68,7 @@ public class MyCartActivity extends AppCompatActivity {
         listItem = new ArrayList<>();
         lists_list = findViewById(R.id.lists_list);
         Bundle data = getIntent().getExtras();
-        User tempUser = (User) data.getParcelable("USER");
+        User tempUser = data.getParcelable("USER");
         currentUser = tempUser;
         //    Log.d(TAG, "onCreate: " + tempUser);
 
@@ -86,7 +84,7 @@ public class MyCartActivity extends AppCompatActivity {
     }
 
     public void viewData() {
-        Cursor cursor = db.viewData();
+        Cursor cursor = db.viewMenuData();
         if (cursor.getCount() == 0) tv_listes.setText("Vous n'avez pas encore créé des listes");
         else {
             tv_listes.setText("Vos listes :");

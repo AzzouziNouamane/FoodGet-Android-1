@@ -1,4 +1,4 @@
-package foodget.ihm.foodget;
+package foodget.ihm.foodget.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.models.Shopping;
 
 public class FoodListAdapter extends ArrayAdapter<Shopping> {
@@ -35,8 +36,8 @@ public class FoodListAdapter extends ArrayAdapter<Shopping> {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         convertView = layoutInflater.inflate(resource, parent, false);
 
-        TextView tvFood = (TextView) convertView.findViewById(R.id.foodView);
-        TextView tvPrice = (TextView) convertView.findViewById(R.id.priceView);
+        TextView tvFood = convertView.findViewById(R.id.foodView);
+        TextView tvPrice = convertView.findViewById(R.id.priceView);
 
         tvFood.setText(food);
         tvPrice.setText(price + "€");

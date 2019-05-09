@@ -2,10 +2,10 @@ package foodget.ihm.foodget.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,9 +20,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import foodget.ihm.foodget.DatabaseHelper;
-import foodget.ihm.foodget.FoodListAdapter;
 import foodget.ihm.foodget.MyCartActivity;
 import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.adapters.FoodListAdapter;
 import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.User;
 
@@ -68,7 +68,7 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         db = new DatabaseHelper(this);
@@ -76,12 +76,12 @@ public class MainMenu extends AppCompatActivity {
         add_data = findViewById(R.id.add_data);
         btn_cart = findViewById(R.id.btn_cart);
         btn_stats = findViewById(R.id.btn_stats);
-        add_food = (EditText)findViewById(R.id.add_food);
-        add_price = (EditText)findViewById(R.id.add_price);
+        add_food = findViewById(R.id.add_food);
+        add_price = findViewById(R.id.add_price);
         listItem = new ArrayList<>();
         shoppingView = findViewById(R.id.shopping_list);
         Bundle data = getIntent().getExtras();
-        User tempUser = (User) data.getParcelable("USER");
+        User tempUser = data.getParcelable("USER");
         currentUser = tempUser;
         Log.d(TAG, "onCreate: " + tempUser);
         if(tempUser != null) {
@@ -132,7 +132,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void viewData() {
-        Cursor cursor = db.viewData();
+        Cursor cursor = db.viewMenuData();
         total = 0.0;
         if (cursor.getCount() == 0) {
             Toast.makeText(this, "No data to view", Toast.LENGTH_SHORT).show();
@@ -143,7 +143,7 @@ public class MainMenu extends AppCompatActivity {
                     listItem.add(newShopping);
                     total += newShopping.getPrice();
                     welcomeView.setText("Bonjour " + currentUser.getfName() + "\n" + "Vous avez dépensé " + total + " €" );
-                    Log.d(TAG, "viewData: total " + total + " getPrice() " + newShopping.getPrice());
+                    Log.d(TAG, "viewDataInMenu: total " + total + " getPrice() " + newShopping.getPrice());
                 }
 
             }

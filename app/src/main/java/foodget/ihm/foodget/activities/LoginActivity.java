@@ -1,8 +1,8 @@
 package foodget.ihm.foodget.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,10 +26,10 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mTextUserName = (EditText)findViewById(R.id.textUser);
-        mTextPassword = (EditText)findViewById(R.id.textPass);
-        mLoginButton = (Button)findViewById(R.id.loginButton);
-        mTextViewRegister = (TextView)findViewById(R.id.registerText);
+        mTextUserName = findViewById(R.id.textUser);
+        mTextPassword = findViewById(R.id.textPass);
+        mLoginButton = findViewById(R.id.loginButton);
+        mTextViewRegister = findViewById(R.id.registerText);
         db = new DatabaseHelper(this);
 
 
@@ -46,14 +46,14 @@ public class LoginActivity extends AppCompatActivity{
             public void onClick(View v) {
                 String user = mTextUserName.getText().toString().trim();
                 String pass= mTextPassword.getText().toString().trim();
-                boolean res = db.checkUser(user, pass);
+                User res = db.checkUser(user, pass);
                 if(user.equals("") || pass.equals("")) {
-                    Toast.makeText(LoginActivity.this, "Nom d'utilisateur ou Mot de passe incorrecte", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Nom d'utilisateur ou Mot de passe incorrect", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    if(res) {
+                    if (res != null) {
                         Toast.makeText(LoginActivity.this, "Successfully Logged IN", Toast.LENGTH_SHORT).show();
-                        loggedUser = db.userLogged(user, pass);
+                        loggedUser = res;
                         Intent loginIntent = new Intent(getApplicationContext(), ManagementActivity.class);
                         loginIntent.putExtra("user",loggedUser);
                         startActivity(loginIntent);

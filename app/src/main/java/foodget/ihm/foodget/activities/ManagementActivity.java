@@ -21,9 +21,9 @@ public class ManagementActivity extends AppCompatActivity {
         final ViewPager viewPager = findViewById(R.id.container);
         final TabLayout tabLayout = findViewById(R.id.menu);
 
-        tabLayout.addTab(tabLayout.newTab().setText("Accueil"));
-        tabLayout.addTab(tabLayout.newTab().setText("Alertes"));
-        tabLayout.addTab(tabLayout.newTab().setText("Mon compte"));
+        tabLayout.addTab(tabLayout.newTab().setText("Accueil").setIcon(R.drawable.home));
+        tabLayout.addTab(tabLayout.newTab().setText("Alertes").setIcon(R.drawable.notifications_bell));
+        tabLayout.addTab(tabLayout.newTab().setText("Mon compte").setIcon(R.drawable.account_icon));
 
         //create a PageAdapter for 3 tabs max
         User loggedUser = getIntent().getExtras().getParcelable("user");
