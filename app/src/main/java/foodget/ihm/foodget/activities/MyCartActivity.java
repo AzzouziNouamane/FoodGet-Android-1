@@ -1,4 +1,4 @@
-package foodget.ihm.foodget;
+package foodget.ihm.foodget.activities;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import foodget.ihm.foodget.DatabaseHelper;
+import foodget.ihm.foodget.R;
 
 import java.util.ArrayList;
 

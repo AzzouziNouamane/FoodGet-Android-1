@@ -25,6 +25,8 @@ import java.util.Locale;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.activities.LoginActivity;
+import foodget.ihm.foodget.activities.NewCartActivity;
+import foodget.ihm.foodget.activities.RegisterActivity;
 import foodget.ihm.foodget.adapters.FoodListAdapter;
 import foodget.ihm.foodget.models.Alert;
 import foodget.ihm.foodget.models.Alerts;
@@ -39,6 +41,7 @@ public class TabMainMenu extends Fragment {
     EditText add_price;
     TextView welcomeView;
     Button add_data;
+    Button btn_cart;
     ArrayList<Shopping> listItem;
     ArrayAdapter adapter;
     ListView shoppingView;
@@ -53,6 +56,7 @@ public class TabMainMenu extends Fragment {
         db = new DatabaseHelper(getContext());
         welcomeView = view.findViewById(R.id.welcomeView);
         add_data = view.findViewById(R.id.add_data);
+        btn_cart = view.findViewById(R.id.btn_cart);
         add_food = view.findViewById(R.id.add_food);
         add_price = view.findViewById(R.id.add_price);
         listItem = new ArrayList<>();
@@ -93,6 +97,16 @@ public class TabMainMenu extends Fragment {
                 }
             }
         });
+
+        btn_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cartIntent = new Intent(getContext(), NewCartActivity.class);
+                cartIntent.putExtra("user",currentUser);
+                startActivity(cartIntent);
+            }
+        });
+
         return view;
     }
 

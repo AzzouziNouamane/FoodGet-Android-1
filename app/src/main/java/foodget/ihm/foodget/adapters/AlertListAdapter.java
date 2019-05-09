@@ -26,11 +26,9 @@ public class AlertListAdapter extends ArrayAdapter<Alert> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        //Set the shopping informations
         String alert = getItem(position).getAlert();
         String date = getItem(position).getDate();
 
-        //Create the shopping object with the information
         Alert shopping = new Alert(alert, date);
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);

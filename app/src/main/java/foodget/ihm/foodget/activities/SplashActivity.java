@@ -1,4 +1,4 @@
-package foodget.ihm.foodget;
+package foodget.ihm.foodget.activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -7,7 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
 
-import foodget.ihm.foodget.activities.LoginActivity;
+import foodget.ihm.foodget.R;
 
 public class SplashActivity extends AppCompatActivity {
     private final int SPLASH_DURATION = 2000;

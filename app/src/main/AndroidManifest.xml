@@ -12,8 +12,10 @@
         <activity android:name=".activities.MyAccountActivity" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.MyCartActivity" />
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.ForgottenPasswordActivity$SplashActivity">
+        <activity android:name=".activities.SplashActivity" />
+        <activity android:name=".activities.ForgottenPasswordActivity" />
+        <activity android:name=".activities.NewCartActivity" />
+        <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
