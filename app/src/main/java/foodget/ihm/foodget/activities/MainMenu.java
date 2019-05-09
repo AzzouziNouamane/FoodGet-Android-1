@@ -83,9 +83,6 @@ public class MainMenu extends AppCompatActivity {
         User tempUser = data.getParcelable("USER");
         currentUser = tempUser;
         Log.d(TAG, "onCreate: " + tempUser);
-        if(tempUser != null) {
-            welcomeView.setText("Bonjour " + tempUser.getfName() + "\n" + "Vous avez dépensé " + total + " €" );
-        }
 
 
         viewData();
@@ -118,6 +115,7 @@ public class MainMenu extends AppCompatActivity {
                         add_food.setText("");
                         add_price.setText("");
                         listItem.clear();
+                        total = 0.0;
                         viewData();
                     } else {
                         Toast.makeText(MainMenu.this, "Data not added", Toast.LENGTH_SHORT).show();
@@ -140,9 +138,11 @@ public class MainMenu extends AppCompatActivity {
                 if(cursor.getString(3).equals(currentUser.getUsername())) {
                     Shopping newShopping = new Shopping(cursor.getString(1), cursor.getDouble(2));
                     listItem.add(newShopping);
+                    Toast.makeText(MainMenu.this, "" + total, Toast.LENGTH_LONG).show();
                     total += newShopping.getPrice();
+                    Log.d(TAG, "viewDataInMenu: total BEFORE " + total + " getPrice() " + newShopping.getPrice());
                     welcomeView.setText("Bonjour " + currentUser.getfName() + "\n" + "Vous avez dépensé " + total + " €" );
-                    Log.d(TAG, "viewDataInMenu: total " + total + " getPrice() " + newShopping.getPrice());
+                    Log.d(TAG, "viewDataInMenu: total AFTER " + total + " getPrice() " + newShopping.getPrice());
                 }
 
             }
