@@ -112,6 +112,7 @@ public class TabMainMenu extends Fragment {
 
     public void viewDataInMenu() {
         Cursor cursor = db.viewMenuData();
+        total = 0.0;
         Log.d(TAG, "onCreate: " + currentUser);
         if (cursor.getCount() == 0) {
             Toast.makeText(getContext(), "No data to view", Toast.LENGTH_SHORT).show();
