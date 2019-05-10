@@ -37,7 +37,9 @@
                 android:id="@+id/textUser"
                 style="@style/editText_style"
                 android:autofillHints="@string/username"
-                android:inputType="textEmailAddress" />
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:nextFocusForward="@id/textPass" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -48,6 +50,7 @@
                 android:id="@+id/textPass"
                 style="@style/editText_style"
                 android:autofillHints="@string/password"
+                android:imeOptions="actionDone"
                 android:inputType="textPassword" />
         </LinearLayout>
 

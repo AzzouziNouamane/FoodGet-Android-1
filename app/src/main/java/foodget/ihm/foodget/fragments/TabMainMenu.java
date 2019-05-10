@@ -1,5 +1,6 @@
 package foodget.ihm.foodget.fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -36,8 +37,6 @@ public class TabMainMenu extends Fragment {
 
     String TAG = "MAINMENU";
     DatabaseHelper db;
-    EditText add_food;
-    EditText add_price;
     TextView welcomeView;
     Button add_data;
     Button btn_cart;
@@ -56,8 +55,6 @@ public class TabMainMenu extends Fragment {
         welcomeView = view.findViewById(R.id.welcomeView);
         add_data = view.findViewById(R.id.add_data);
         btn_cart = view.findViewById(R.id.btn_cart);
-        add_food = view.findViewById(R.id.add_food);
-        add_price = view.findViewById(R.id.add_price);
         listItem = new ArrayList<>();
         shoppingView = view.findViewById(R.id.shopping_list);
         currentUser = this.getArguments().getParcelable("user");
@@ -71,28 +68,6 @@ public class TabMainMenu extends Fragment {
             }
         });
 
-        add_data.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String food = add_food.getText().toString().trim();
-                String price = add_price.getText().toString().trim();
-                Shopping newShopping = new Shopping(food, Double.parseDouble(price));
-
-                if (!food.equals("") && db.addFood(newShopping, currentUser)) {
-                    Toast.makeText(getContext(), "data added", Toast.LENGTH_SHORT).show();
-                    db.addAlert(new Alert(Alerts.PRODUCT_ADDED.toString().replace("%product%", food)
-                            .replace("%price%", price),
-                            LocalDateTime.now().format(DateTimeFormatter.ofPattern("d/MM/yy HH:mm", Locale.FRANCE))), currentUser);
-                    add_food.setText("");
-                    add_price.setText("");
-                    listItem.clear();
-                    viewDataInMenu();
-
-                } else {
-                    Toast.makeText(getContext(), "Data not added", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
         btn_cart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +76,47 @@ public class TabMainMenu extends Fragment {
                 cartIntent.putExtra("user", currentUser);
                 startActivity(cartIntent);
             }
+        });
+
+        Dialog popupAddSpentMoney = new Dialog(getContext());
+        add_data.setOnClickListener((View v) -> {
+            popupAddSpentMoney.setContentView(R.layout.adding_data_popup);
+
+            Button add_dataButton = popupAddSpentMoney.findViewById(R.id.add_dataButton);
+            Button cancelButton = popupAddSpentMoney.findViewById(R.id.cancelButton);
+            EditText priceInput = popupAddSpentMoney.findViewById(R.id.priceInput);
+            EditText productInput = popupAddSpentMoney.findViewById(R.id.productInput);
+
+            cancelButton.setOnClickListener((View v1) -> popupAddSpentMoney.dismiss());
+
+            add_dataButton.setOnClickListener((View v2) -> {
+                Log.d(TAG, "TENTATIVE AJOUT");
+                String food = productInput.getText().toString().trim();
+                String price = priceInput.getText().toString().trim();
+                Shopping newShopping = null;
+                if (!food.equals("") && !price.equals("")) {
+                    newShopping = new Shopping(food, Double.parseDouble(price));
+                } else {
+                    popupAddSpentMoney.dismiss();
+                    return;
+                }
+                Log.d(TAG, "on avance");
+
+                if (db.addFood(newShopping, currentUser)) {
+                    Toast.makeText(getContext(), "data added", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, " AJOUT");
+                    db.addAlert(new Alert(Alerts.PRODUCT_ADDED.toString().replace("%product%", food)
+                            .replace("%price%", price),
+                            LocalDateTime.now().format(DateTimeFormatter.ofPattern("d/MM/yy HH:mm", Locale.FRANCE))), currentUser);
+                    listItem.clear();
+                    viewDataInMenu();
+
+                } else {
+                    Toast.makeText(getContext(), "Data not added", Toast.LENGTH_SHORT).show();
+                }
+                popupAddSpentMoney.dismiss();
+            });
+            popupAddSpentMoney.show();
         });
 
         return view;
@@ -122,13 +138,13 @@ public class TabMainMenu extends Fragment {
                     if (currentUser.getThreshold() > 0) {
                         welcomeView.setText(getString(R.string.welcome)
                                 .replace("%username%", currentUser.getfName())
-                                .replace("%money%", total.toString())
+                                .replace("%money%", String.format(Locale.FRANCE, "%.2f", total))
                                 .concat(getString(R.string.threshold)
                                         .replace("%threshold%", "" + currentUser.getThreshold())));
                     } else {
                         welcomeView.setText(getString(R.string.welcome)
                                 .replace("%username%", currentUser.getfName())
-                                .replace("%money%", total.toString()));
+                                .replace("%money%", String.format(Locale.FRANCE, "%.2f", total)));
                     }
                     Log.d(TAG, "viewDataInMenu: total " + total + " getPrice() " + newShopping.getPrice());
                 } else {

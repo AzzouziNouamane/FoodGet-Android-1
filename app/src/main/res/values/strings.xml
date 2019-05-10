@@ -22,5 +22,9 @@
     <string name="threshold">, votre seuil est de %threshold%€</string>
     <string name="product">Produit</string>
     <string name="price">Prix</string>
+    <string name="add">Ajouter</string>
+    <string name="addSpentMoney">Ajouter une dépense</string>
+    <string name="cancel">Annuler</string>
     <string name="euroSymbol">€</string>
+    <string name="setThreshold">Changer seuil</string>
 </resources>
