@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
@@ -60,7 +61,8 @@ public class TabAlerts extends Fragment {
     }
 
     private void viewDataInAlerts() {
-        Cursor cursor = db.viewAlertsData();
+        listAlerts.clear();
+        Cursor cursor = db.viewAlertsData(currentUser);
         if (cursor.getCount() == 0) {
             Toast.makeText(getContext(), "No data to view", Toast.LENGTH_SHORT).show();
         } else {
@@ -73,8 +75,8 @@ public class TabAlerts extends Fragment {
                     Toast.makeText(getContext(), "Erreur de programme. Veuillez vous reconnecter", Toast.LENGTH_SHORT).show();
                     startActivity(ToLoginPageIntent);
                 }
-
             }
+            Collections.reverse(listAlerts);
 
             adapter = new ArrayAdapter(getContext(), R.layout.alert_display, listAlerts);
             AlertListAdapter adapteralert = new AlertListAdapter(getContext(), R.layout.alert_display, listAlerts);

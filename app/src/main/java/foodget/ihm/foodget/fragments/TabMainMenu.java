@@ -26,7 +26,6 @@ import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.activities.LoginActivity;
 import foodget.ihm.foodget.activities.NewCartActivity;
-import foodget.ihm.foodget.activities.RegisterActivity;
 import foodget.ihm.foodget.adapters.FoodListAdapter;
 import foodget.ihm.foodget.models.Alert;
 import foodget.ihm.foodget.models.Alerts;
@@ -63,9 +62,6 @@ public class TabMainMenu extends Fragment {
         shoppingView = view.findViewById(R.id.shopping_list);
         currentUser = this.getArguments().getParcelable("user");
         Log.d(TAG, "onCreate: " + currentUser);
-        if (currentUser != null) {
-            welcomeView.setText("Bonjour " + currentUser.getfName() + "\n" + "Vous avez dépensé " + total + " €");
-        }
         viewDataInMenu();
         shoppingView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -102,7 +98,7 @@ public class TabMainMenu extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent cartIntent = new Intent(getContext(), NewCartActivity.class);
-                cartIntent.putExtra("user",currentUser);
+                cartIntent.putExtra("user", currentUser);
                 startActivity(cartIntent);
             }
         });
@@ -111,7 +107,7 @@ public class TabMainMenu extends Fragment {
     }
 
     public void viewDataInMenu() {
-        Cursor cursor = db.viewMenuData();
+        Cursor cursor = db.viewMenuData(currentUser);
         total = 0.0;
         Log.d(TAG, "onCreate: " + currentUser);
         if (cursor.getCount() == 0) {
@@ -123,7 +119,17 @@ public class TabMainMenu extends Fragment {
                     Shopping newShopping = new Shopping(cursor.getString(1), cursor.getDouble(2));
                     listItem.add(newShopping);
                     total += newShopping.getPrice();
-                    welcomeView.setText("Bonjour " + currentUser.getfName() + "\n" + "Vous avez dépensé " + total + " €");
+                    if (currentUser.getThreshold() > 0) {
+                        welcomeView.setText(getString(R.string.welcome)
+                                .replace("%username%", currentUser.getfName())
+                                .replace("%money%", total.toString())
+                                .concat(getString(R.string.threshold)
+                                        .replace("%threshold%", "" + currentUser.getThreshold())));
+                    } else {
+                        welcomeView.setText(getString(R.string.welcome)
+                                .replace("%username%", currentUser.getfName())
+                                .replace("%money%", total.toString()));
+                    }
                     Log.d(TAG, "viewDataInMenu: total " + total + " getPrice() " + newShopping.getPrice());
                 } else {
                     Intent ToLoginPageIntent = new Intent(getContext(), LoginActivity.class);

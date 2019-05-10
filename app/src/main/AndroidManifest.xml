@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MyAccountActivity" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.MyCartActivity" />
         <activity android:name=".activities.SplashActivity" />
@@ -27,8 +26,10 @@
         <activity android:name=".activities.NewPasswordActivity" />
         <activity android:name=".activities.NewNameActivity" />
         <activity android:name=".activities.NewMailActivity" />
-        <activity android:name=".activities.MainMenu" />
         <activity android:name=".activities.ManagementActivity" />
+        <activity android:name=".activities.CreateNewListActivity" />
+        <activity android:name=".activities.DeleteListActivity" />
+        <activity android:name=".activities.ViewListActivity" />
 
 
     </application>

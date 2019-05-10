@@ -18,7 +18,8 @@
     <string name="newpass">Nouveau mot de passe</string>
     <string name="newpassconfirm">Confirmer mot de passe</string>
     <string name="oldpassword">Mot de passe actuel</string>
-    <string name="welcome">"Bonjour @oldpassword ! Vous avez dépensé X Euro aujourd'hui"</string>
+    <string name="welcome">"Bonjour %username% ! Vous avez dépensé %money%€ ce dernier mois"</string>
+    <string name="threshold">, votre seuil est de %threshold%€</string>
     <string name="product">Produit</string>
     <string name="price">Prix</string>
     <string name="euroSymbol">€</string>

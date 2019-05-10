@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
     android:background="@color/colorPrimaryDark"
-    tools:context=".activities.MainMenu">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -38,13 +36,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableStart="@drawable/shopping_cart"
                     android:text="Panier" />
-
                 <Button
                     android:id="@+id/btn_stats"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableEnd="@drawable/statistics"
                     android:text="STATS" />
 
             </LinearLayout>
@@ -140,7 +139,7 @@
 
             </LinearLayout>
 
-    </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 
 

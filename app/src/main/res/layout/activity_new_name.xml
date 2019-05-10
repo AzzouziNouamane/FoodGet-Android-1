@@ -42,7 +42,7 @@
         android:id="@+id/AcceuilButton"
         style="@style/buttonStyle"
         android:backgroundTint="@color/colorPrimary"
-        android:text="Acceuil" />
+        android:text="Accueil" />
 
     <LinearLayout
         android:layout_width="match_parent"

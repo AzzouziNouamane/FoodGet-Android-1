@@ -3,6 +3,7 @@ package foodget.ihm.foodget.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity{
     TextView mTextViewRegister;
     DatabaseHelper db;
     private User loggedUser;
+    private String TAG = "Login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class LoginActivity extends AppCompatActivity{
                 String user = mTextUserName.getText().toString().trim();
                 String pass= mTextPassword.getText().toString().trim();
                 User res = db.checkUser(user, pass);
+                Log.d(TAG, "Utilisateur checked : " + user);
                 if(user.equals("") || pass.equals("")) {
                     Toast.makeText(LoginActivity.this, "Nom d'utilisateur ou Mot de passe incorrect", Toast.LENGTH_SHORT).show();
                 }

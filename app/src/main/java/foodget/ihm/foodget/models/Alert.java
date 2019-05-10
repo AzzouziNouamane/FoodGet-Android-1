@@ -20,4 +20,9 @@ public class Alert {
     public String getAlert() {
         return alert;
     }
+
+    @Override
+    public String toString() {
+        return this.alert + " " + this.date;
+    }
 }
