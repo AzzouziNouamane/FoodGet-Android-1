@@ -9,18 +9,43 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.models.User;
 
 public class NewMailActivity extends AppCompatActivity {
-    EditText mTextNewMail;
-    EditText mTextNewMailConfirm;
-    Button mSubmit;
+    EditText TextOldMail;
+    EditText TextNewMail;
+    Button Submit;
     Button Acceuil;
     DatabaseHelper db;
     User currentUser;
+    String oldmail;
+    String newmail;
+
+
+
+
+
+    public static boolean isValid(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
+
+
 
 
 
@@ -37,6 +62,10 @@ public class NewMailActivity extends AppCompatActivity {
         currentUser = tempUser;
 
         Acceuil = (Button) findViewById(R.id.AcceuilButton);
+        TextOldMail = (EditText) findViewById(R.id.textoldmail);
+        TextNewMail = (EditText) findViewById(R.id.textnewmail);
+        Submit = (Button) findViewById(R.id.ConfirmButton);
+
 
 
         Acceuil.setOnClickListener(new View.OnClickListener(){
@@ -47,6 +76,33 @@ public class NewMailActivity extends AppCompatActivity {
                 startActivity(MainMenu);
             }
         });
+
+        Submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                oldmail = currentUser.getEmail();
+                newmail = TextNewMail.getText().toString().trim();
+
+                if (!(oldmail.equals(TextOldMail.getText().toString().trim()))){
+                    Toast.makeText(NewMailActivity.this,"Votre ancienne adresse n'est pas correcte",Toast.LENGTH_LONG).show();
+                }
+
+                else if (!(isValid(newmail))) {
+                    Toast.makeText(NewMailActivity.this,"Veuillez saisir une adresse mail valide",Toast.LENGTH_LONG).show();
+
+                } else {
+                    currentUser.setEmail(newmail);
+                    Toast.makeText(NewMailActivity.this,"Adresse mail modifiée avec succès",Toast.LENGTH_LONG).show();
+
+                }
+
+
+            }
+        });
+
+
+
+
 
 
     }

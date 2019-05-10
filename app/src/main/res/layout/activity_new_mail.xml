@@ -22,10 +22,10 @@
         <TextView
             android:id="@+id/textView3"
             style="@style/textView_Style"
-            android:text="@string/newmail" />
+            android:text="@string/oldmail" />
 
         <EditText
-            android:id="@+id/textnewmail"
+            android:id="@+id/textoldmail"
             style="@style/editText_style"
             android:autofillHints="@string/newmail"
             android:inputType="textEmailAddress" />
@@ -33,12 +33,12 @@
         <TextView
             android:id="@+id/textView4"
             style="@style/textView_Style"
-            android:text="@string/newmailconfirm" />
+            android:text="@string/newmail" />
 
         <EditText
-            android:id="@+id/textnewmailconfirm"
+            android:id="@+id/textnewmail"
             style="@style/editText_style"
-            android:autofillHints="@string/newmailconfirm"
+            android:autofillHints="@string/newmail"
             android:inputType="textEmailAddress" />
     </LinearLayout>
 

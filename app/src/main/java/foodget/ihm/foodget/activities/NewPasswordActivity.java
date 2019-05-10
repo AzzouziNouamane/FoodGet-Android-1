@@ -19,11 +19,14 @@ public class NewPasswordActivity extends AppCompatActivity {
     EditText mTextNewPass;
     EditText mTextConfirmPass;
     EditText mTextOldPass;
-    Button mSubmit;
+    Button Submit;
     Button mRetour;
     Button mAccueil;
     DatabaseHelper db;
     User currentUser;
+    String oldpass;
+    String newpass;
+    String newpassconfirm;
 
 
 
@@ -33,8 +36,8 @@ public class NewPasswordActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
-        mSubmit=(Button) findViewById(R.id.ConfirmButton) ;
-        mRetour=(Button) findViewById(R.id.RetourButton);
+        Submit=(Button) findViewById(R.id.ConfirmButton) ;
+
         mAccueil=(Button) findViewById(R.id.AcceuilButton);
         mTextNewPass=(EditText) findViewById(R.id.textnewpass);
         mTextConfirmPass=(EditText) findViewById(R.id.textnewpassconfirm);
@@ -55,6 +58,28 @@ public class NewPasswordActivity extends AppCompatActivity {
                 startActivity(MainMenu);
             }
 
+        });
+
+        Submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                oldpass=currentUser.getPassword();
+                newpass=mTextNewPass.getText().toString().trim();
+                newpassconfirm=mTextConfirmPass.getText().toString().trim();
+
+                if(!(oldpass.equals(mTextOldPass.getText().toString().trim()))){
+                    Toast.makeText(NewPasswordActivity.this,"Votre ancien mot de passe n'est pas correct",Toast.LENGTH_LONG).show();
+                }
+
+
+
+                else if(newpass.equals(newpassconfirm)){
+                    currentUser.setPassword(newpass);
+                    Toast.makeText(NewPasswordActivity.this,"Mot de passe changé avec succès",Toast.LENGTH_LONG).show();
+                } else{
+                    Toast.makeText(NewPasswordActivity.this,"Veuillez confirmer votre nouveau mot de passe",Toast.LENGTH_LONG).show();
+                }
+            }
         });
 
 
