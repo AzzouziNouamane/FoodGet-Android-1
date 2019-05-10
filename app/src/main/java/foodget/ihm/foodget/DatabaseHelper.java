@@ -27,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String USER_PASSWORD = "password";
     private static final String USER_EMAIL = "email";
     private static final String USER_FIRSTNAME = "fName";
+    private static final String USER_THRESHOLD = "threshold";
 
 
     private static final String FOOD_NAME = "food";
@@ -41,7 +42,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             USER_NAME + " TEXT, " +
             USER_PASSWORD + " TEXT, " +
             USER_EMAIL + " TEXT, " +
-            USER_FIRSTNAME + " TEXT" + ");";
+            USER_FIRSTNAME + " TEXT, " +
+            USER_THRESHOLD + " DOUBLE" + ");";
 
     private static final String CREATE_TABLE_FOOD = "CREATE TABLE " + FOOD_TABLE + " (" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -68,12 +70,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_ALERTS);
 
         //Utilisateur par défaut
-        User user = new User("julie", "123", "julie@gmail.ocm", "julie");
+        User user = new User("julie", "123", "julie@gmail.ocm", "julie", 48);
         ContentValues contentValues = new ContentValues();
         contentValues.put("username", user.getUsername());
         contentValues.put("password", user.getPassword());
         contentValues.put("email", user.getEmail());
         contentValues.put("fName", user.getfName());
+        contentValues.put("threshold", user.getThreshold());
         sqLiteDatabase.insert(USER_TABLE, null, contentValues);
 
         //Produits achetés par défaut
@@ -117,7 +120,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     private void initializeUsers(SQLiteDatabase db) {
-        String[] columns = {ID, USER_NAME, USER_PASSWORD, USER_EMAIL, USER_FIRSTNAME};
+        String[] columns = {ID, USER_NAME, USER_PASSWORD, USER_EMAIL, USER_FIRSTNAME, USER_THRESHOLD};
         Cursor cursor = db.query(USER_TABLE, columns, null, null, null, null, null);
         while (cursor.moveToNext()) {
             // int id = cursor.getInt(0);
@@ -125,7 +128,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String password = cursor.getString(2);
             String email = cursor.getString(3);
             String fname = cursor.getString(4);
-            User user = new User(username, password, email, fname);
+            double threshold = cursor.getDouble(5);
+            User user = new User(username, password, email, fname, threshold);
             StaticContentUsers.addUserFromDataBase(user);
         }
         cursor.close();
@@ -148,16 +152,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public Cursor viewMenuData() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + FOOD_TABLE;
-        return db.rawQuery(query, null);
+    public Cursor viewMenuData(User user) {
+        String[] columns = {ID, FOOD_NAME, FOOD_PRICE, USER_NAME};
+        SQLiteDatabase db = getReadableDatabase();
+        String selection = USER_NAME + "=?";
+        String[] selectionArgs = {user.getUsername()};
+        return db.query(FOOD_TABLE, columns, selection, selectionArgs, null, null, null);
     }
 
-    public Cursor viewAlertsData() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + ALERTS_TABLE;
-        return db.rawQuery(query, null);
+    public Cursor viewAlertsData(User user) {
+        String[] columns = {ID, USER_NAME, ALERT_STRING, ALERT_DATE};
+        SQLiteDatabase db = getReadableDatabase();
+        String selection = USER_NAME + "=?";
+        String[] selectionArgs = {user.getUsername()};
+        return db.query(ALERTS_TABLE, columns, selection, selectionArgs, null, null, null);
     }
 
     public boolean insertFood(String food) {
@@ -165,7 +173,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(USER_FIRSTNAME, food);
         long result = db.insert(USER_TABLE, null, contentValues);
-        viewMenuData();
         return result != -1;
     }
 
@@ -196,6 +203,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("password", user.getPassword());
         contentValues.put("email", user.getEmail());
         contentValues.put("fName", user.getfName());
+        contentValues.put("threshold", user.getThreshold());
         long res = db.insert(USER_TABLE, null, contentValues);
         db.close();
         return res;

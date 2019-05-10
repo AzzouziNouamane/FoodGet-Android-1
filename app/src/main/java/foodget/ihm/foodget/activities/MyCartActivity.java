@@ -1,12 +1,7 @@
 package foodget.ihm.foodget.activities;
 
-import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,13 +10,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import foodget.ihm.foodget.DatabaseHelper;
-import foodget.ihm.foodget.R;
-
 import java.util.ArrayList;
 
-import foodget.ihm.foodget.activities.MainMenu;
-import foodget.ihm.foodget.activities.MyAccountActivity;
+import foodget.ihm.foodget.DatabaseHelper;
+import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.User;
 
@@ -35,35 +27,10 @@ public class MyCartActivity extends AppCompatActivity {
     ArrayList<ArrayList<Shopping>> listItem;
     ArrayAdapter adapter;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_accueil:
-                    Intent MainMenuIntent = new Intent(MyCartActivity.this, MainMenu.class);
-                    MainMenuIntent.putExtra("USER", currentUser);
-                    startActivity(MainMenuIntent);
-                    break;
-
-                case R.id.navigation_compte:
-                    Intent MyAccountIntent = new Intent(MyCartActivity.this, MyAccountActivity.class);
-                    MyAccountIntent.putExtra("USER", currentUser);
-                    startActivity(MyAccountIntent);
-                    break;
-            }
-            return false;
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mycart);
-
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         db = new DatabaseHelper(this);
         tv_listes = findViewById(R.id.tv_listes);
@@ -87,13 +54,13 @@ public class MyCartActivity extends AppCompatActivity {
     }
 
     public void viewData() {
-        Cursor cursor = db.viewMenuData();
-        if (cursor.getCount() == 0) tv_listes.setText("Vous n'avez pas encore créé des listes");
-        else {
-            tv_listes.setText("Vos listes :");
-            adapter = new ArrayAdapter<>(this, R.layout.da_food, listItem);
-            //   FoodListAdapter adapterFood = new FoodListAdapter(this, R.layout.da_food, listItem);
-            lists_list.setAdapter(adapter);
-        }
+//        Cursor cursor = db.viewMenuData();
+//        if (cursor.getCount() == 0) tv_listes.setText("Vous n'avez pas encore créé des listes");
+//        else {
+//            tv_listes.setText("Vos listes :");
+//            adapter = new ArrayAdapter<>(this, R.layout.da_food, listItem);
+//            //   FoodListAdapter adapterFood = new FoodListAdapter(this, R.layout.da_food, listItem);
+//            lists_list.setAdapter(adapter);
+//        }
     }
 }

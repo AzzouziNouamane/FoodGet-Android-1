@@ -8,12 +8,14 @@ public class User implements Parcelable {
     private String password;
     private String email;
     private String fName;
+    private double threshold;
 
-    public User(String username, String password, String email, String fName) {
+    public User(String username, String password, String email, String fName, double threshold) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.fName = fName;
+        this.threshold = threshold;
     }
 
     public String getUsername() {
@@ -53,6 +55,11 @@ public class User implements Parcelable {
         password = in.readString();
         email = in.readString();
         fName = in.readString();
+        threshold = in.readDouble();
+    }
+
+    public double getThreshold() {
+        return threshold;
     }
 
     @Override
@@ -66,6 +73,7 @@ public class User implements Parcelable {
         dest.writeString(password);
         dest.writeString(email);
         dest.writeString(fName);
+        dest.writeDouble(threshold);
     }
 
     @SuppressWarnings("unused")
@@ -80,4 +88,9 @@ public class User implements Parcelable {
             return new User[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return this.fName + " " + this.password + " " + this.threshold;
+    }
 }

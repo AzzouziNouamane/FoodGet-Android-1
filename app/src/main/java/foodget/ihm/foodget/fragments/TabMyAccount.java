@@ -3,7 +3,6 @@ package foodget.ihm.foodget.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.Button;
 
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.activities.LoginActivity;
-import foodget.ihm.foodget.activities.MyAccountActivity;
 import foodget.ihm.foodget.activities.NewMailActivity;
 import foodget.ihm.foodget.activities.NewNameActivity;
 import foodget.ihm.foodget.activities.NewPasswordActivity;
@@ -32,11 +30,10 @@ public class TabMyAccount extends Fragment {
         final View view = inflater.inflate(R.layout.activity_myaccount, container, false);
 
 
-
-        UpdateMail = (Button) view.findViewById(R.id.ModifierMailButton);
-        UpdateName = (Button) view.findViewById(R.id.ModifierPrenomButton);
-        UpdatePassWord = (Button) view.findViewById(R.id.ModifierMDPButton);
-        Logout = (Button) view.findViewById(R.id.LogoutButton);
+        UpdateMail = view.findViewById(R.id.ModifierMailButton);
+        UpdateName = view.findViewById(R.id.ModifierPrenomButton);
+        UpdatePassWord = view.findViewById(R.id.ModifierMDPButton);
+        Logout = view.findViewById(R.id.LogoutButton);
         currentUser = this.getArguments().getParcelable("user");
 
 
