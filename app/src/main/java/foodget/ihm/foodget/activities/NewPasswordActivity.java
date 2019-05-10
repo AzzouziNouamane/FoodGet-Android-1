@@ -20,31 +20,13 @@ public class NewPasswordActivity extends AppCompatActivity {
     EditText mTextConfirmPass;
     EditText mTextOldPass;
     Button mSubmit;
+    Button mRetour;
+    Button mAccueil;
     DatabaseHelper db;
     User currentUser;
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_accueil:
-                    Intent MainMenuIntent = new Intent(NewPasswordActivity.this,MainMenu.class);
-                    MainMenuIntent.putExtra("USER", currentUser);
-                    startActivity(MainMenuIntent);
-                    break;
-
-                case R.id.navigation_compte:
-                    Intent MyAccountIntent = new Intent(NewPasswordActivity.this,MyAccountActivity.class);
-                    MyAccountIntent.putExtra("USER", currentUser);
-                    startActivity(MyAccountIntent);
-                    break;
-            }
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -52,28 +34,33 @@ public class NewPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
         mSubmit=(Button) findViewById(R.id.ConfirmButton) ;
+        mRetour=(Button) findViewById(R.id.RetourButton);
+        mAccueil=(Button) findViewById(R.id.AcceuilButton);
         mTextNewPass=(EditText) findViewById(R.id.textnewpass);
         mTextConfirmPass=(EditText) findViewById(R.id.textnewpassconfirm);
         mTextOldPass=(EditText) findViewById(R.id.textoldpass);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        mSubmit.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                String oldpass=mTextOldPass.getText().toString().trim();
-                String newpass=mTextNewPass.getText().toString().trim();
-                String newpassconfirm=mTextConfirmPass.getText().toString().trim();
-                if (newpass.equals(newpassconfirm)){
-                    db.UpdatePassword(oldpass,newpass);
-                }
-
-            }
-        });
 
         Bundle data = getIntent().getExtras();
         User tempUser = (User) data.getParcelable("USER");
         currentUser = tempUser;
+        currentUser.getEmail();
+
+
+
+        mAccueil.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent MainMenu = new Intent(getApplicationContext(), ManagementActivity.class);
+                MainMenu.putExtra("user",currentUser);
+                startActivity(MainMenu);
+            }
+
+        });
+
+
     }
+
+
 
 
 }
