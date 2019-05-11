@@ -1,6 +1,8 @@
 package foodget.ihm.foodget.activities;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +14,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -53,10 +59,11 @@ public class MyListActivity extends AppCompatActivity {
         User tempUser = (User) data.getParcelable("USER");
         String tempName = data.getString("NAME");
         nameView.setText(tempName);
-        listItem = data.getParcelableArrayList("SHOPPINGS");
+        listItem = new ArrayList<>();
+//        listItem = data.getParcelableArrayList("SHOPPINGS");
 
         currentUser = tempUser;
-        viewData();
+        viewData(tempName);
 
         Dialog popupAddShoppingProduct = new Dialog(this);
         add_data.setOnClickListener((View v) -> {
@@ -72,28 +79,27 @@ public class MyListActivity extends AppCompatActivity {
             add_dataButton.setOnClickListener((View v2) -> {
                 String food = productInput.getText().toString().trim();
                 String price = priceInput.getText().toString().trim();
-                ArrayList<Shopping> newFoodList = new ArrayList<>();
-                ShoppingList newShoppingList = null;
+                ShoppingList currentShoppingList = null;
                 if (!food.equals("") && !price.equals("")) {
                     Shopping newShopping = new Shopping(food, Double.parseDouble(price));
-                    newFoodList.add(newShopping);
-                    newShoppingList = new ShoppingList(tempName,newFoodList);
+                    listItem.add(newShopping);
+                    currentShoppingList = new ShoppingList(tempName,listItem);
                 } else {
                     popupAddShoppingProduct.dismiss();
                     return;
                 }
 
-//                if (db.addShoppingList(newShoppingList, currentUser)) {
-//                    Toast.makeText(this, "data added", Toast.LENGTH_SHORT).show();
-//                    db.addAlert(new Alert(Alerts.PRODUCT_LIST_ADDED.toString().replace("%product%", food)
-//                            .replace("%price%", price).replace("%list%", newShoppingList.getName()),
-//                            LocalDateTime.now().format(DateTimeFormatter.ofPattern("d/MM/yy HH:mm", Locale.FRANCE))), currentUser);
-//                    listItem.clear();
-//                    viewData();
-//
-//                } else {
-//                    Toast.makeText(this, "Data not added", Toast.LENGTH_SHORT).show();
-//                }
+                if (db.updateShoppingList(currentShoppingList, currentUser) > 0) {
+                    Toast.makeText(this, "data update", Toast.LENGTH_SHORT).show();
+                    db.addAlert(new Alert(Alerts.PRODUCT_LIST_ADDED.toString().replace("%product%", food)
+                            .replace("%price%", price).replace("%list%", currentShoppingList.getName()),
+                            LocalDateTime.now().format(DateTimeFormatter.ofPattern("d/MM/yy HH:mm", Locale.FRANCE))), currentUser);
+                    listItem.clear();
+                    viewData(tempName);
+
+                } else {
+                    Toast.makeText(this, "Data not updated", Toast.LENGTH_SHORT).show();
+                }
                 popupAddShoppingProduct.dismiss();
             });
             popupAddShoppingProduct.show();
@@ -101,8 +107,35 @@ public class MyListActivity extends AppCompatActivity {
 
     }
 
-    private void viewData() {
-        foodListAdapter = new FoodListAdapter(this, R.layout.da_food, listItem);
-        shoppingView.setAdapter(foodListAdapter);
+    private void viewData( String nameList) {
+
+        Cursor cursor = db.viewShoppingsOfList(currentUser, nameList);
+        if (cursor.getCount() == 0) {
+            Toast.makeText(this, "No data to view", Toast.LENGTH_SHORT).show();
+        } else {
+            while (cursor.moveToNext()) {
+                if (cursor.getString(3).equals(currentUser.getUsername())) {
+                    Type listType = new TypeToken<ArrayList<Shopping>>() {
+                    }.getType();
+                    ArrayList<Shopping> shoppingList = new Gson().fromJson(cursor.getString(2), listType);
+                    for (int i = 0; i<shoppingList.size(); i++){
+                        String food = shoppingList.get(i).getFood();
+                        Double price = shoppingList.get(i).getPrice();
+                        listItem.add(new Shopping(food,price));
+                    }
+
+//                    Shopping newShopping = new Shopping(cursor.getString(1), cursor.getDouble(2));
+//                    listItem.add(newShopping);
+                } else {
+                    Intent ToLoginPageIntent = new Intent(this, LoginActivity.class);
+                    Toast.makeText(this, "Erreur de programme. Veuillez vous reconnecter", Toast.LENGTH_SHORT).show();
+                    startActivity(ToLoginPageIntent);
+                }
+            }
+
+            foodListAdapter = new FoodListAdapter(this, R.layout.da_food, listItem);
+            shoppingView.setAdapter(foodListAdapter);
+        }
+
     }
 }

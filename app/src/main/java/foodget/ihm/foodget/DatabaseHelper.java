@@ -218,6 +218,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.query(SHOPPING_TABLE, columns, selection, selectionArgs, null, null, null);
     }
 
+    public Cursor viewShoppingsOfList(User user, String listName) {
+        String[] columns = {ID, LIST_NAME, LIST_FOOD, USER_NAME};
+        SQLiteDatabase db = getReadableDatabase();
+        String selection = LIST_NAME + "='" + listName +"'";
+        return db.query(SHOPPING_TABLE, columns, selection, null, null, null, null);
+    }
+
     public Cursor viewAlertsData(User user) {
         String[] columns = {ID, USER_NAME, ALERT_STRING, ALERT_DATE};
         SQLiteDatabase db = getReadableDatabase();
@@ -288,4 +295,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public int updateShoppingList(ShoppingList currentShoppingList, User currentUser) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String whereClause = LIST_NAME + "='" + currentShoppingList.getName() +"'";
+        ContentValues contentValues = new ContentValues();
+
+        Gson gson = new Gson();
+        String foodList = gson.toJson(currentShoppingList.getShoppings());
+        contentValues.put(LIST_FOOD, foodList);
+//        contentValues.put(USER_NAME, currentUser.getUsername());
+        return db.update(SHOPPING_TABLE, contentValues, whereClause, null);
+    }
 }

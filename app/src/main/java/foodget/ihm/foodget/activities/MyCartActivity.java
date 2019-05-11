@@ -149,7 +149,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         Intent intent = new Intent(this, MyListActivity.class);
         Bundle extras = new Bundle();
         extras.putString("NAME",myAdapter.getItem(position).getName());
-        extras.putParcelableArrayList("SHOPPINGS", myAdapter.getItem(position).getShoppings());
+//        extras.putParcelableArrayList("SHOPPINGS", myAdapter.getItem(position).getShoppings());
         extras.putParcelable("USER", currentUser);
         intent.putExtras(extras);
         startActivity(intent);
