@@ -52,15 +52,22 @@ tools:context=".activities.MyListActivity">
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginBottom="@dimen/fab_margin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/addShoppingData"
                 style="@style/buttonStyle"
                 android:layout_width="389dp"
                 android:text="@string/addShoppingProduct" />
+
+            <Button
+                android:id="@+id/shareSoppingData"
+                style="@style/buttonStyle"
+                android:layout_width="match_parent"
+                android:text="Share via Bluetooth" />
 
 
         </LinearLayout>

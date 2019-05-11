@@ -1,8 +1,12 @@
 package foodget.ihm.foodget.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ShoppingList {
+public class ShoppingList implements Parcelable, Serializable {
     private String name;
     private ArrayList<Shopping> shoppings;
 
@@ -12,7 +16,22 @@ public class ShoppingList {
     }
 
 
+    protected ShoppingList(Parcel in) {
+        name = in.readString();
+        shoppings = in.createTypedArrayList(Shopping.CREATOR);
+    }
 
+    public static final Creator<ShoppingList> CREATOR = new Creator<ShoppingList>() {
+        @Override
+        public ShoppingList createFromParcel(Parcel in) {
+            return new ShoppingList(in);
+        }
+
+        @Override
+        public ShoppingList[] newArray(int size) {
+            return new ShoppingList[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -28,5 +47,16 @@ public class ShoppingList {
 
     public void setShoppings(ArrayList<Shopping> shoppings) {
         this.shoppings = shoppings;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeTypedList(shoppings);
     }
 }

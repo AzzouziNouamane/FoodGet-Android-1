@@ -1,8 +1,10 @@
 package foodget.ihm.foodget.activities;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import foodget.ihm.foodget.BluetoothActivity;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.adapters.FoodListAdapter;
@@ -39,8 +42,10 @@ public class MyListActivity extends AppCompatActivity {
     EditText add_price;
     TextView nameView;
     Button add_data;
+    Button shareSoppingData;
     ArrayList<Shopping> listItem;
     ListView shoppingView;
+    ShoppingList shoppingList;
     User currentUser;
     FoodListAdapter foodListAdapter;
 
@@ -52,12 +57,14 @@ public class MyListActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
         nameView = findViewById(R.id.nameShoppingView);
         add_data = findViewById(R.id.addShoppingData);
+        shareSoppingData = findViewById(R.id.shareSoppingData);
         listItem = new ArrayList<>();
         shoppingView = findViewById(R.id.shopping_list);
 
         Bundle data = getIntent().getExtras();
         User tempUser = (User) data.getParcelable("USER");
         String tempName = data.getString("NAME");
+        shoppingList = data.getParcelable("SHOPPINGLIST");
         nameView.setText(tempName);
         listItem = new ArrayList<>();
 //        listItem = data.getParcelableArrayList("SHOPPINGS");
@@ -103,6 +110,16 @@ public class MyListActivity extends AppCompatActivity {
                 popupAddShoppingProduct.dismiss();
             });
             popupAddShoppingProduct.show();
+        });
+
+        shareSoppingData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent bluetoothIntent = new Intent(getApplicationContext(), BluetoothActivity.class);
+                bluetoothIntent.putExtra("user",currentUser);
+                bluetoothIntent.putExtra("SHOPPINGLIST", (Parcelable) shoppingList);
+                startActivity(bluetoothIntent);
+            }
         });
 
     }

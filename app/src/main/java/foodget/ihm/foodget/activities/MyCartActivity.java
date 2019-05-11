@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import foodget.ihm.foodget.BluetoothConnectionService;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.adapters.ShoppingListAdapter;
@@ -42,6 +43,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
     ArrayList<ShoppingList> shoppingItem;
     Button btn_accueil;
     ShoppingListAdapter myAdapter;
+    BluetoothConnectionService bluetoothConnectionService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         Bundle data = getIntent().getExtras();
         User tempUser = (User) data.getParcelable("user");
         currentUser = tempUser;
+
         viewData();
 //
 //        shopping_lists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -150,6 +153,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         Bundle extras = new Bundle();
         extras.putString("NAME",myAdapter.getItem(position).getName());
 //        extras.putParcelableArrayList("SHOPPINGS", myAdapter.getItem(position).getShoppings());
+        extras.putParcelable("SHOPPINGLIST", myAdapter.getItem(position));
         extras.putParcelable("USER", currentUser);
         intent.putExtras(extras);
         startActivity(intent);

@@ -3,7 +3,14 @@ package foodget.ihm.foodget.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Shopping implements Parcelable {
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class Shopping implements Parcelable, Serializable {
 
     private String food;
     private Double price;
@@ -20,6 +27,9 @@ public class Shopping implements Parcelable {
         } else {
             price = in.readDouble();
         }
+    }
+
+    public Shopping(byte[] buffer, int i, int bytes) {
     }
 
     @Override
@@ -64,5 +74,19 @@ public class Shopping implements Parcelable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public byte[] serialize() throws IOException {
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        ObjectOutputStream o = new ObjectOutputStream(b);
+        o.writeObject(this);
+        return b.toByteArray();
+    }
+
+    //AbstractMessage was actually the message type I used, but feel free to choose your own type
+    public static Shopping deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream b = new ByteArrayInputStream(bytes);
+        ObjectInputStream o = new ObjectInputStream(b);
+        return (Shopping) o.readObject();
     }
 }

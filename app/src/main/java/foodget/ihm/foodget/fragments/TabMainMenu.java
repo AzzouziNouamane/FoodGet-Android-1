@@ -20,14 +20,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import foodget.ihm.foodget.BluetoothActivity;
+import foodget.ihm.foodget.BluetoothConnectionService;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.activities.LoginActivity;
+import foodget.ihm.foodget.activities.ManagementActivity;
 import foodget.ihm.foodget.activities.MyCartActivity;
 import foodget.ihm.foodget.activities.NewCartActivity;
 import foodget.ihm.foodget.adapters.FoodListAdapter;
@@ -63,6 +67,7 @@ public class TabMainMenu extends Fragment {
         listItem = new ArrayList<>();
         shoppingView = view.findViewById(R.id.food_list);
         currentUser = this.getArguments().getParcelable("user");
+        //this.bluetoothConnectionService = new BluetoothConnectionService(getContext(), currentUser, db);
         Log.d(TAG, "onCreate: " + currentUser);
         viewDataInMenu();
         shoppingView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -70,6 +75,9 @@ public class TabMainMenu extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String text = shoppingView.getItemAtPosition(position).toString();
                 Toast.makeText(getContext(), "" + text, Toast.LENGTH_SHORT).show();
+                Intent bluetoothIntent = new Intent(getContext(), BluetoothActivity.class);
+                bluetoothIntent.putExtra("user",currentUser);
+                startActivity(bluetoothIntent);
             }
         });
 
