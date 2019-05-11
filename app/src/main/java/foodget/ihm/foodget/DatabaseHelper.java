@@ -7,9 +7,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+
 import foodget.ihm.foodget.models.Alert;
 import foodget.ihm.foodget.models.Alerts;
 import foodget.ihm.foodget.models.Shopping;
+import foodget.ihm.foodget.models.ShoppingList;
 import foodget.ihm.foodget.models.User;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -20,6 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String USER_TABLE = "registeruser";
     private static final String FOOD_TABLE = "fooduser";
+    private static final String SHOPPING_TABLE = "shoppinguser";
     private static final String ALERTS_TABLE = "alertsuser";
 
     private static final String ID = "ID";
@@ -32,6 +38,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String FOOD_NAME = "food";
     private static final String FOOD_PRICE = "price";
+
+    private static final String LIST_NAME = "nameList";
+    private static final String LIST_FOOD = "foodList";
 
     private static final String ALERT_STRING = "alert";
     private static final String ALERT_DATE = "date";
@@ -51,6 +60,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             FOOD_PRICE + " INT, " +
             USER_NAME + " TEXT" + ");";
 
+    private static final String CREATE_TABLE_SHOPPINGLIST = "CREATE TABLE " + SHOPPING_TABLE + " (" +
+            ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            LIST_NAME + " TEXT, " +
+            LIST_FOOD + " TEXT, " +
+            USER_NAME + " TEXT" + ");";
+
     private static final String CREATE_TABLE_ALERTS = "CREATE TABLE " + ALERTS_TABLE + " (" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             USER_NAME + " TEXT, " +
@@ -67,10 +82,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(CREATE_TABLE);
         sqLiteDatabase.execSQL(CREATE_TABLE_FOOD);
+        sqLiteDatabase.execSQL(CREATE_TABLE_SHOPPINGLIST);
         sqLiteDatabase.execSQL(CREATE_TABLE_ALERTS);
 
         //Utilisateur par défaut
-        User user = new User("julie", "123", "julie@gmail.ocm", "julie", 48);
+        User user = new User("julie", "123", "julie@gmail.com", "julie", 48);
         ContentValues contentValues = new ContentValues();
         contentValues.put("username", user.getUsername());
         contentValues.put("password", user.getPassword());
@@ -94,6 +110,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValuesShop2.put(USER_NAME, user.getUsername());
         sqLiteDatabase.insert(FOOD_TABLE, null, contentValuesShop2);
 
+        //Listes créées par défaut
+        Shopping shoppingA = new Shopping("Pain", 1.0);
+        Shopping shoppingB = new Shopping("Poisson", 8.5);
+        Shopping shoppingC = new Shopping("Riz", 2.0);
+        Shopping shoppingD = new Shopping("Lait", 1.5);
+        Shopping shoppingE = new Shopping("Poulet", 8.0);
+
+        ArrayList<Shopping> shoppings1 = new ArrayList<>();
+        shoppings1.add(shoppingA);
+        shoppings1.add(shoppingB);
+        shoppings1.add(shoppingC);
+
+        ShoppingList shoppingList1 = new ShoppingList("Ma premiere liste", shoppings1);
+        ContentValues contentValuesShopList1 = new ContentValues();
+        contentValuesShopList1.put(LIST_NAME, shoppingList1.getName());
+        Gson gson1 = new Gson();
+        String foodList1 = gson1.toJson(shoppingList1.getShoppings());
+        contentValuesShopList1.put(LIST_FOOD, foodList1);
+        contentValuesShopList1.put(USER_NAME, user.getUsername());
+        sqLiteDatabase.insert(SHOPPING_TABLE, null, contentValuesShopList1);
+
+        ArrayList<Shopping> shoppings2 = new ArrayList<>();
+        shoppings2.add(shoppingC);
+        shoppings2.add(shoppingD);
+        shoppings2.add(shoppingE);
+
+        ShoppingList shoppingList2 = new ShoppingList("Ma deuxieme liste",shoppings2);
+        ContentValues contentValuesShopList2 = new ContentValues();
+        contentValuesShopList2.put(LIST_NAME, shoppingList2.getName());
+        Gson gson2 = new Gson();
+        String foodList2 = gson2.toJson(shoppingList2.getShoppings());
+        contentValuesShopList2.put(LIST_FOOD, foodList2);
+        contentValuesShopList2.put(USER_NAME, user.getUsername());
+        sqLiteDatabase.insert(SHOPPING_TABLE, null, contentValuesShopList2);
 
         //Alerte de bienvenue
         Alert alertWelcome = new Alert(Alerts.WELCOME.toString().replace("%username%", user.getfName()), "19/01/19 18:52");
@@ -160,6 +210,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.query(FOOD_TABLE, columns, selection, selectionArgs, null, null, null);
     }
 
+    public Cursor viewShoppingListData(User user) {
+        String[] columns = {ID, LIST_NAME, LIST_FOOD, USER_NAME};
+        SQLiteDatabase db = getReadableDatabase();
+        String selection = USER_NAME + "=?";
+        String[] selectionArgs = {user.getUsername()};
+        return db.query(SHOPPING_TABLE, columns, selection, selectionArgs, null, null, null);
+    }
+
     public Cursor viewAlertsData(User user) {
         String[] columns = {ID, USER_NAME, ALERT_STRING, ALERT_DATE};
         SQLiteDatabase db = getReadableDatabase();
@@ -183,6 +241,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(FOOD_PRICE, shopping.getPrice());
         contentValues.put(USER_NAME, user.getUsername());
         long result = db.insert(FOOD_TABLE, null, contentValues);
+        return result != -1;
+    }
+
+    public boolean addShoppingList(ShoppingList shoppingList, User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(LIST_NAME, shoppingList.getName());
+
+        Gson gson = new Gson();
+        String foodList = gson.toJson(shoppingList.getShoppings());
+        contentValues.put(LIST_FOOD, foodList);
+        contentValues.put(USER_NAME, user.getUsername());
+        long result = db.insert(SHOPPING_TABLE, null, contentValues);
         return result != -1;
     }
 

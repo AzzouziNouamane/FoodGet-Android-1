@@ -22,7 +22,7 @@ public class NewMailActivity extends AppCompatActivity {
     EditText TextOldMail;
     EditText TextNewMail;
     Button Submit;
-    Button Acceuil;
+    Button Accueil;
     DatabaseHelper db;
     User currentUser;
     String oldmail;
@@ -61,14 +61,14 @@ public class NewMailActivity extends AppCompatActivity {
         User tempUser = (User) data.getParcelable("USER");
         currentUser = tempUser;
 
-        Acceuil = (Button) findViewById(R.id.AcceuilButton);
+        Accueil = (Button) findViewById(R.id.AccueilButton);
         TextOldMail = (EditText) findViewById(R.id.textoldmail);
         TextNewMail = (EditText) findViewById(R.id.textnewmail);
         Submit = (Button) findViewById(R.id.ConfirmButton);
 
 
 
-        Acceuil.setOnClickListener(new View.OnClickListener(){
+        Accueil.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent MainMenu = new Intent(getApplicationContext(), ManagementActivity.class);

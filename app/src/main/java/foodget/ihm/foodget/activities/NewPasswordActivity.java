@@ -38,7 +38,7 @@ public class NewPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_password);
         Submit=(Button) findViewById(R.id.ConfirmButton) ;
 
-        mAccueil=(Button) findViewById(R.id.AcceuilButton);
+        mAccueil=(Button) findViewById(R.id.AccueilButton);
         mTextNewPass=(EditText) findViewById(R.id.textnewpass);
         mTextConfirmPass=(EditText) findViewById(R.id.textnewpassconfirm);
         mTextOldPass=(EditText) findViewById(R.id.textoldpass);

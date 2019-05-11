@@ -24,6 +24,7 @@
     <string name="price">Prix</string>
     <string name="add">Ajouter</string>
     <string name="addSpentMoney">Ajouter une dépense</string>
+    <string name="addShoppingProduct">Ajouter un produit à cette liste</string>
     <string name="cancel">Annuler</string>
     <string name="euroSymbol">€</string>
     <string name="setThreshold">Changer seuil</string>

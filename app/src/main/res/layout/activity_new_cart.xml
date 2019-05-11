@@ -10,15 +10,19 @@
     tools:context=".activities.RegisterActivity">
 
     <ImageView
+        android:layout_marginBottom="@dimen/fab_margin"
         android:id="@+id/imageView3"
-        android:layout_width="411dp"
-        android:layout_height="237dp"
+        android:layout_width="match_parent"
+        android:layout_height="182dp"
         app:srcCompat="@drawable/foodget_register" />
 
     <LinearLayout
+        style="@style/linearStyle"
         android:layout_width="match_parent"
-        android:layout_height="74dp"
-        android:orientation="vertical">
+        android:layout_height="269dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:orientation="vertical"
+        android:padding="@dimen/fab_padding">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -27,26 +31,22 @@
 
             <Button
                 android:id="@+id/viewList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
+                style="@style/buttonStyle"
+                android:layout_width="57dp"
+                android:layout_height="58dp"
                 android:clickable="true"
                 android:drawableLeft="@drawable/ic_control_point_black_24dp"
-                />
+                android:paddingLeft="@dimen/fab_padding" />
+
             <TextView
                 android:id="@+id/viewList2"
                 android:layout_width="333dp"
                 android:layout_height="44dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="      Consulter une liste"
+                android:text="    Consulter une liste"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
         </LinearLayout>
-
-    </LinearLayout>
-<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="74dp"
-        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -55,28 +55,22 @@
 
             <Button
                 android:id="@+id/createNewList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
+                style="@style/buttonStyle"
+                android:layout_width="57dp"
+                android:layout_height="58dp"
                 android:clickable="true"
                 android:drawableLeft="@drawable/ic_control_point_black_24dp"
-                />
+                android:paddingLeft="@dimen/fab_padding" />
 
             <TextView
                 android:id="@+id/createNewList2"
                 android:layout_width="333dp"
                 android:layout_height="44dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="      Créer une liste"
+                android:text="    Créer une liste"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="162dp"
-        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -85,48 +79,39 @@
 
             <Button
                 android:id="@+id/deleteList"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimaryDark"
+                style="@style/buttonStyle"
+                android:layout_width="57dp"
+                android:layout_height="58dp"
                 android:clickable="true"
                 android:drawableLeft="@drawable/ic_control_point_black_24dp"
-                />
+                android:paddingLeft="@dimen/fab_padding" />
 
             <TextView
                 android:id="@+id/deleteList2"
                 android:layout_width="333dp"
                 android:layout_height="44dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:text="      Supprimer une liste"
+                android:text="    Supprimer une liste"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
         </LinearLayout>
-
 
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="bottom"
         android:orientation="vertical">
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/navigation"
+        <Button
+            android:id="@+id/accueilButton"
+            style="@style/buttonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:paddingLeft="0dp"
-            android:paddingEnd="0dp"
-            android:paddingRight="0dp"
-            android:paddingBottom="0dp"
-            app:itemBackground="@color/colorPrimary"
-            app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
-            app:itemTextAppearanceInactive="@style/BottomNavigationView"
-            app:itemTextColor="@color/colorPrimaryDark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:menu="@menu/navigation" />
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Accueil" />
     </LinearLayout>
 
 </LinearLayout>

@@ -14,23 +14,27 @@ public class NewCartActivity extends AppCompatActivity {
     Button createNewList;
     Button viewList;
     Button deleteList;
+    Button accueil;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_cart);
-
+        Bundle data = getIntent().getExtras();
+        User tempUser = (User) data.getParcelable("user");
+        currentUser = tempUser;
 
         viewList = findViewById(R.id.viewList);
         createNewList = findViewById(R.id.createNewList);
         deleteList = findViewById(R.id.deleteList);
+        accueil = (Button) findViewById(R.id.accueilButton);
 
         viewList.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent ViewListIntent= new Intent(NewCartActivity.this,ViewListActivity.class);
-                ViewListIntent.putExtra("USER", currentUser);
+                Intent ViewListIntent= new Intent(NewCartActivity.this,MyCartActivity.class);
+                ViewListIntent.putExtra("user", currentUser);
                 startActivity(ViewListIntent);
             }
         });
@@ -39,7 +43,7 @@ public class NewCartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent CreateNewListIntent= new Intent(NewCartActivity.this,CreateNewListActivity.class);
-                CreateNewListIntent.putExtra("USER", currentUser);
+                CreateNewListIntent.putExtra("user", currentUser);
                 startActivity(CreateNewListIntent);
             }
         });
@@ -48,8 +52,17 @@ public class NewCartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 Intent DeleteListIntent= new Intent(NewCartActivity.this,DeleteListActivity.class);
-                DeleteListIntent.putExtra("USER", currentUser);
+                DeleteListIntent.putExtra("user", currentUser);
                 startActivity(DeleteListIntent);
+            }
+        });
+
+        accueil.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent MainMenu = new Intent(NewCartActivity.this, ManagementActivity.class);
+                MainMenu.putExtra("user",currentUser);
+                startActivity(MainMenu);
             }
         });
     }

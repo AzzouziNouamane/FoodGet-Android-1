@@ -39,7 +39,7 @@
         android:text="Confirmer" />
 
     <Button
-        android:id="@+id/AcceuilButton"
+        android:id="@+id/AccueilButton"
         style="@style/buttonStyle"
         android:backgroundTint="@color/colorPrimary"
         android:text="Accueil" />

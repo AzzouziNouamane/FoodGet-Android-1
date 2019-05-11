@@ -17,7 +17,7 @@ import foodget.ihm.foodget.models.User;
 
 public class NewNameActivity extends AppCompatActivity {
     EditText TextNewName;
-    Button Acceuil;
+    Button Accueil;
     Button Submit;
     DatabaseHelper db;
     User currentUser;
@@ -32,11 +32,11 @@ public class NewNameActivity extends AppCompatActivity {
         Bundle data = getIntent().getExtras();
         User tempUser = (User) data.getParcelable("USER");
         currentUser = tempUser;
-        Acceuil = (Button) findViewById(R.id.AcceuilButton);
+        Accueil = (Button) findViewById(R.id.AccueilButton);
         Submit = (Button) findViewById(R.id.ConfirmButton);
         TextNewName = (EditText) findViewById(R.id.textnewname);
 
-        Acceuil.setOnClickListener(new View.OnClickListener(){
+        Accueil.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent MainMenu = new Intent(getApplicationContext(), ManagementActivity.class);

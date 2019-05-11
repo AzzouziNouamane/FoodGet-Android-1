@@ -3,8 +3,10 @@ package foodget.ihm.foodget.fragments;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +28,7 @@ import java.util.Locale;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.activities.LoginActivity;
+import foodget.ihm.foodget.activities.MyCartActivity;
 import foodget.ihm.foodget.activities.NewCartActivity;
 import foodget.ihm.foodget.adapters.FoodListAdapter;
 import foodget.ihm.foodget.models.Alert;
@@ -37,6 +40,8 @@ public class TabMainMenu extends Fragment {
 
     String TAG = "MAINMENU";
     DatabaseHelper db;
+    EditText add_food;
+    EditText add_price;
     TextView welcomeView;
     Button add_data;
     Button btn_cart;
@@ -56,7 +61,7 @@ public class TabMainMenu extends Fragment {
         add_data = view.findViewById(R.id.add_data);
         btn_cart = view.findViewById(R.id.btn_cart);
         listItem = new ArrayList<>();
-        shoppingView = view.findViewById(R.id.shopping_list);
+        shoppingView = view.findViewById(R.id.food_list);
         currentUser = this.getArguments().getParcelable("user");
         Log.d(TAG, "onCreate: " + currentUser);
         viewDataInMenu();
@@ -72,7 +77,7 @@ public class TabMainMenu extends Fragment {
         btn_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cartIntent = new Intent(getContext(), NewCartActivity.class);
+                Intent cartIntent = new Intent(getContext(), MyCartActivity.class);
                 cartIntent.putExtra("user", currentUser);
                 startActivity(cartIntent);
             }
