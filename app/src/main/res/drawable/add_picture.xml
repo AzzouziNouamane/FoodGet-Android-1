@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/ajouter_image"
+        android:layout_width="255dp"
+        android:layout_height="211dp"
+        android:text="Ajouter une Photo"
+        tools:layout_editor_absoluteX="140dp"
+        tools:layout_editor_absoluteY="290dp" />
+
+</selector>

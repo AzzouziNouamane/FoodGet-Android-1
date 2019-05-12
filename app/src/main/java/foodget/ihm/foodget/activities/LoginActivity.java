@@ -13,6 +13,7 @@ import android.widget.Toast;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.models.User;
+import foodget.ihm.foodget.services.NotificationService;
 
 public class LoginActivity extends AppCompatActivity{
     EditText mTextUserName;
@@ -33,6 +34,9 @@ public class LoginActivity extends AppCompatActivity{
         mLoginButton = findViewById(R.id.loginButton);
         mTextViewRegister = findViewById(R.id.registerText);
         db = new DatabaseHelper(this);
+
+        Intent i = new Intent(LoginActivity.this, NotificationService.class);
+        startService(i);
 
 
         mTextViewRegister.setOnClickListener(new View.OnClickListener() {
