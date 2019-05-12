@@ -354,7 +354,13 @@ public class BluetoothConnectionService {
         // Synchronize a copy of the ConnectedThread
         Log.d(TAG, "write: Write Called.");
         //perform the write
-        mConnectedThread.write(out);
+        if(mConnectedThread != null) {
+            mConnectedThread.write(out);
+        }
+        else {
+            Log.d(TAG, "Null mConnectedThread");
+        }
+
     }
 
     public static Shopping toObject(byte[] bytes) throws IOException, ClassNotFoundException {

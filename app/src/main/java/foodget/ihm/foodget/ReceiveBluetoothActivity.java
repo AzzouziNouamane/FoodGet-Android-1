@@ -28,13 +28,12 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import foodget.ihm.foodget.activities.ManagementActivity;
-import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.ShoppingList;
 import foodget.ihm.foodget.models.User;
 
+public class ReceiveBluetoothActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
 
-public class BluetoothActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
-    private static final String TAG = "BluetoothActivity";
+    private static final String TAG = "ReceiveBluetoothActivity";
 
     BluetoothAdapter mBluetoothAdapter;
     Button btnEnableDisable_Discoverable;
@@ -200,16 +199,14 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bluetooth);
-        btnEnableDisable_Discoverable = (Button) findViewById(R.id.btnDiscoverable_on_off);
-        lvNewDevices = (ListView) findViewById(R.id.lvNewDevices);
+        setContentView(R.layout.activity_receive_bluetooth);
+        btnEnableDisable_Discoverable = (Button) findViewById(R.id.btnDiscoverable_on_off1);
+        lvNewDevices = (ListView) findViewById(R.id.lvNewDevices1);
         mBTDevices = new ArrayList<>();
         currentUser = getIntent().getExtras().getParcelable("user");
-        shoppingList = getIntent().getExtras().getParcelable("SHOPPINGLIST");
         db = new DatabaseHelper(getApplicationContext());
-        btnStartConnection = (Button) findViewById(R.id.btnStartConnection);
-        btnSend = (Button) findViewById(R.id.btnSend);
-        btnDestroy = (Button) findViewById(R.id.btnDestroy);
+        btnStartConnection = (Button) findViewById(R.id.btnStartConnection1);
+        btnDestroy = (Button) findViewById(R.id.btnAccueil);
 
         //Broadcasts when bond state changes (ie:pairing)
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
@@ -217,32 +214,13 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        lvNewDevices.setOnItemClickListener(BluetoothActivity.this);
+        lvNewDevices.setOnItemClickListener(ReceiveBluetoothActivity.this);
+
         btnStartConnection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 receiver = true;
                 startConnection();
-            }
-        });
-
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                receiver = true;
-                byte[] bytes = shoppingList.toString().getBytes(Charset.defaultCharset());
-                // byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
-                try {
-                    if(mBluetoothConnection != null) {
-                        mBluetoothConnection.write(serialize(shoppingList));
-                    }
-                    else {
-                        Log.d(TAG, "mBluetoothConnection is NULL");
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         });
 
@@ -279,7 +257,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
     }
 
 
-
+/*
     public void enableDisableBT(){
         if(mBluetoothAdapter == null){
             Log.d(TAG, "enableDisableBT: Does not have BT capabilities.");
@@ -300,7 +278,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
             registerReceiver(mBroadcastReceiver1, BTIntent);
         }
 
-    }
+    }*/
 
 
     public void btnEnableDisable_Discoverable(View view) {
@@ -320,7 +298,6 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
     public void btnDiscover(View view) {
         receiver = true;
         Log.d(TAG, "btnDiscover: Looking for unpaired devices.");
-
         if(mBluetoothAdapter != null) {
             if(mBluetoothAdapter.isDiscovering()){
                 mBluetoothAdapter.cancelDiscovery();
@@ -346,7 +323,6 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
         else {
             Toast.makeText(this, "Erreur ! Vous etes sur une émulateur..", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     /**
@@ -388,10 +364,10 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
             mBTDevices.get(i).createBond();
 
             mBTDevice = mBTDevices.get(i);
-            mBluetoothConnection = new BluetoothConnectionService(BluetoothActivity.this, currentUser, shoppingList, db);
-                Log.d(TAG, "UUID " + " : " + mBTDevice.fetchUuidsWithSdp());
-            }
+            mBluetoothConnection = new BluetoothConnectionService(ReceiveBluetoothActivity.this, currentUser, shoppingList, db);
+            Log.d(TAG, "UUID " + " : " + mBTDevice.fetchUuidsWithSdp());
         }
+    }
 
     public byte[] serialize(ShoppingList shoppingList) throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
@@ -406,6 +382,4 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
         ObjectInputStream o = new ObjectInputStream(b);
         return (ShoppingList) o.readObject();
     }
-
-
 }

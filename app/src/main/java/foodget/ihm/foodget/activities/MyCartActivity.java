@@ -31,6 +31,7 @@ import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.OnClickInMyAdapterListener;
 import foodget.ihm.foodget.OnClickInMyShoppingAdapterListener;
 import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.ReceiveBluetoothActivity;
 import foodget.ihm.foodget.adapters.ShoppingListAdapter;
 import foodget.ihm.foodget.adapters.ShoppingListExtraAdapter;
 import foodget.ihm.foodget.models.Alert;
@@ -92,7 +93,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         shareBluetooth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent bluetoothIntent = new Intent(getApplicationContext(), BluetoothActivity.class);
+                Intent bluetoothIntent = new Intent(getApplicationContext(), ReceiveBluetoothActivity.class);
                 bluetoothIntent.putExtra("user", currentUser);
                 startActivity(bluetoothIntent);
             }

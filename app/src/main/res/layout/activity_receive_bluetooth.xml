@@ -31,38 +31,24 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
-<!--
-                <Button
-                    android:id="@+id/btnFindUnpairedDevices"
-                    style="@style/buttonBluetoothStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="btnDiscover"
-                    android:text="Discover" />-->
 
                 <Button
-                    android:id="@+id/btnDiscoverable_on_off"
+                    android:id="@+id/btnDiscoverable_on_off1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/buttonBluetoothStyle"
+                    android:textAlignment="center"
                     android:onClick="btnEnableDisable_Discoverable"
-                    android:text="Enable Discoverable" />
-
-<!--                <Button
-                    android:id="@+id/btnONOFF"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/buttonBluetoothStyle"
-                    android:text="ON/OFF" />-->
+                    android:text="Chercher un périphérique" />
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnStartConnection"
+                android:id="@+id/btnStartConnection1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Start Connection"
+                android:text="Connexion au périphérique"
                 style="@style/buttonBluetoothStyle"
                 android:textAlignment="center" />
 
@@ -76,7 +62,7 @@
                     android:orientation="vertical" >
 
                     <ListView
-                        android:id="@+id/lvNewDevices"
+                        android:id="@+id/lvNewDevices1"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:layout_marginTop="15dp">
@@ -92,15 +78,7 @@
                 android:gravity="center">
 
                 <Button
-                    android:id="@+id/btnSend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/buttonBluetoothStyle"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:text="Envoyer" />
-
-                <Button
-                    android:id="@+id/btnDestroy"
+                    android:id="@+id/btnAccueil"
                     style="@style/buttonBluetoothStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -107,6 +107,11 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                 String thresh =  threshold.getText().toString().trim();
                 currentUser.setThreshold(Integer.parseInt(thresh));
                 popupThreshold.dismiss();
+                welcomeView.setText(getString(R.string.welcome)
+                        .replace("%username%", currentUser.getfName())
+                        .replace("%money%", String.format(Locale.FRANCE, "%.2f", total))
+                        .concat(getString(R.string.threshold)
+                                .replace("%threshold%", "" + currentUser.getThreshold())));
             });
 
             popupThreshold.show();
