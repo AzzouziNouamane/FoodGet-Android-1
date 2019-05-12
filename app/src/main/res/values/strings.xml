@@ -35,4 +35,6 @@
         <item>1 semaine</item>
         <item>30 derniers jours</item>
     </string-array>
+    <string name="NewThreshold">Nouveau Seuil</string>
+
 </resources>

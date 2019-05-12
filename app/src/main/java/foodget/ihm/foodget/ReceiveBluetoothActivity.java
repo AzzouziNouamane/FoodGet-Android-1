@@ -23,7 +23,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -31,20 +30,9 @@ import foodget.ihm.foodget.activities.ManagementActivity;
 import foodget.ihm.foodget.models.ShoppingList;
 import foodget.ihm.foodget.models.User;
 
+public class ReceiveBluetoothActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-public class BluetoothActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
-    private static final String TAG = "BluetoothActivity";
-
-    BluetoothAdapter mBluetoothAdapter;
-    Button btnEnableDisable_Discoverable;
-
-    BluetoothConnectionService mBluetoothConnection;
-    Button btnDestroy;
-    Button btnStartConnection;
-    Button btnSend;
-    User currentUser;
-    ShoppingList shoppingList;
-    DatabaseHelper db;
+    private static final String TAG = "ReceiveBluetoothActivity";
     private static final UUID MY_UUID_INSECURE =
             UUID.fromString("8ce255c0-200a-11e0-ac64-0800200c9a66");
     // Create a BroadcastReceiver for ACTION_FOUND
@@ -55,7 +43,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
             if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
                 final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR);
 
-                switch(state){
+                switch (state) {
                     case BluetoothAdapter.STATE_OFF:
                         Log.d(TAG, "onReceive: STATE OFF");
                         break;
@@ -72,13 +60,6 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
             }
         }
     };
-    public ArrayList<BluetoothDevice> mBTDevices = new ArrayList<>();
-    public DeviceListAdapter mDeviceListAdapter;
-    EditText etSend;
-    BluetoothDevice mBTDevice;
-    ListView lvNewDevices;
-    Boolean receiver = false;
-
     /**
      * Broadcast Receiver for changes made to bluetooth states such as:
      * 1) Discoverability mode on/off or expire.
@@ -116,30 +97,20 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
             }
         }
     };
-    /**
-     * Broadcast Receiver for listing devices that are not yet paired
-     * -Executed by btnDiscover() method.
-     */
-    private BroadcastReceiver mBroadcastReceiver3 = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            final String action = intent.getAction();
-            Log.d(TAG, "onReceive: ACTION FOUND.");
-
-            if (action.equals(BluetoothDevice.ACTION_FOUND)){
-                BluetoothDevice device = intent.getParcelableExtra (BluetoothDevice.EXTRA_DEVICE);
-
-                if (device.getName() != null) {
-                    mBTDevices.add(device);
-                    Log.d(TAG, "onReceive: " + device.getName() + ": " + device.getAddress());
-                }
-
-                mDeviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, mBTDevices);
-                lvNewDevices.setAdapter(mDeviceListAdapter);
-            }
-        }
-    };
-
+    public ArrayList<BluetoothDevice> mBTDevices = new ArrayList<>();
+    public DeviceListAdapter mDeviceListAdapter;
+    BluetoothAdapter mBluetoothAdapter;
+    Button btnEnableDisable_Discoverable;
+    BluetoothConnectionService mBluetoothConnection;
+    Button btnDestroy;
+    Button btnStartConnection;
+    Button btnSend;
+    User currentUser;
+    ShoppingList shoppingList;
+    DatabaseHelper db;
+    Boolean receiver = false;
+    EditText etSend;
+    BluetoothDevice mBTDevice;
     /**
      * Broadcast Receiver that detects bond state changes (Pairing status changes)
      */
@@ -148,11 +119,11 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
 
-            if(action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)){
+            if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
                 BluetoothDevice mDevice = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 //3 cases:
                 //case1: bonded already
-                if (mDevice.getBondState() == BluetoothDevice.BOND_BONDED){
+                if (mDevice.getBondState() == BluetoothDevice.BOND_BONDED) {
                     Log.d(TAG, "BroadcastReceiver: BOND_BONDED.");
                     //inside BroadcastReceiver4
                     mBTDevice = mDevice;
@@ -168,8 +139,37 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
             }
         }
     };
+    ListView lvNewDevices;
+    /**
+     * Broadcast Receiver for listing devices that are not yet paired
+     * -Executed by btnDiscover() method.
+     */
+    private BroadcastReceiver mBroadcastReceiver3 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            Log.d(TAG, "onReceive: ACTION FOUND.");
 
+            if (action.equals(BluetoothDevice.ACTION_FOUND)) {
+                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
+                if (device.getName() != null) {
+                    mBTDevices.add(device);
+                    Log.d(TAG, "onReceive: " + device.getName() + ": " + device.getAddress());
+                }
+
+                mDeviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, mBTDevices);
+                lvNewDevices.setAdapter(mDeviceListAdapter);
+            }
+        }
+    };
+
+    //AbstractMessage was actually the message type I used, but feel free to choose your own type
+    public static ShoppingList deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream b = new ByteArrayInputStream(bytes);
+        ObjectInputStream o = new ObjectInputStream(b);
+        return (ShoppingList) o.readObject();
+    }
 
     @Override
     protected void onDestroy() {
@@ -188,16 +188,14 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bluetooth);
-        btnEnableDisable_Discoverable = findViewById(R.id.btnDiscoverable_on_off);
-        lvNewDevices = findViewById(R.id.lvNewDevices);
+        setContentView(R.layout.activity_receive_bluetooth);
+        btnEnableDisable_Discoverable = findViewById(R.id.btnDiscoverable_on_off1);
+        lvNewDevices = findViewById(R.id.lvNewDevices1);
         mBTDevices = new ArrayList<>();
         currentUser = getIntent().getExtras().getParcelable("user");
-        shoppingList = getIntent().getExtras().getParcelable("SHOPPINGLIST");
         db = new DatabaseHelper(getApplicationContext());
-        btnStartConnection = findViewById(R.id.btnStartConnection);
-        btnSend = findViewById(R.id.btnSend);
-        btnDestroy = findViewById(R.id.btnDestroy);
+        btnStartConnection = findViewById(R.id.btnStartConnection1);
+        btnDestroy = findViewById(R.id.btnAccueil);
 
         //Broadcasts when bond state changes (ie:pairing)
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
@@ -205,7 +203,8 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        lvNewDevices.setOnItemClickListener(BluetoothActivity.this);
+        lvNewDevices.setOnItemClickListener(ReceiveBluetoothActivity.this);
+
         btnStartConnection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -214,30 +213,11 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                receiver = true;
-                byte[] bytes = shoppingList.toString().getBytes(Charset.defaultCharset());
-                // byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
-                try {
-                    if (mBluetoothConnection != null) {
-                        mBluetoothConnection.write(serialize(shoppingList));
-                    } else {
-                        Log.d(TAG, "mBluetoothConnection is NULL");
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
         btnDestroy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intentMainMenu = new Intent(getApplicationContext(), ManagementActivity.class);
-                intentMainMenu.putExtra("user",currentUser);
+                intentMainMenu.putExtra("user", currentUser);
                 startActivity(intentMainMenu);
             }
         });
@@ -246,26 +226,12 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
 
     //create method for starting connection
 //***remember the conncction will fail and app will crash if you haven't paired first
-    public void startConnection(){
-        startBTConnection(mBTDevice,MY_UUID_INSECURE);
-    }
-
-    /**
-     * starting chat service method
-     */
-    public void startBTConnection(BluetoothDevice device, UUID uuid){
-        Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.");
-        if (mBluetoothConnection == null) {
-            Log.d(TAG, "mBluetoothConnection is NULL");
-            Toast.makeText(this, "Veuillez sélectionner un péripherique bluetooth.", Toast.LENGTH_SHORT).show();
-        } else {
-            mBluetoothConnection.startClient(device, uuid);
-        }
-
+    public void startConnection() {
+        startBTConnection(mBTDevice, MY_UUID_INSECURE);
     }
 
 
-
+/*
     public void enableDisableBT(){
         if(mBluetoothAdapter == null){
             Log.d(TAG, "enableDisableBT: Does not have BT capabilities.");
@@ -286,8 +252,21 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
             registerReceiver(mBroadcastReceiver1, BTIntent);
         }
 
-    }
+    }*/
 
+    /**
+     * starting chat service method
+     */
+    public void startBTConnection(BluetoothDevice device, UUID uuid) {
+        Log.d(TAG, "startBTConnection: Initializing RFCOM Bluetooth Connection.");
+        if (mBluetoothConnection == null) {
+            Log.d(TAG, "mBluetoothConnection is NULL");
+            Toast.makeText(this, "Veuillez sélectionner un péripherique bluetooth.", Toast.LENGTH_SHORT).show();
+        } else {
+            mBluetoothConnection.startClient(device, uuid);
+        }
+
+    }
 
     public void btnEnableDisable_Discoverable(View view) {
         receiver = true;
@@ -298,7 +277,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
         startActivity(discoverableIntent);
 
         IntentFilter intentFilter = new IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED);
-        registerReceiver(mBroadcastReceiver2,intentFilter);
+        registerReceiver(mBroadcastReceiver2, intentFilter);
         btnDiscover(view);
 
     }
@@ -306,7 +285,6 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
     public void btnDiscover(View view) {
         receiver = true;
         Log.d(TAG, "btnDiscover: Looking for unpaired devices.");
-
         if (mBluetoothAdapter != null) {
             if (mBluetoothAdapter.isDiscovering()) {
                 mBluetoothAdapter.cancelDiscovery();
@@ -331,25 +309,24 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
         } else {
             Toast.makeText(this, "Erreur ! Vous etes sur une émulateur..", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     /**
      * This method is required for all devices running API23+
      * Android must programmatically check the permissions for bluetooth. Putting the proper permissions
-     *      * in the manifest is not enough.
-     *
+     * * in the manifest is not enough.
+     * <p>
      * NOTE: This will only execute on versions > LOLLIPOP because it is not needed otherwise.
      */
     private void checkBTPermissions() {
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
             int permissionCheck = this.checkSelfPermission("Manifest.permission.ACCESS_FINE_LOCATION");
             permissionCheck += this.checkSelfPermission("Manifest.permission.ACCESS_COARSE_LOCATION");
             if (permissionCheck != 0) {
 
                 this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1001); //Any number
             }
-        }else{
+        } else {
             Log.d(TAG, "checkBTPermissions: No need to check permissions. SDK version < LOLLIPOP.");
         }
     }
@@ -368,12 +345,12 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
 
         //create the bond.
         //NOTE: Requires API 17+? I think this is JellyBean
-        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2){
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
             Log.d(TAG, "Trying to pair with " + deviceName);
             mBTDevices.get(i).createBond();
 
             mBTDevice = mBTDevices.get(i);
-            mBluetoothConnection = new BluetoothConnectionService(BluetoothActivity.this, currentUser, shoppingList, db);
+            mBluetoothConnection = new BluetoothConnectionService(ReceiveBluetoothActivity.this, currentUser, shoppingList, db);
             Log.d(TAG, "UUID " + " : " + mBTDevice.fetchUuidsWithSdp());
         }
     }
@@ -384,13 +361,4 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
         o.writeObject(shoppingList);
         return b.toByteArray();
     }
-
-    //AbstractMessage was actually the message type I used, but feel free to choose your own type
-    public static ShoppingList deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
-        ByteArrayInputStream b = new ByteArrayInputStream(bytes);
-        ObjectInputStream o = new ObjectInputStream(b);
-        return (ShoppingList) o.readObject();
-    }
-
-
 }

@@ -35,6 +35,7 @@ import foodget.ihm.foodget.adapters.FoodListAdapter;
 import foodget.ihm.foodget.models.Alert;
 import foodget.ihm.foodget.models.Alerts;
 import foodget.ihm.foodget.models.Shopping;
+import foodget.ihm.foodget.models.ShoppingList;
 import foodget.ihm.foodget.models.User;
 
 public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener {
@@ -46,6 +47,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
     TextView welcomeView;
     Button add_data;
     Button btn_cart;
+    Button set_threshold;
     Button btn_stats;
     ArrayList<Shopping> listItem;
     ArrayAdapter adapter;
@@ -67,10 +69,13 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
         deleteFood = view.findViewById(R.id.deleteFood);
         listItem = new ArrayList<>();
         shoppingView = view.findViewById(R.id.food_list);
+        set_threshold = view.findViewById(R.id.set_threshold);
         currentUser = this.getArguments().getParcelable("user");
         //this.bluetoothConnectionService = new BluetoothConnectionService(getContext(), currentUser, db);
         Log.d(TAG, "onCreate: " + currentUser);
         viewDataInMenu();
+
+
         shoppingView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -99,6 +104,34 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
             startActivity(statsIntent);
         });
 
+        Dialog popupThreshold = new Dialog(getContext());
+        set_threshold.setOnClickListener((View v) -> {
+            popupThreshold.setContentView(R.layout.new_threshold);
+
+            Button add = popupThreshold.findViewById(R.id.add_dataButton_threshold);
+            EditText threshold = popupThreshold.findViewById(R.id.ThreshInput);
+
+            add.setOnClickListener((View v1) -> {
+                String thresh = threshold.getText().toString().trim();
+                if (!thresh.equals("")) {
+                    currentUser.setThreshold(Integer.parseInt(thresh));
+                    popupThreshold.dismiss();
+                    welcomeView.setText(getString(R.string.welcome)
+                            .replace("%username%", currentUser.getfName())
+                            .replace("%money%", String.format(Locale.FRANCE, "%.2f", total))
+                            .concat(getString(R.string.threshold)
+                                    .replace("%threshold%", "" + currentUser.getThreshold())));
+                } else {
+                    Toast.makeText(getContext(), "ERREUR ! Veuillez rentrer les informations demandées.", Toast.LENGTH_SHORT).show();
+                }
+
+            });
+
+            popupThreshold.show();
+
+
+        });
+
         Dialog popupAddSpentMoney = new Dialog(getContext());
         add_data.setOnClickListener((View v) -> {
             popupAddSpentMoney.setContentView(R.layout.adding_data_popup);
@@ -118,7 +151,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                 if (!food.equals("") && !price.equals("")) {
                     newShopping = new Shopping(food, Double.parseDouble(price), LocalDateTime.now().format(DateTimeFormatter.ofPattern("d/MM/yy HH:mm", Locale.FRANCE)));
                 } else {
-                    popupAddSpentMoney.dismiss();
+                    Toast.makeText(getContext(), "ERREUR ! Veuillez rentrer les informations demandées.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Log.d(TAG, "on avance");
@@ -206,5 +239,10 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
     public void onItemclicked() {
         Log.d(TAG, "Testing Interface....");
         viewDataInMenu();
+    }
+
+    @Override
+    public ShoppingList getShoppingList() {
+        return null;
     }
 }

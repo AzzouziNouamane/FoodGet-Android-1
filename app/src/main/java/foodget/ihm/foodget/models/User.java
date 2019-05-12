@@ -34,6 +34,10 @@ public class User implements Parcelable {
         this.password = password;
     }
 
+    public void setThreshold(int thresh) {
+        this.threshold = thresh;
+    }
+
     public String getfName() {
         return fName;
     }

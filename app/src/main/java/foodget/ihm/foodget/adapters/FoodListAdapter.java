@@ -14,7 +14,10 @@ import java.util.ArrayList;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.OnClickInMyAdapterListener;
 import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.activities.ManagementActivity;
+import foodget.ihm.foodget.activities.MyListActivity;
 import foodget.ihm.foodget.models.Shopping;
+import foodget.ihm.foodget.models.ShoppingList;
 
 public class FoodListAdapter extends ArrayAdapter<Shopping> {
 
@@ -56,10 +59,28 @@ public class FoodListAdapter extends ArrayAdapter<Shopping> {
         tvButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "Deleting...");
-                db.deleteFood(shopping);
+                Log.d(TAG, "" + context);
+                if (context instanceof ManagementActivity) {
+                    Log.d(TAG, "Deleting... TabMainMenu");
+                    db.deleteFood(shopping);
+
+                }
+
+                if (context instanceof MyListActivity) {
+                    Log.d(TAG, "Deleting... MyListActivity");
+                    ShoppingList shoppingList = myActivityInterface.getShoppingList();
+                    shoppingList.getShoppings().remove(position);
+                    db.updateShoppingList(shoppingList);
+//                    MyListActivity mylist = new MyListActivity();
+//                    mylist.viewData(shoppingList.getName());
+//                    listItem.clear();
+//                    viewData(tempName);
+                    //db.deleteFoodFromList(shoppingList,shopping);
+                }
+
                 myActivityInterface.onItemclicked();
                 notifyDataSetChanged();
+
             }
         });
         tvFood.setText(food);

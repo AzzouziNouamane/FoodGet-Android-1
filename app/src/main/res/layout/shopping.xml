@@ -7,19 +7,28 @@
     android:weightSum="100">
 
 
+    <Button
+        android:id="@+id/deleteListe"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="#d1beaf"
+        android:drawableStart="@drawable/trash_can" />
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:layout_weight="15"
-        android:id="@+id/nameView"/>
+        android:id="@+id/nameView"
+        android:layout_width="374dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:paddingLeft="@dimen/fab_padding"
+        android:textSize="20dp" />
 
 
     <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:textSize="20dp"-->
-        <!--android:layout_weight="85"-->
-        <!--android:id="@+id/priceView"/>-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textSize="20dp"-->
+    <!--android:layout_weight="85"-->
+    <!--android:id="@+id/priceView"/>-->
 
 </LinearLayout>

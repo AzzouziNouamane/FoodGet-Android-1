@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +36,7 @@ import foodget.ihm.foodget.models.User;
 
 public class MyListActivity extends AppCompatActivity implements OnClickInMyAdapterListener {
 
+    private static final String TAG = "MyListActivity";
     DatabaseHelper db;
     EditText add_food;
     EditText add_price;
@@ -45,6 +47,7 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
     ListView shoppingView;
     ShoppingList shoppingList;
     User currentUser;
+    String tempName;
     FoodListAdapter foodListAdapter;
 
     @Override
@@ -61,7 +64,7 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
 
         Bundle data = getIntent().getExtras();
         User tempUser = data.getParcelable("USER");
-        String tempName = data.getString("NAME");
+        tempName = data.getString("NAME");
         shoppingList = data.getParcelable("SHOPPINGLIST");
         nameView.setText(tempName);
         listItem = new ArrayList<>();
@@ -94,7 +97,7 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
                     return;
                 }
 
-                if (db.updateShoppingList(currentShoppingList, currentUser) > 0) {
+                if (db.updateShoppingList(currentShoppingList) > 0) {
                     Toast.makeText(this, "data update", Toast.LENGTH_SHORT).show();
                     db.addAlert(new Alert(Alerts.PRODUCT_LIST_ADDED.toString().replace("%product%", food)
                             .replace("%price%", price).replace("%list%", currentShoppingList.getName()),
@@ -129,6 +132,8 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
             Toast.makeText(this, "No data to view", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
+                Log.d(TAG, "Test User : " + cursor.getString(3));
+                Log.d(TAG, "Current User : " + currentUser);
                 if (cursor.getString(3).equals(currentUser.getUsername())) {
                     Type listType = new TypeToken<ArrayList<Shopping>>() {
                     }.getType();
@@ -156,6 +161,13 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
 
     @Override
     public void onItemclicked() {
+        Log.d(TAG, "Testing Interface....");
+        listItem.clear();
+        viewData(tempName);
+    }
 
+    @Override
+    public ShoppingList getShoppingList() {
+        return shoppingList;
     }
 }

@@ -233,7 +233,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor viewShoppingsOfList(User user, String listName) {
         String[] columns = {ID, LIST_NAME, LIST_FOOD, USER_NAME};
         SQLiteDatabase db = getReadableDatabase();
-        String selection = LIST_NAME + "='" + listName + "'";
+        String selection = LIST_NAME + "='" + listName + "'" + " AND " + USER_NAME + " = '" + user.getUsername() + "'";
         return db.query(SHOPPING_TABLE, columns, selection, null, null, null, null);
     }
 
@@ -308,7 +308,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public int updateShoppingList(ShoppingList currentShoppingList, User currentUser) {
+    public int updateShoppingList(ShoppingList currentShoppingList) {
         SQLiteDatabase db = this.getWritableDatabase();
         String whereClause = LIST_NAME + "='" + currentShoppingList.getName() + "'";
         ContentValues contentValues = new ContentValues();
@@ -323,6 +323,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteFood(Shopping shopping) {
         SQLiteDatabase db = this.getWritableDatabase();
         String sql = "DELETE FROM " + FOOD_TABLE + " WHERE " + FOOD_NAME + " = \"" + shopping.getFood() + "\" AND " + FOOD_PRICE + " = " + shopping.getPrice();
+        db.execSQL(sql);
+    }
+
+    public void deleteList(ShoppingList currentShoppingList) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + SHOPPING_TABLE + " WHERE " + LIST_NAME + "='" + currentShoppingList.getName() + "'";
         db.execSQL(sql);
     }
 }

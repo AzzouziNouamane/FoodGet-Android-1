@@ -38,35 +38,20 @@
         style="@style/buttonStyle"
         android:text="Confirmer" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="323dp"
-        android:orientation="vertical">
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="bottom"
         android:orientation="vertical">
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/navigation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="0dp"
-            android:paddingLeft="0dp"
-            android:paddingEnd="0dp"
-            android:paddingRight="0dp"
-            android:paddingBottom="0dp"
-            app:itemBackground="@color/colorPrimary"
-            app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
-            app:itemTextAppearanceInactive="@style/BottomNavigationView"
-            app:itemTextColor="@color/colorPrimaryDark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:menu="@menu/navigation" />
+        <Button
+            android:id="@+id/AccueilButton"
+            style="@style/buttonStyle"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="Accueil" />
+
+
     </LinearLayout>
 
 

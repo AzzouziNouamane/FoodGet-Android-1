@@ -15,27 +15,29 @@ import foodget.ihm.foodget.OnClickInMyShoppingAdapterListener;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.models.ShoppingList;
 
-public class ShoppingListAdapter extends ArrayAdapter<ShoppingList> {
+public class ShoppingListExtraAdapter extends ArrayAdapter<ShoppingList> {
     private Context context;
     private int resource;
     private ArrayList<ShoppingList> shoppings;
     private DatabaseHelper db;
     private OnClickInMyShoppingAdapterListener myActivityInterface;
 
-    public ShoppingListAdapter(Context context, int resource, ArrayList<ShoppingList> objects, OnClickInMyShoppingAdapterListener myActivityInterface) {
+
+    public ShoppingListExtraAdapter(Context context, int resource, ArrayList<ShoppingList> objects, OnClickInMyShoppingAdapterListener myActivityInterface) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
         this.shoppings = objects;
         this.db = new DatabaseHelper(context);
         this.myActivityInterface = myActivityInterface;
+
     }
 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        if(view == null)
+        if (view == null)
             view = LayoutInflater.from(context).inflate(resource, parent, false);
 
         ShoppingList shoppingList = shoppings.get(position);
@@ -45,8 +47,14 @@ public class ShoppingListAdapter extends ArrayAdapter<ShoppingList> {
 
         TextView tvName = view.findViewById(R.id.nameView);
         Button dButton = view.findViewById(R.id.deleteListe);
+        TextView tvTotal = view.findViewById(R.id.totalView);
+        TextView tvQuantity = view.findViewById(R.id.quantityView);
+
         tvName.setText(shoppingList.getName());
         tvName.setClickable(true);
+        tvTotal.setText(shoppingList.getTotal() + " €");
+
+        tvQuantity.setText(shoppingList.getShoppings().size() + " produits");
 
         dButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +71,7 @@ public class ShoppingListAdapter extends ArrayAdapter<ShoppingList> {
                 myActivityInterface.onNameclicked(shoppingList);
             }
         });
+
 
         return view;
     }

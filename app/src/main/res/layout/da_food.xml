@@ -4,13 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:weightSum="150">
+    android:weightSum="100">
+
+    <Button
+        android:id="@+id/deleteFood"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="43"
+        android:drawableStart="@drawable/trash_can" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
-        android:layout_weight="30"
+        android:layout_weight="15"
         android:id="@+id/foodView"/>
 
 
@@ -18,16 +25,8 @@
         android:id="@+id/priceView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="60"
+        android:layout_weight="10"
         android:textSize="20dp" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:layout_weight="60"
-        android:id="@+id/deleteFood"/>
-
 
 
 </LinearLayout>

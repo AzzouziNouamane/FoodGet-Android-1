@@ -2,12 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="foodget.ihm.foodget">
 
-    <uses-feature android:name="android.hardware.bluetooth"/>
+    <uses-feature android:name="android.hardware.bluetooth" />
+
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+
 
     <application
         android:allowBackup="true"
@@ -16,6 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <service android:name="foodget.ihm.foodget.services.NotificationService" />
+
+        <receiver android:name=".services.BroadcastCloseNotification"></receiver>
+
         <activity android:name=".activities.MyListActivity"></activity>
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.MyCartActivity" />
@@ -34,12 +41,13 @@
         <activity android:name=".activities.NewPasswordActivity" />
         <activity android:name=".activities.NewNameActivity" />
         <activity android:name=".activities.NewMailActivity" />
+        <activity android:name=".activities.CameraActivity" />
         <activity android:name=".activities.ManagementActivity" />
         <activity android:name=".activities.CreateNewListActivity" />
         <activity android:name=".activities.DeleteListActivity" />
         <activity android:name=".activities.ViewListActivity" />
         <activity android:name=".activities.StatsDisplayActivity" />
+        <activity android:name=".ReceiveBluetoothActivity" />
     </application>
 
 </manifest>
-

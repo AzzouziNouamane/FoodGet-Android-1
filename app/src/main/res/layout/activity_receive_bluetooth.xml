@@ -4,9 +4,9 @@
     android:id="@+id/activity_bluetooth"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_centerInParent="true"
     android:background="@color/colorPrimaryDark"
-    android:padding="@dimen/fab_margin"
-    android:layout_centerInParent="true">
+    android:padding="@dimen/fab_margin">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,8 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -27,41 +27,27 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-                <!--
-                                <Button
-                                    android:id="@+id/btnFindUnpairedDevices"
-                                    style="@style/buttonBluetoothStyle"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:onClick="btnDiscover"
-                                    android:text="Discover" />-->
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnDiscoverable_on_off"
+                    android:id="@+id/btnDiscoverable_on_off1"
+                    style="@style/buttonBluetoothStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/buttonBluetoothStyle"
                     android:onClick="btnEnableDisable_Discoverable"
-                    android:text="Enable Discoverable" />
-
-                <!--                <Button
-                                    android:id="@+id/btnONOFF"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    style="@style/buttonBluetoothStyle"
-                                    android:text="ON/OFF" />-->
+                    android:text="Chercher un périphérique"
+                    android:textAlignment="center" />
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnStartConnection"
+                android:id="@+id/btnStartConnection1"
+                style="@style/buttonBluetoothStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Start Connection"
-                style="@style/buttonBluetoothStyle"
+                android:text="Connexion au périphérique"
                 android:textAlignment="center" />
 
             <ScrollView
@@ -74,7 +60,7 @@
                     android:orientation="vertical">
 
                     <ListView
-                        android:id="@+id/lvNewDevices"
+                        android:id="@+id/lvNewDevices1"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:layout_marginTop="15dp">
@@ -86,19 +72,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btnSend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/buttonBluetoothStyle"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:text="Envoyer" />
-
-                <Button
-                    android:id="@+id/btnDestroy"
+                    android:id="@+id/btnAccueil"
                     style="@style/buttonBluetoothStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.activities.CameraActivity;
 import foodget.ihm.foodget.activities.LoginActivity;
 import foodget.ihm.foodget.activities.NewMailActivity;
 import foodget.ihm.foodget.activities.NewNameActivity;
@@ -18,6 +19,7 @@ import foodget.ihm.foodget.models.User;
 
 public class TabMyAccount extends Fragment {
 
+    Button UpdatePhoto;
     Button UpdateMail;
     Button UpdateName;
     Button UpdatePassWord;
@@ -29,14 +31,21 @@ public class TabMyAccount extends Fragment {
         //inflate fragment_tab1
         final View view = inflater.inflate(R.layout.activity_myaccount, container, false);
 
-
+        UpdatePhoto = view.findViewById(R.id.ModifierPhotoButton);
         UpdateMail = view.findViewById(R.id.ModifierMailButton);
         UpdateName = view.findViewById(R.id.ModifierPrenomButton);
         UpdatePassWord = view.findViewById(R.id.ModifierMDPButton);
         Logout = view.findViewById(R.id.LogoutButton);
         currentUser = this.getArguments().getParcelable("user");
 
-
+        UpdatePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newPhotoIntent = new Intent(getContext(), CameraActivity.class);
+                newPhotoIntent.putExtra("USER", currentUser);
+                startActivity(newPhotoIntent);
+            }
+        });
 
         UpdateMail.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -46,6 +55,7 @@ public class TabMyAccount extends Fragment {
                 startActivity(NewMailIntent);
             }
         });
+
         UpdateName.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -54,6 +64,7 @@ public class TabMyAccount extends Fragment {
                 startActivity(NewNameIntent);
             }
         });
+
         UpdatePassWord.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -62,6 +73,7 @@ public class TabMyAccount extends Fragment {
                 startActivity(NewPasswordIntent);
             }
         });
+
         Logout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -69,6 +81,7 @@ public class TabMyAccount extends Fragment {
                 startActivity(LogOutIntent);
             }
         });
+
         return view;
     }
 }

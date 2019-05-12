@@ -7,7 +7,6 @@ import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -16,8 +15,6 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.UUID;
 
 import foodget.ihm.foodget.models.Shopping;
@@ -226,6 +223,44 @@ public class BluetoothConnectionService {
     }
 
     /**
+     * Write to the ConnectedThread in an unsynchronized manner
+     *
+     * @param out The bytes to write
+     * @see ConnectedThread#write(byte[])
+     */
+/*    public void write(byte[] out) {
+        // Create temporary object
+        ConnectedThread r;
+
+        // Synchronize a copy of the ConnectedThread
+        Log.d(TAG, "write: Write Called.");
+        //perform the write
+        mConnectedThread.write(out);
+    }*/
+    public void write(byte[] out) throws IOException {
+        // Create temporary object
+        ConnectedThread r;
+
+        // Synchronize a copy of the ConnectedThread
+        Log.d(TAG, "write: Write Called.");
+        //perform the write
+        if (mConnectedThread != null) {
+            mConnectedThread.write(out);
+        } else {
+            Log.d(TAG, "Null mConnectedThread");
+        }
+
+    }
+
+    private void connected(BluetoothSocket mmSocket, BluetoothDevice mmDevice) {
+        Log.d(TAG, "connected: Starting.");
+
+        // Start the thread to manage the connection and perform transmissions
+        mConnectedThread = new ConnectedThread(mmSocket);
+        mConnectedThread.start();
+    }
+
+    /**
      Finally the ConnectedThread which is responsible for maintaining the BTConnection, Sending the data, and
      receiving incoming data through input/output streams respectively.
      **/
@@ -274,9 +309,14 @@ public class BluetoothConnectionService {
 
                     String incomingMessage = new String(buffer, 0, bytes);
                     Log.d(TAG, "InputStream: " + deserialize(buffer));
-/*                    ShoppingList shopping = deserialize(buffer);
-                    db.addShoppingList(shopping, currentUser);*/
-                    Log.d(TAG, "Output : " + deserialize(buffer).getShoppings().get(0));
+                    ShoppingList shopping = deserialize(buffer);
+                    db.addShoppingList(shopping, currentUser);
+                    Log.d(TAG, "" + currentUser);
+                    if (deserialize(buffer).getShoppings().size() != 0) {
+                        Log.d(TAG, "Samsung : " + deserialize(buffer).getShoppings().get(0).getFood());
+                        Log.d(TAG, "Output : " + deserialize(buffer).getShoppings().get(0));
+                    }
+
                 } catch (IOException e) {
                     Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
                     break;
@@ -301,17 +341,12 @@ public class BluetoothConnectionService {
             //String text = new String(bytes, Charset.defaultCharset());
             //Log.d(TAG, "write: Writing to outputstream: " + text);
             try {
-                db.addShoppingList(deserialize(bytes), currentUser);
-                if (deserialize(bytes).getShoppings().size() != 0) {
-                    Log.d(TAG, "Samsung : " + deserialize(bytes).getShoppings().get(0).getFood());
-                }
+
 
                 mmOutStream.write(bytes);
 
             } catch (IOException e) {
                 Log.e(TAG, "write: Error writing to output stream. " + e.getMessage() );
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
         }
 
@@ -321,40 +356,6 @@ public class BluetoothConnectionService {
                 mmSocket.close();
             } catch (IOException e) { }
         }
-    }
-
-    private void connected(BluetoothSocket mmSocket, BluetoothDevice mmDevice) {
-        Log.d(TAG, "connected: Starting.");
-
-        // Start the thread to manage the connection and perform transmissions
-        mConnectedThread = new ConnectedThread(mmSocket);
-        mConnectedThread.start();
-    }
-
-    /**
-     * Write to the ConnectedThread in an unsynchronized manner
-     *
-     * @param out The bytes to write
-     * @see ConnectedThread#write(byte[])
-     */
-/*    public void write(byte[] out) {
-        // Create temporary object
-        ConnectedThread r;
-
-        // Synchronize a copy of the ConnectedThread
-        Log.d(TAG, "write: Write Called.");
-        //perform the write
-        mConnectedThread.write(out);
-    }*/
-
-    public void write(byte[] out) throws IOException {
-        // Create temporary object
-        ConnectedThread r;
-
-        // Synchronize a copy of the ConnectedThread
-        Log.d(TAG, "write: Write Called.");
-        //perform the write
-        mConnectedThread.write(out);
     }
 
     public static Shopping toObject(byte[] bytes) throws IOException, ClassNotFoundException {

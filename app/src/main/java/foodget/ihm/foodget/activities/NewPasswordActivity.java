@@ -2,10 +2,7 @@ package foodget.ihm.foodget.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,15 +33,15 @@ public class NewPasswordActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_password);
-        Submit=(Button) findViewById(R.id.ConfirmButton) ;
+        Submit = findViewById(R.id.ConfirmButton);
 
-        mAccueil=(Button) findViewById(R.id.AccueilButton);
-        mTextNewPass=(EditText) findViewById(R.id.textnewpass);
-        mTextConfirmPass=(EditText) findViewById(R.id.textnewpassconfirm);
-        mTextOldPass=(EditText) findViewById(R.id.textoldpass);
+        mAccueil = findViewById(R.id.AcceuilButton);
+        mTextNewPass = findViewById(R.id.textnewpass);
+        mTextConfirmPass = findViewById(R.id.textnewpassconfirm);
+        mTextOldPass = findViewById(R.id.textoldpass);
 
         Bundle data = getIntent().getExtras();
-        User tempUser = (User) data.getParcelable("USER");
+        User tempUser = data.getParcelable("USER");
         currentUser = tempUser;
         currentUser.getEmail();
 

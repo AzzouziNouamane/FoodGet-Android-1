@@ -59,4 +59,12 @@ public class ShoppingList implements Parcelable, Serializable {
         dest.writeString(name);
         dest.writeTypedList(shoppings);
     }
+
+    public Double getTotal() {
+        Double total = 0.0;
+        for (int i = 0; i < this.shoppings.size(); i++) {
+            total = total + shoppings.get(i).getPrice();
+        }
+        return total;
+    }
 }
