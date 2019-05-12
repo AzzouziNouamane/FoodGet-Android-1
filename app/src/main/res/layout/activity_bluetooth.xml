@@ -66,13 +66,24 @@
                 style="@style/buttonBluetoothStyle"
                 android:textAlignment="center" />
 
-            <ListView
-                android:id="@+id/lvNewDevices"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="15dp" >
+                android:layout_height="match_parent">
 
-            </ListView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <ListView
+                        android:id="@+id/lvNewDevices"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="15dp">
+
+                    </ListView>
+                </LinearLayout>
+            </ScrollView>
 
             <LinearLayout
                 android:layout_width="match_parent"

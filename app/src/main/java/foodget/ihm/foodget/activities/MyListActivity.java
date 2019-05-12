@@ -3,7 +3,6 @@ package foodget.ihm.foodget.activities;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -38,8 +37,9 @@ import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.ShoppingList;
 import foodget.ihm.foodget.models.User;
 
-public class MyListActivity extends AppCompatActivity implements OnClickInMyAdapterListener{
+public class MyListActivity extends AppCompatActivity implements OnClickInMyAdapterListener {
 
+    private static final String TAG = "MyListActivity";
     DatabaseHelper db;
     EditText add_food;
     EditText add_price;
@@ -50,15 +50,13 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
     ListView shoppingView;
     ShoppingList shoppingList;
     User currentUser;
+    String tempName;
     FoodListAdapter foodListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_list);
-
-        //la view est bloquée en portrait
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         db = new DatabaseHelper(this);
         nameView = findViewById(R.id.nameShoppingView);
@@ -69,7 +67,7 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
 
         Bundle data = getIntent().getExtras();
         User tempUser = (User) data.getParcelable("USER");
-        String tempName = data.getString("NAME");
+        tempName = data.getString("NAME");
         shoppingList = data.getParcelable("SHOPPINGLIST");
         nameView.setText(tempName);
         listItem = new ArrayList<>();
@@ -137,6 +135,8 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
             Toast.makeText(this, "No data to view", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
+                Log.d(TAG, "Test User : " + cursor.getString(3));
+                Log.d(TAG, "Current User : " + currentUser);
                 if (cursor.getString(3).equals(currentUser.getUsername())) {
                     Type listType = new TypeToken<ArrayList<Shopping>>() {
                     }.getType();
@@ -164,6 +164,13 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
 
     @Override
     public void onItemclicked() {
+        Log.d(TAG, "Testing Interface....");
+        listItem.clear();
+        viewData(tempName);
+    }
 
+    @Override
+    public ShoppingList getShoppingList() {
+        return shoppingList;
     }
 }

@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import foodget.ihm.foodget.models.Alert;
@@ -221,7 +223,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor viewShoppingsOfList(User user, String listName) {
         String[] columns = {ID, LIST_NAME, LIST_FOOD, USER_NAME};
         SQLiteDatabase db = getReadableDatabase();
-        String selection = LIST_NAME + "='" + listName +"'";
+        String selection = LIST_NAME + "='" + listName +"'" + " AND " + USER_NAME + " = '" + user.getUsername() + "'";
         return db.query(SHOPPING_TABLE, columns, selection, null, null, null, null);
     }
 
@@ -313,9 +315,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
-    public void deleteList(ShoppingList currentShoppingList) {
+    public void deleteFoodFromList(ShoppingList shoppingListX, Shopping shopping) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String sql = "DELETE FROM " + SHOPPING_TABLE + " WHERE " + LIST_NAME +  "='" + currentShoppingList.getName() +"'";
-        db.execSQL(sql);
+        Type listType = new TypeToken<ArrayList<Shopping>>() {
+        }.getType();
+        ArrayList<Shopping> shoppingList = new Gson().fromJson(LIST_FOOD, listType);
+        for (int i = 0; i<shoppingList.size(); i++){
+            if(shoppingList.contains(shopping)) {
+                shoppingList.remove(shopping);
+            }
+        }
+        shoppingListX.setShoppings(shoppingList);
+        String foodList2 = new Gson().toJson(shoppingListX.getShoppings());
+        String sqlUpdate = "UPDATE " + SHOPPING_TABLE + " SET " + LIST_FOOD + " = \"" + foodList2 + "\" WHERE " + LIST_NAME + " = \"" + shoppingListX.getName() + "\"";
+        db.execSQL(sqlUpdate);
     }
 }

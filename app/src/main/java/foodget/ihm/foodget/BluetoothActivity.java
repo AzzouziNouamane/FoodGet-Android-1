@@ -139,8 +139,12 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
 
             if (action.equals(BluetoothDevice.ACTION_FOUND)){
                 BluetoothDevice device = intent.getParcelableExtra (BluetoothDevice.EXTRA_DEVICE);
-                mBTDevices.add(device);
-                Log.d(TAG, "onReceive: " + device.getName() + ": " + device.getAddress());
+
+                if(device.getName() != null) {
+                    mBTDevices.add(device);
+                    Log.d(TAG, "onReceive: " + device.getName() + ": " + device.getAddress());
+                }
+
                 mDeviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, mBTDevices);
                 lvNewDevices.setAdapter(mDeviceListAdapter);
             }
@@ -240,7 +244,6 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(BluetoothActivity.this, "Shopping Sent : " + shoppingList, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -372,8 +375,9 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
 
             mBTDevice = mBTDevices.get(i);
             mBluetoothConnection = new BluetoothConnectionService(BluetoothActivity.this, currentUser, shoppingList, db);
+                Log.d(TAG, "UUID " + " : " + mBTDevice.fetchUuidsWithSdp());
+            }
         }
-    }
 
     public byte[] serialize(ShoppingList shoppingList) throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();

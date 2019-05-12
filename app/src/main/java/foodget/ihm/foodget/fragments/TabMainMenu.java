@@ -39,6 +39,7 @@ import foodget.ihm.foodget.adapters.FoodListAdapter;
 import foodget.ihm.foodget.models.Alert;
 import foodget.ihm.foodget.models.Alerts;
 import foodget.ihm.foodget.models.Shopping;
+import foodget.ihm.foodget.models.ShoppingList;
 import foodget.ihm.foodget.models.User;
 
 public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener {
@@ -198,5 +199,10 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
     public void onItemclicked() {
         Log.d(TAG, "Testing Interface....");
         viewDataInMenu();
+    }
+
+    @Override
+    public ShoppingList getShoppingList() {
+        return null;
     }
 }

@@ -274,9 +274,14 @@ public class BluetoothConnectionService {
 
                     String incomingMessage = new String(buffer, 0, bytes);
                     Log.d(TAG, "InputStream: " + deserialize(buffer));
-/*                    ShoppingList shopping = deserialize(buffer);
-                    db.addShoppingList(shopping, currentUser);*/
-                    Log.d(TAG, "Output : " + deserialize(buffer).getShoppings().get(0));
+                    ShoppingList shopping = deserialize(buffer);
+                    db.addShoppingList(shopping, currentUser);
+                    Log.d(TAG, "" + currentUser);
+                    if (deserialize(buffer).getShoppings().size() != 0) {
+                        Log.d(TAG, "Samsung : " + deserialize(buffer).getShoppings().get(0).getFood());
+                        Log.d(TAG, "Output : " + deserialize(buffer).getShoppings().get(0));
+                    }
+
                 } catch (IOException e) {
                     Log.e(TAG, "write: Error reading Input Stream. " + e.getMessage() );
                     break;
@@ -301,17 +306,12 @@ public class BluetoothConnectionService {
             //String text = new String(bytes, Charset.defaultCharset());
             //Log.d(TAG, "write: Writing to outputstream: " + text);
             try {
-                db.addShoppingList(deserialize(bytes), currentUser);
-                if (deserialize(bytes).getShoppings().size() != 0) {
-                    Log.d(TAG, "Samsung : " + deserialize(bytes).getShoppings().get(0).getFood());
-                }
+
 
                 mmOutStream.write(bytes);
 
             } catch (IOException e) {
                 Log.e(TAG, "write: Error writing to output stream. " + e.getMessage() );
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
             }
         }
 
