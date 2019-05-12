@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/nameView"
-        android:layout_width="221dp"
+        android:layout_width="303dp"
         android:layout_height="35dp"
         android:layout_weight="1"
         android:paddingLeft="@dimen/fab_padding"
@@ -26,14 +26,14 @@
 
     <TextView
         android:id="@+id/quantityView"
-        android:layout_width="98dp"
+        android:layout_width="163dp"
         android:layout_height="35dp"
         android:layout_weight="1"
         android:textSize="20dp" />
 
     <TextView
         android:id="@+id/totalView"
-        android:layout_width="51dp"
+        android:layout_width="106dp"
         android:layout_height="35dp"
         android:layout_weight="1"
         android:textSize="20dp" />

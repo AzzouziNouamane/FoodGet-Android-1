@@ -100,7 +100,7 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
                     return;
                 }
 
-                if (db.updateShoppingList(currentShoppingList, currentUser) > 0) {
+                if (db.updateShoppingList(currentShoppingList) > 0) {
                     Toast.makeText(this, "data update", Toast.LENGTH_SHORT).show();
                     db.addAlert(new Alert(Alerts.PRODUCT_LIST_ADDED.toString().replace("%product%", food)
                             .replace("%price%", price).replace("%list%", currentShoppingList.getName()),

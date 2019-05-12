@@ -297,7 +297,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public int updateShoppingList(ShoppingList currentShoppingList, User currentUser) {
+    public int updateShoppingList(ShoppingList currentShoppingList) {
         SQLiteDatabase db = this.getWritableDatabase();
         String whereClause = LIST_NAME + "='" + currentShoppingList.getName() +"'";
         ContentValues contentValues = new ContentValues();
