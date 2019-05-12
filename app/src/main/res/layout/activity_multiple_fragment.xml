@@ -4,18 +4,26 @@
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <fragment
-        android:id="@+id/fragmentLeft"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:name="foodget.ihm.foodget.fragments.TabMyAccount"/>
 
-    <fragment
-        android:id="@+id/fragmentRight"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:name="foodget.ihm.foodget.fragments.TabMyAccount"/>
+        <android.support.v4.view.ViewPager
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:visibility="visible"
+            android:id="@+id/container1">
+
+        </android.support.v4.view.ViewPager>
+
+        <FrameLayout
+    android:id="@+id/fragmentLeft"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1" />
+
+        <FrameLayout
+            android:id="@+id/fragmentRight"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
 </LinearLayout>
