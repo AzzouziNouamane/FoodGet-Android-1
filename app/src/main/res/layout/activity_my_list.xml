@@ -68,7 +68,8 @@ tools:context=".activities.MyListActivity">
                 android:id="@+id/shareSoppingData"
                 style="@style/buttonStyle"
                 android:layout_width="match_parent"
-                android:text="Share via Bluetooth" />
+                android:backgroundTint="@color/colorPrimary"
+                android:text="Partager via Bluetooth" />
 
 
             </LinearLayout>

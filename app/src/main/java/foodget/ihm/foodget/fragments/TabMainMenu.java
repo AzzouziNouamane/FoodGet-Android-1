@@ -105,13 +105,19 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
 
             add.setOnClickListener((View v1) -> {
                 String thresh =  threshold.getText().toString().trim();
-                currentUser.setThreshold(Integer.parseInt(thresh));
-                popupThreshold.dismiss();
-                welcomeView.setText(getString(R.string.welcome)
-                        .replace("%username%", currentUser.getfName())
-                        .replace("%money%", String.format(Locale.FRANCE, "%.2f", total))
-                        .concat(getString(R.string.threshold)
-                                .replace("%threshold%", "" + currentUser.getThreshold())));
+                if(!thresh.equals("")) {
+                    currentUser.setThreshold(Integer.parseInt(thresh));
+                    popupThreshold.dismiss();
+                    welcomeView.setText(getString(R.string.welcome)
+                            .replace("%username%", currentUser.getfName())
+                            .replace("%money%", String.format(Locale.FRANCE, "%.2f", total))
+                            .concat(getString(R.string.threshold)
+                                    .replace("%threshold%", "" + currentUser.getThreshold())));
+                }
+                else {
+                    Toast.makeText(getContext(), "ERREUR ! Veuillez rentrer les informations demandées.", Toast.LENGTH_SHORT).show();
+                }
+
             });
 
             popupThreshold.show();
@@ -138,7 +144,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                 if (!food.equals("") && !price.equals("")) {
                     newShopping = new Shopping(food, Double.parseDouble(price));
                 } else {
-                    popupAddSpentMoney.dismiss();
+                    Toast.makeText(getContext(), "ERREUR ! Veuillez rentrer les informations demandées.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Log.d(TAG, "on avance");
