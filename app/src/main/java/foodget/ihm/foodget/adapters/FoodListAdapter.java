@@ -1,26 +1,39 @@
 package foodget.ihm.foodget.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import foodget.ihm.foodget.DatabaseHelper;
+import foodget.ihm.foodget.OnClickInMyAdapterListener;
 import foodget.ihm.foodget.R;
+import foodget.ihm.foodget.fragments.TabMainMenu;
 import foodget.ihm.foodget.models.Shopping;
 
 public class FoodListAdapter extends ArrayAdapter<Shopping> {
 
     private Context context;
     private int resource;
+    private ArrayList<Shopping> objects;
+    private static String TAG = "FoodListAdapter";
+    private DatabaseHelper db;
+    private OnClickInMyAdapterListener myActivityInterface;
 
-    public FoodListAdapter(Context context, int resource, ArrayList<Shopping> objects) {
+
+    public FoodListAdapter(Context context, int resource, ArrayList<Shopping> objects, OnClickInMyAdapterListener  myActivityInterface) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
+        this.objects = objects;
+        this.db = new DatabaseHelper(context);
+        this.myActivityInterface= myActivityInterface;
     }
 
 
@@ -38,7 +51,17 @@ public class FoodListAdapter extends ArrayAdapter<Shopping> {
 
         TextView tvFood = convertView.findViewById(R.id.foodView);
         TextView tvPrice = convertView.findViewById(R.id.priceView);
+        Button tvButton = convertView.findViewById(R.id.deleteFood);
 
+        tvButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Deleting...");
+                db.deleteFood(shopping);
+                myActivityInterface.onItemclicked();
+                notifyDataSetChanged();
+            }
+        });
         tvFood.setText(food);
         tvPrice.setText(price + "€");
 

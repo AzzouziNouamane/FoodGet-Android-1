@@ -306,4 +306,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        contentValues.put(USER_NAME, currentUser.getUsername());
         return db.update(SHOPPING_TABLE, contentValues, whereClause, null);
     }
+
+    public void deleteFood(Shopping shopping) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + FOOD_TABLE + " WHERE " + FOOD_NAME + " = \"" + shopping.getFood() + "\" AND " + FOOD_PRICE + " = " + shopping.getPrice();
+        db.execSQL(sql);
+    }
 }

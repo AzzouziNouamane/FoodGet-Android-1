@@ -29,6 +29,7 @@ import java.util.Locale;
 import foodget.ihm.foodget.BluetoothActivity;
 import foodget.ihm.foodget.BluetoothConnectionService;
 import foodget.ihm.foodget.DatabaseHelper;
+import foodget.ihm.foodget.OnClickInMyAdapterListener;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.activities.LoginActivity;
 import foodget.ihm.foodget.activities.ManagementActivity;
@@ -40,7 +41,7 @@ import foodget.ihm.foodget.models.Alerts;
 import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.User;
 
-public class TabMainMenu extends Fragment {
+public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener {
 
     String TAG = "MAINMENU";
     DatabaseHelper db;
@@ -53,6 +54,7 @@ public class TabMainMenu extends Fragment {
     ArrayAdapter adapter;
     ListView shoppingView;
     User currentUser;
+    Button deleteFood;
     Double total = 0.0;
 
     @Override
@@ -64,6 +66,7 @@ public class TabMainMenu extends Fragment {
         welcomeView = view.findViewById(R.id.welcomeView);
         add_data = view.findViewById(R.id.add_data);
         btn_cart = view.findViewById(R.id.btn_cart);
+        deleteFood = view.findViewById(R.id.deleteFood);
         listItem = new ArrayList<>();
         shoppingView = view.findViewById(R.id.food_list);
         currentUser = this.getArguments().getParcelable("user");
@@ -75,6 +78,7 @@ public class TabMainMenu extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String text = shoppingView.getItemAtPosition(position).toString();
                 Toast.makeText(getContext(), "" + text, Toast.LENGTH_SHORT).show();
+
                 Intent bluetoothIntent = new Intent(getContext(), BluetoothActivity.class);
                 bluetoothIntent.putExtra("user",currentUser);
                 startActivity(bluetoothIntent);
@@ -138,9 +142,17 @@ public class TabMainMenu extends Fragment {
     public void viewDataInMenu() {
         Cursor cursor = db.viewMenuData(currentUser);
         total = 0.0;
+        listItem.clear();
         Log.d(TAG, "onCreate: " + currentUser);
         if (cursor.getCount() == 0) {
             Toast.makeText(getContext(), "No data to view", Toast.LENGTH_SHORT).show();
+            listItem.clear();
+            total = 0.0;
+            welcomeView.setText(getString(R.string.welcome)
+                    .replace("%username%", currentUser.getfName())
+                    .replace("%money%", String.format(Locale.FRANCE, "%.2f", total))
+                    .concat(getString(R.string.threshold)
+                            .replace("%threshold%", "" + currentUser.getThreshold())));
         } else {
             while (cursor.moveToNext()) {
                 System.out.println(currentUser);
@@ -168,11 +180,23 @@ public class TabMainMenu extends Fragment {
 
             }
 
-            adapter = new ArrayAdapter(getContext(), R.layout.da_food, listItem);
-            FoodListAdapter adapterFood = new FoodListAdapter(getContext(), R.layout.da_food, listItem);
+            //adapter = new ArrayAdapter(getContext(), R.layout.da_food, listItem);
+            FoodListAdapter adapterFood = new FoodListAdapter(getContext(), R.layout.da_food, listItem, (OnClickInMyAdapterListener ) this);
             shoppingView.setAdapter(adapterFood);
         }
     }
 
+    public Double getTotal() {
+        return total;
+    }
 
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
+    @Override
+    public void onItemclicked() {
+        Log.d(TAG, "Testing Interface....");
+        viewDataInMenu();
+    }
 }

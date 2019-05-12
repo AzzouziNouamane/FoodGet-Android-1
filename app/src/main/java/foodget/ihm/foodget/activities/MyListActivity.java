@@ -27,8 +27,10 @@ import java.util.Locale;
 
 import foodget.ihm.foodget.BluetoothActivity;
 import foodget.ihm.foodget.DatabaseHelper;
+import foodget.ihm.foodget.OnClickInMyAdapterListener;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.adapters.FoodListAdapter;
+import foodget.ihm.foodget.fragments.TabMainMenu;
 import foodget.ihm.foodget.models.Alert;
 import foodget.ihm.foodget.models.Alerts;
 import foodget.ihm.foodget.models.Shopping;
@@ -150,7 +152,7 @@ public class MyListActivity extends AppCompatActivity {
                 }
             }
 
-            foodListAdapter = new FoodListAdapter(this, R.layout.da_food, listItem);
+            foodListAdapter = new FoodListAdapter(this, R.layout.da_food, listItem, (OnClickInMyAdapterListener) this);
             shoppingView.setAdapter(foodListAdapter);
         }
 
