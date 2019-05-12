@@ -10,20 +10,25 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import foodget.ihm.foodget.DatabaseHelper;
+import foodget.ihm.foodget.OnClickInMyShoppingAdapterListener;
 import foodget.ihm.foodget.R;
-import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.ShoppingList;
 
 public class ShoppingListAdapter extends ArrayAdapter<ShoppingList> {
     private Context context;
     private int resource;
     private ArrayList<ShoppingList> shoppings;
+    private DatabaseHelper db;
+    private OnClickInMyShoppingAdapterListener myActivityInterface;
 
-    public ShoppingListAdapter(Context context, int resource, ArrayList<ShoppingList> objects) {
+    public ShoppingListAdapter(Context context, int resource, ArrayList<ShoppingList> objects, OnClickInMyShoppingAdapterListener  myActivityInterface) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
         this.shoppings = objects;
+        this.db = new DatabaseHelper(context);
+        this.myActivityInterface= myActivityInterface;
     }
 
 
@@ -39,7 +44,25 @@ public class ShoppingListAdapter extends ArrayAdapter<ShoppingList> {
         // ShoppingList shoppingList = new ShoppingList(name, shoppings);
 
         TextView tvName = view.findViewById(R.id.nameView);
+        Button dButton = view.findViewById(R.id.deleteListe);
         tvName.setText(shoppingList.getName());
+        tvName.setClickable(true);
+
+        dButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db.deleteList(shoppingList);
+                myActivityInterface.onDeleteclicked();
+                notifyDataSetChanged();
+            }
+        });
+
+        tvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myActivityInterface.onNameclicked(shoppingList);
+            }
+        });
 
         return view;
     }

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,6 +27,8 @@ import java.util.Locale;
 
 import foodget.ihm.foodget.BluetoothConnectionService;
 import foodget.ihm.foodget.DatabaseHelper;
+import foodget.ihm.foodget.OnClickInMyAdapterListener;
+import foodget.ihm.foodget.OnClickInMyShoppingAdapterListener;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.adapters.ShoppingListAdapter;
 import foodget.ihm.foodget.adapters.ShoppingListExtraAdapter;
@@ -35,7 +38,7 @@ import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.ShoppingList;
 import foodget.ihm.foodget.models.User;
 
-public class MyCartActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MyCartActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, OnClickInMyShoppingAdapterListener {
 
     User currentUser;
     TextView tv_listes;
@@ -47,6 +50,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
     ShoppingListAdapter myAdapter;
     ShoppingListExtraAdapter myExtraAdapter;
     BluetoothConnectionService bluetoothConnectionService;
+//    int positionOfList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +67,6 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         Bundle data = getIntent().getExtras();
         User tempUser = (User) data.getParcelable("user");
         currentUser = tempUser;
-
         viewData();
 //
 //        shopping_lists.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -124,6 +127,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
 
     public void viewData() {
         Cursor cursor = db.viewShoppingListData(currentUser);
+        shoppingItem.clear();
         if (cursor.getCount() == 0) {
             Toast.makeText(this, "No data to view", Toast.LENGTH_SHORT).show();
             tv_listes.setText("Vous n'avez aucune liste créée");
@@ -145,11 +149,11 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
             }
             if (getResources().getConfiguration().orientation ==
                     Configuration.ORIENTATION_PORTRAIT) {
-                myAdapter = new ShoppingListAdapter(this, R.layout.shopping, shoppingItem);
+                myAdapter = new ShoppingListAdapter(this, R.layout.shopping, shoppingItem, (OnClickInMyShoppingAdapterListener ) this);
                 shopping_lists.setAdapter(myAdapter);
             }
             else{
-                myExtraAdapter = new ShoppingListExtraAdapter(this, R.layout.shopping_extra, shoppingItem);
+                myExtraAdapter = new ShoppingListExtraAdapter(this, R.layout.shopping_extra, shoppingItem, (OnClickInMyShoppingAdapterListener) this);
                 shopping_lists.setAdapter(myExtraAdapter);
             }
         }
@@ -159,26 +163,35 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//        positionOfList = position;
+        Toast.makeText(MyCartActivity.this, "item clicked",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleteclicked() {
+        viewData();
+    }
+
+    @Override
+    public void onNameclicked(ShoppingList shoppingList) {
+    //    Toast.makeText(MyCartActivity.this, "name clicked",Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, MyListActivity.class);
         Bundle extras = new Bundle();
-
         if (getResources().getConfiguration().orientation ==
                 Configuration.ORIENTATION_PORTRAIT) {
-            extras.putString("NAME",myAdapter.getItem(position).getName());
-            extras.putParcelable("SHOPPINGLIST", myAdapter.getItem(position));
+            extras.putString("NAME",shoppingList.getName());
+            extras.putParcelable("SHOPPINGLIST", shoppingList);
             extras.putParcelable("USER", currentUser);
             intent.putExtras(extras);
             startActivity(intent);
         }
         else{
-            extras.putString("NAME",myExtraAdapter.getItem(position).getName());
-            extras.putParcelable("SHOPPINGLIST", myExtraAdapter.getItem(position));
+            extras.putString("NAME",shoppingList.getName());
+            extras.putParcelable("SHOPPINGLIST", shoppingList);
             extras.putParcelable("USER", currentUser);
             intent.putExtras(extras);
             startActivity(intent);
         }
-
-
     }
 }
 

@@ -312,4 +312,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql = "DELETE FROM " + FOOD_TABLE + " WHERE " + FOOD_NAME + " = \"" + shopping.getFood() + "\" AND " + FOOD_PRICE + " = " + shopping.getPrice();
         db.execSQL(sql);
     }
+
+    public void deleteList(ShoppingList currentShoppingList) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "DELETE FROM " + SHOPPING_TABLE + " WHERE " + LIST_NAME +  "='" + currentShoppingList.getName() +"'";
+        db.execSQL(sql);
+    }
 }
