@@ -2,6 +2,7 @@ package foodget.ihm.foodget.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -27,6 +28,7 @@ import foodget.ihm.foodget.BluetoothConnectionService;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.adapters.ShoppingListAdapter;
+import foodget.ihm.foodget.adapters.ShoppingListExtraAdapter;
 import foodget.ihm.foodget.models.Alert;
 import foodget.ihm.foodget.models.Alerts;
 import foodget.ihm.foodget.models.Shopping;
@@ -43,6 +45,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
     ArrayList<ShoppingList> shoppingItem;
     Button btn_accueil;
     ShoppingListAdapter myAdapter;
+    ShoppingListExtraAdapter myExtraAdapter;
     BluetoothConnectionService bluetoothConnectionService;
 
     @Override
@@ -140,10 +143,17 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
                     startActivity(ToLoginPageIntent);
                 }
             }
-
-            myAdapter = new ShoppingListAdapter(this, R.layout.shopping, shoppingItem);
-            shopping_lists.setAdapter(myAdapter);
+            if (getResources().getConfiguration().orientation ==
+                    Configuration.ORIENTATION_PORTRAIT) {
+                myAdapter = new ShoppingListAdapter(this, R.layout.shopping, shoppingItem);
+                shopping_lists.setAdapter(myAdapter);
+            }
+            else{
+                myExtraAdapter = new ShoppingListExtraAdapter(this, R.layout.shopping_extra, shoppingItem);
+                shopping_lists.setAdapter(myExtraAdapter);
+            }
         }
+
     }
 
 
@@ -151,11 +161,24 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent(this, MyListActivity.class);
         Bundle extras = new Bundle();
-        extras.putString("NAME",myAdapter.getItem(position).getName());
-//        extras.putParcelableArrayList("SHOPPINGS", myAdapter.getItem(position).getShoppings());
-        extras.putParcelable("SHOPPINGLIST", myAdapter.getItem(position));
-        extras.putParcelable("USER", currentUser);
-        intent.putExtras(extras);
-        startActivity(intent);
+
+        if (getResources().getConfiguration().orientation ==
+                Configuration.ORIENTATION_PORTRAIT) {
+            extras.putString("NAME",myAdapter.getItem(position).getName());
+            extras.putParcelable("SHOPPINGLIST", myAdapter.getItem(position));
+            extras.putParcelable("USER", currentUser);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
+        else{
+            extras.putString("NAME",myExtraAdapter.getItem(position).getName());
+            extras.putParcelable("SHOPPINGLIST", myExtraAdapter.getItem(position));
+            extras.putParcelable("USER", currentUser);
+            intent.putExtras(extras);
+            startActivity(intent);
+        }
+
+
     }
 }
+

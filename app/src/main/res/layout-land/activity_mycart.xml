@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/colorPrimaryDark">
+    <!--tools:context=".fragments.TabMainMenu>-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="166dp">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="325dp"
+                android:layout_height="166dp"
+                app:srcCompat="@drawable/foodget" />
+
+            <LinearLayout
+                android:paddingRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+
+                    android:id="@+id/accueilButton2"
+                    style="@style/buttonStyle"
+                    android:layout_width="218dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Accueil" />
+
+                <LinearLayout
+                    style="@style/linearStyle"
+                    android:layout_width="360dp">
+
+                    <TextView
+                        android:id="@+id/tv_listes"
+                        style="@style/textView_Style"
+                        android:layout_width="342dp"
+                        android:layout_height="42dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/fab_padding">
+
+            <ListView
+                android:id="@+id/lists_list"
+                android:layout_width="match_parent"
+                android:layout_height="199dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btn_add_list"
+                style="@style/buttonStyle"
+                android:layout_width="57dp"
+                android:layout_height="58dp"
+                android:clickable="true"
+                android:drawableLeft="@drawable/ic_control_point_black_24dp"
+                android:paddingLeft="@dimen/fab_padding" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -16,19 +16,19 @@
         android:drawableStart="@drawable/trash_can" />
 
     <TextView
-        android:paddingLeft="@dimen/fab_padding"
         android:id="@+id/nameView"
-        android:layout_width="374dp"
+        android:layout_width="287dp"
         android:layout_height="35dp"
         android:layout_weight="1"
+        android:paddingLeft="@dimen/fab_padding"
         android:textSize="20dp" />
 
 
-    <!--<TextView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:textSize="20dp"-->
-    <!--android:layout_weight="85"-->
-    <!--android:id="@+id/priceView"/>-->
+    <TextView
+        android:id="@+id/quantityView"
+        android:layout_width="89dp"
+        android:layout_height="35dp"
+        android:layout_weight="1"
+        android:textSize="20dp" />
 
 </LinearLayout>

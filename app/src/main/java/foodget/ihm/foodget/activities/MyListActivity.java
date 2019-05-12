@@ -3,6 +3,7 @@ package foodget.ihm.foodget.activities;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +38,7 @@ import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.ShoppingList;
 import foodget.ihm.foodget.models.User;
 
-public class MyListActivity extends AppCompatActivity {
+public class MyListActivity extends AppCompatActivity implements OnClickInMyAdapterListener{
 
     DatabaseHelper db;
     EditText add_food;
@@ -55,6 +56,9 @@ public class MyListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_list);
+
+        //la view est bloquée en portrait
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         db = new DatabaseHelper(this);
         nameView = findViewById(R.id.nameShoppingView);
@@ -155,6 +159,11 @@ public class MyListActivity extends AppCompatActivity {
             foodListAdapter = new FoodListAdapter(this, R.layout.da_food, listItem, (OnClickInMyAdapterListener) this);
             shoppingView.setAdapter(foodListAdapter);
         }
+
+    }
+
+    @Override
+    public void onItemclicked() {
 
     }
 }
