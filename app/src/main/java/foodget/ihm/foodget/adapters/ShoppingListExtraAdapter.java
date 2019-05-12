@@ -48,11 +48,13 @@ public class ShoppingListExtraAdapter extends ArrayAdapter<ShoppingList> {
 
         TextView tvName = view.findViewById(R.id.nameView);
         Button dButton = view.findViewById(R.id.deleteListe);
-//        TextView tvDate = view.findViewById(R.id.dateView);
+        TextView tvTotal = view.findViewById(R.id.totalView);
         TextView tvQuantity = view.findViewById(R.id.quantityView);
 
         tvName.setText(shoppingList.getName());
         tvName.setClickable(true);
+        tvTotal.setText(shoppingList.getTotal() + " €");
+
         tvQuantity.setText(shoppingList.getShoppings().size() + " produits");
 
         dButton.setOnClickListener(new View.OnClickListener() {

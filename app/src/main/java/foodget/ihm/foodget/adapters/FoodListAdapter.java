@@ -69,6 +69,12 @@ public class FoodListAdapter extends ArrayAdapter<Shopping> {
                 if(context instanceof MyListActivity) {
                     Log.d(TAG, "Deleting... MyListActivity");
                     ShoppingList shoppingList = myActivityInterface.getShoppingList();
+                    shoppingList.getShoppings().remove(position);
+                    db.updateShoppingList(shoppingList);
+//                    MyListActivity mylist = new MyListActivity();
+//                    mylist.viewData(shoppingList.getName());
+//                    listItem.clear();
+//                    viewData(tempName);
                     //db.deleteFoodFromList(shoppingList,shopping);
                 }
 
