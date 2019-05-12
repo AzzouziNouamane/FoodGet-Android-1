@@ -34,7 +34,7 @@ public class TabMyAccount extends Fragment {
         UpdateName = view.findViewById(R.id.ModifierPrenomButton);
         UpdatePassWord = view.findViewById(R.id.ModifierMDPButton);
         Logout = view.findViewById(R.id.LogoutButton);
-        currentUser = this.getArguments().getParcelable("user");
+        //currentUser = this.getArguments().getParcelable("user");
 
 
 

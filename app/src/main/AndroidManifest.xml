@@ -22,7 +22,8 @@
         <activity android:name=".activities.SplashActivity" />
         <activity android:name=".activities.ForgottenPasswordActivity" />
         <activity android:name=".activities.NewCartActivity" />
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name=".BluetoothActivity" />
+        <activity android:name=".fragments.MultipleFragmentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -30,7 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BluetoothActivity" />
         <activity android:name=".activities.NewPasswordActivity" />
         <activity android:name=".activities.NewNameActivity" />
         <activity android:name=".activities.NewMailActivity" />
