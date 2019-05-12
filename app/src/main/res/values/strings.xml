@@ -28,4 +28,6 @@
     <string name="cancel">Annuler</string>
     <string name="euroSymbol">€</string>
     <string name="setThreshold">Changer seuil</string>
+    <string name="NewThreshold">Nouveau Seuil</string>
+
 </resources>

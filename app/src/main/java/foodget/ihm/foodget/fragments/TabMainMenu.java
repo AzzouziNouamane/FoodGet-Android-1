@@ -3,10 +3,8 @@ package foodget.ihm.foodget.fragments;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,21 +18,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
 import foodget.ihm.foodget.BluetoothActivity;
-import foodget.ihm.foodget.BluetoothConnectionService;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.OnClickInMyAdapterListener;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.activities.LoginActivity;
-import foodget.ihm.foodget.activities.ManagementActivity;
 import foodget.ihm.foodget.activities.MyCartActivity;
-import foodget.ihm.foodget.activities.NewCartActivity;
 import foodget.ihm.foodget.adapters.FoodListAdapter;
 import foodget.ihm.foodget.models.Alert;
 import foodget.ihm.foodget.models.Alerts;
@@ -51,6 +45,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
     TextView welcomeView;
     Button add_data;
     Button btn_cart;
+    Button set_threshold;
     ArrayList<Shopping> listItem;
     ArrayAdapter adapter;
     ListView shoppingView;
@@ -70,10 +65,15 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
         deleteFood = view.findViewById(R.id.deleteFood);
         listItem = new ArrayList<>();
         shoppingView = view.findViewById(R.id.food_list);
+        set_threshold = view.findViewById(R.id.set_threshold);
         currentUser = this.getArguments().getParcelable("user");
         //this.bluetoothConnectionService = new BluetoothConnectionService(getContext(), currentUser, db);
         Log.d(TAG, "onCreate: " + currentUser);
         viewDataInMenu();
+
+
+
+
         shoppingView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -94,6 +94,24 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                 cartIntent.putExtra("user", currentUser);
                 startActivity(cartIntent);
             }
+        });
+
+        Dialog popupThreshold = new Dialog(getContext());
+        set_threshold.setOnClickListener((View v) -> {
+            popupThreshold.setContentView(R.layout.new_threshold);
+
+            Button add = popupThreshold.findViewById(R.id.add_dataButton_threshold);
+            EditText threshold = popupThreshold.findViewById(R.id.ThreshInput);
+
+            add.setOnClickListener((View v1) -> {
+                String thresh =  threshold.getText().toString().trim();
+                currentUser.setThreshold(Integer.parseInt(thresh));
+                popupThreshold.dismiss();
+            });
+
+            popupThreshold.show();
+
+
         });
 
         Dialog popupAddSpentMoney = new Dialog(getContext());
