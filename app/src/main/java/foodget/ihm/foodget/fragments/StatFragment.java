@@ -109,11 +109,15 @@ public class StatFragment extends Fragment {
 
         lineDataSets.add(lineDataSet1);
 
-        LimitLine threshold = new LimitLine((float) currentUser.getThreshold(), "Seuil");
+        LimitLine threshold = new LimitLine((float) currentUser.getThreshold(), "Seuil : " + currentUser.getThreshold() + "€");
         threshold.setLineWidth(2f);
-        threshold.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+        threshold.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
         threshold.setTextSize(14f);
 
+
+        lineChart.getAxisLeft().addLimitLine(threshold);
+        lineChart.getAxisLeft().setDrawLimitLinesBehindData(true);
+        lineChart.getAxisLeft().setAxisMaximum(Math.max(lineChart.getYChartMax(), (float) currentUser.getThreshold()));
         lineChart.setData(new LineData(lineDataSets));
         lineChart.getAxisRight().setEnabled(false);
         lineChart.setDescription(desc);
