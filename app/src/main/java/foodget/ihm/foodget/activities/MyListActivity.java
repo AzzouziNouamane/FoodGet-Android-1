@@ -1,15 +1,12 @@
 package foodget.ihm.foodget.activities;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -30,14 +27,13 @@ import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.OnClickInMyAdapterListener;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.adapters.FoodListAdapter;
-import foodget.ihm.foodget.fragments.TabMainMenu;
 import foodget.ihm.foodget.models.Alert;
 import foodget.ihm.foodget.models.Alerts;
 import foodget.ihm.foodget.models.Shopping;
 import foodget.ihm.foodget.models.ShoppingList;
 import foodget.ihm.foodget.models.User;
 
-public class MyListActivity extends AppCompatActivity {
+public class MyListActivity extends AppCompatActivity implements OnClickInMyAdapterListener {
 
     DatabaseHelper db;
     EditText add_food;
@@ -64,7 +60,7 @@ public class MyListActivity extends AppCompatActivity {
         shoppingView = findViewById(R.id.shopping_list);
 
         Bundle data = getIntent().getExtras();
-        User tempUser = (User) data.getParcelable("USER");
+        User tempUser = data.getParcelable("USER");
         String tempName = data.getString("NAME");
         shoppingList = data.getParcelable("SHOPPINGLIST");
         nameView.setText(tempName);
@@ -90,7 +86,7 @@ public class MyListActivity extends AppCompatActivity {
                 String price = priceInput.getText().toString().trim();
                 ShoppingList currentShoppingList = null;
                 if (!food.equals("") && !price.equals("")) {
-                    Shopping newShopping = new Shopping(food, Double.parseDouble(price));
+                    Shopping newShopping = new Shopping(food, Double.parseDouble(price), "");
                     listItem.add(newShopping);
                     currentShoppingList = new ShoppingList(tempName,listItem);
                 } else {
@@ -140,7 +136,7 @@ public class MyListActivity extends AppCompatActivity {
                     for (int i = 0; i<shoppingList.size(); i++){
                         String food = shoppingList.get(i).getFood();
                         Double price = shoppingList.get(i).getPrice();
-                        listItem.add(new Shopping(food,price));
+                        listItem.add(new Shopping(food, price, ""));
                     }
 
 //                    Shopping newShopping = new Shopping(cursor.getString(1), cursor.getDouble(2));
@@ -152,9 +148,14 @@ public class MyListActivity extends AppCompatActivity {
                 }
             }
 
-            foodListAdapter = new FoodListAdapter(this, R.layout.da_food, listItem, (OnClickInMyAdapterListener) this);
+            foodListAdapter = new FoodListAdapter(this, R.layout.da_food, listItem, this);
             shoppingView.setAdapter(foodListAdapter);
         }
+
+    }
+
+    @Override
+    public void onItemclicked() {
 
     }
 }

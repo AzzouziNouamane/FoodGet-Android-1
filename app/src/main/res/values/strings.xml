@@ -28,4 +28,11 @@
     <string name="cancel">Annuler</string>
     <string name="euroSymbol">€</string>
     <string name="setThreshold">Changer seuil</string>
+
+
+    <string-array name="choice_array">
+        <item>24 heures</item>
+        <item>1 semaine</item>
+        <item>30 derniers jours</item>
+    </string-array>
 </resources>

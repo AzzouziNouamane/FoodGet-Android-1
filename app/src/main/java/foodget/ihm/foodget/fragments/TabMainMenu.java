@@ -3,10 +3,8 @@ package foodget.ihm.foodget.fragments;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,21 +18,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Locale;
 
 import foodget.ihm.foodget.BluetoothActivity;
-import foodget.ihm.foodget.BluetoothConnectionService;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.OnClickInMyAdapterListener;
 import foodget.ihm.foodget.R;
 import foodget.ihm.foodget.activities.LoginActivity;
-import foodget.ihm.foodget.activities.ManagementActivity;
 import foodget.ihm.foodget.activities.MyCartActivity;
-import foodget.ihm.foodget.activities.NewCartActivity;
+import foodget.ihm.foodget.activities.StatsDisplayActivity;
 import foodget.ihm.foodget.adapters.FoodListAdapter;
 import foodget.ihm.foodget.models.Alert;
 import foodget.ihm.foodget.models.Alerts;
@@ -50,6 +46,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
     TextView welcomeView;
     Button add_data;
     Button btn_cart;
+    Button btn_stats;
     ArrayList<Shopping> listItem;
     ArrayAdapter adapter;
     ListView shoppingView;
@@ -66,6 +63,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
         welcomeView = view.findViewById(R.id.welcomeView);
         add_data = view.findViewById(R.id.add_data);
         btn_cart = view.findViewById(R.id.btn_cart);
+        btn_stats = view.findViewById(R.id.btn_stats);
         deleteFood = view.findViewById(R.id.deleteFood);
         listItem = new ArrayList<>();
         shoppingView = view.findViewById(R.id.food_list);
@@ -80,7 +78,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                 Toast.makeText(getContext(), "" + text, Toast.LENGTH_SHORT).show();
 
                 Intent bluetoothIntent = new Intent(getContext(), BluetoothActivity.class);
-                bluetoothIntent.putExtra("user",currentUser);
+                bluetoothIntent.putExtra("user", currentUser);
                 startActivity(bluetoothIntent);
             }
         });
@@ -93,6 +91,12 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                 cartIntent.putExtra("user", currentUser);
                 startActivity(cartIntent);
             }
+        });
+
+        btn_stats.setOnClickListener(v -> {
+            Intent statsIntent = new Intent(getContext(), StatsDisplayActivity.class);
+            statsIntent.putExtra("user", currentUser);
+            startActivity(statsIntent);
         });
 
         Dialog popupAddSpentMoney = new Dialog(getContext());
@@ -112,7 +116,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                 String price = priceInput.getText().toString().trim();
                 Shopping newShopping = null;
                 if (!food.equals("") && !price.equals("")) {
-                    newShopping = new Shopping(food, Double.parseDouble(price));
+                    newShopping = new Shopping(food, Double.parseDouble(price), LocalDateTime.now().format(DateTimeFormatter.ofPattern("d/MM/yy HH:mm", Locale.FRANCE)));
                 } else {
                     popupAddSpentMoney.dismiss();
                     return;
@@ -157,7 +161,9 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
             while (cursor.moveToNext()) {
                 System.out.println(currentUser);
                 if (cursor.getString(3).equals(currentUser.getUsername())) {
-                    Shopping newShopping = new Shopping(cursor.getString(1), cursor.getDouble(2));
+                    Shopping newShopping = new Shopping(cursor.getString(1), cursor.getDouble(2), cursor.getString(4));
+                    System.out.println(cursor.getString(4));
+                    System.out.println(newShopping.getDateAsDate().toString());
                     listItem.add(newShopping);
                     total += newShopping.getPrice();
                     if (currentUser.getThreshold() > 0) {
@@ -180,8 +186,10 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
 
             }
 
+            listItem.sort(Comparator.comparing(Shopping::getDateAsDate).reversed());
+
             //adapter = new ArrayAdapter(getContext(), R.layout.da_food, listItem);
-            FoodListAdapter adapterFood = new FoodListAdapter(getContext(), R.layout.da_food, listItem, (OnClickInMyAdapterListener ) this);
+            FoodListAdapter adapterFood = new FoodListAdapter(getContext(), R.layout.da_food, listItem, this);
             shoppingView.setAdapter(adapterFood);
         }
     }

@@ -38,6 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String FOOD_NAME = "food";
     private static final String FOOD_PRICE = "price";
+    private static final String FOOD_DATE = "datefood";
 
     private static final String LIST_NAME = "nameList";
     private static final String LIST_FOOD = "foodList";
@@ -58,7 +59,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             FOOD_NAME + " TEXT, " +
             FOOD_PRICE + " INT, " +
-            USER_NAME + " TEXT" + ");";
+            USER_NAME + " TEXT, " +
+            FOOD_DATE + " TEXT" + ");";
 
     private static final String CREATE_TABLE_SHOPPINGLIST = "CREATE TABLE " + SHOPPING_TABLE + " (" +
             ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -96,26 +98,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase.insert(USER_TABLE, null, contentValues);
 
         //Produits achetés par défaut
-        Shopping shopping = new Shopping("Pomme", 2.0);
+        Shopping shopping0 = new Shopping("Yaourt", 6.0, "15/04/19 19:30");
+        ContentValues contentValuesShop0 = new ContentValues();
+        contentValuesShop0.put(FOOD_NAME, shopping0.getFood());
+        contentValuesShop0.put(FOOD_PRICE, shopping0.getPrice());
+        contentValuesShop0.put(USER_NAME, user.getUsername());
+        contentValuesShop0.put(FOOD_DATE, shopping0.getDateAsString());
+        sqLiteDatabase.insert(FOOD_TABLE, null, contentValuesShop0);
+
+        Shopping shopping = new Shopping("Pomme", 2.0, "10/05/19 11:18");
         ContentValues contentValuesShop = new ContentValues();
         contentValuesShop.put(FOOD_NAME, shopping.getFood());
         contentValuesShop.put(FOOD_PRICE, shopping.getPrice());
         contentValuesShop.put(USER_NAME, user.getUsername());
+        contentValuesShop.put(FOOD_DATE, shopping.getDateAsString());
         sqLiteDatabase.insert(FOOD_TABLE, null, contentValuesShop);
 
-        Shopping shopping2 = new Shopping("Bananes", 4.0);
+        Shopping shopping2 = new Shopping("Bananes", 4.0, "11/05/19 22:30");
         ContentValues contentValuesShop2 = new ContentValues();
         contentValuesShop2.put(FOOD_NAME, shopping2.getFood());
         contentValuesShop2.put(FOOD_PRICE, shopping2.getPrice());
         contentValuesShop2.put(USER_NAME, user.getUsername());
+        contentValuesShop2.put(FOOD_DATE, shopping2.getDateAsString());
         sqLiteDatabase.insert(FOOD_TABLE, null, contentValuesShop2);
 
         //Listes créées par défaut
-        Shopping shoppingA = new Shopping("Pain", 1.0);
-        Shopping shoppingB = new Shopping("Poisson", 8.5);
-        Shopping shoppingC = new Shopping("Riz", 2.0);
-        Shopping shoppingD = new Shopping("Lait", 1.5);
-        Shopping shoppingE = new Shopping("Poulet", 8.0);
+        Shopping shoppingA = new Shopping("Pain", 1.0, "");
+        Shopping shoppingB = new Shopping("Poisson", 8.5, "");
+        Shopping shoppingC = new Shopping("Riz", 2.0, "");
+        Shopping shoppingD = new Shopping("Lait", 1.5, "");
+        Shopping shoppingE = new Shopping("Poulet", 8.0, "");
 
         ArrayList<Shopping> shoppings1 = new ArrayList<>();
         shoppings1.add(shoppingA);
@@ -136,7 +148,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         shoppings2.add(shoppingD);
         shoppings2.add(shoppingE);
 
-        ShoppingList shoppingList2 = new ShoppingList("Ma deuxieme liste",shoppings2);
+        ShoppingList shoppingList2 = new ShoppingList("Ma deuxieme liste", shoppings2);
         ContentValues contentValuesShopList2 = new ContentValues();
         contentValuesShopList2.put(LIST_NAME, shoppingList2.getName());
         Gson gson2 = new Gson();
@@ -203,7 +215,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Cursor viewMenuData(User user) {
-        String[] columns = {ID, FOOD_NAME, FOOD_PRICE, USER_NAME};
+        String[] columns = {ID, FOOD_NAME, FOOD_PRICE, USER_NAME, FOOD_DATE};
         SQLiteDatabase db = getReadableDatabase();
         String selection = USER_NAME + "=?";
         String[] selectionArgs = {user.getUsername()};
@@ -221,7 +233,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Cursor viewShoppingsOfList(User user, String listName) {
         String[] columns = {ID, LIST_NAME, LIST_FOOD, USER_NAME};
         SQLiteDatabase db = getReadableDatabase();
-        String selection = LIST_NAME + "='" + listName +"'";
+        String selection = LIST_NAME + "='" + listName + "'";
         return db.query(SHOPPING_TABLE, columns, selection, null, null, null, null);
     }
 
@@ -247,6 +259,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(FOOD_NAME, shopping.getFood());
         contentValues.put(FOOD_PRICE, shopping.getPrice());
         contentValues.put(USER_NAME, user.getUsername());
+        contentValues.put(FOOD_DATE, shopping.getDateAsString());
         long result = db.insert(FOOD_TABLE, null, contentValues);
         return result != -1;
     }
@@ -297,7 +310,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public int updateShoppingList(ShoppingList currentShoppingList, User currentUser) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String whereClause = LIST_NAME + "='" + currentShoppingList.getName() +"'";
+        String whereClause = LIST_NAME + "='" + currentShoppingList.getName() + "'";
         ContentValues contentValues = new ContentValues();
 
         Gson gson = new Gson();

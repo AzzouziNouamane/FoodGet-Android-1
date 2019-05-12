@@ -9,15 +9,20 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class Shopping implements Parcelable, Serializable {
 
     private String food;
     private Double price;
+    private String date;
 
-    public Shopping(String food, Double price) {
+    public Shopping(String food, Double price, String date) {
         this.food = food;
         this.price = price;
+        this.date = date;
     }
 
     protected Shopping(Parcel in) {
@@ -27,6 +32,7 @@ public class Shopping implements Parcelable, Serializable {
         } else {
             price = in.readDouble();
         }
+        date = in.readString();
     }
 
     public Shopping(byte[] buffer, int i, int bytes) {
@@ -41,6 +47,7 @@ public class Shopping implements Parcelable, Serializable {
             dest.writeByte((byte) 1);
             dest.writeDouble(price);
         }
+        dest.writeString(date);
     }
 
     @Override
@@ -76,6 +83,14 @@ public class Shopping implements Parcelable, Serializable {
         this.price = price;
     }
 
+    public String getDateAsString() {
+        return date;
+    }
+
+    public LocalDateTime getDateAsDate() {
+        return LocalDateTime.parse(date, DateTimeFormatter.ofPattern("dd/MM/yy HH:mm", Locale.FRANCE));
+    }
+
     public byte[] serialize() throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         ObjectOutputStream o = new ObjectOutputStream(b);
@@ -88,5 +103,10 @@ public class Shopping implements Parcelable, Serializable {
         ByteArrayInputStream b = new ByteArrayInputStream(bytes);
         ObjectInputStream o = new ObjectInputStream(b);
         return (Shopping) o.readObject();
+    }
+
+    @Override
+    public String toString() {
+        return this.food + " " + this.price + "€ " + this.getDateAsString();
     }
 }

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.OnClickInMyAdapterListener;
 import foodget.ihm.foodget.R;
-import foodget.ihm.foodget.fragments.TabMainMenu;
 import foodget.ihm.foodget.models.Shopping;
 
 public class FoodListAdapter extends ArrayAdapter<Shopping> {
@@ -42,9 +41,10 @@ public class FoodListAdapter extends ArrayAdapter<Shopping> {
         //Set the shopping informations
         String food = getItem(position).getFood();
         Double price = getItem(position).getPrice();
+        String date = getItem(position).getDateAsString();
 
         //Create the shopping object with the information
-        Shopping shopping = new Shopping(food, price);
+        Shopping shopping = new Shopping(food, price, date);
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         convertView = layoutInflater.inflate(resource, parent, false);
