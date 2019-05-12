@@ -46,6 +46,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
     User currentUser;
     ShoppingList shoppingList;
     DatabaseHelper db;
+    Boolean receiver = false;
     EditText etSend;
 
     private static final UUID MY_UUID_INSECURE =
@@ -186,10 +187,13 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
     protected void onDestroy() {
         Log.d(TAG, "onDestroy: called.");
         super.onDestroy();
-        unregisterReceiver(mBroadcastReceiver1);
-        unregisterReceiver(mBroadcastReceiver2);
-        unregisterReceiver(mBroadcastReceiver3);
-        unregisterReceiver(mBroadcastReceiver4);
+        if(receiver) {
+            unregisterReceiver(mBroadcastReceiver1);
+            unregisterReceiver(mBroadcastReceiver2);
+            unregisterReceiver(mBroadcastReceiver3);
+            unregisterReceiver(mBroadcastReceiver4);
+        }
+
         //mBluetoothAdapter.cancelDiscovery();
     }
 
@@ -223,6 +227,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: enabling/disabling bluetooth.");
+                receiver = true;
                 enableDisableBT();
             }
         });
@@ -230,6 +235,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
         btnStartConnection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                receiver = true;
                 startConnection();
             }
         });
@@ -237,6 +243,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                receiver = true;
                 byte[] bytes = shoppingList.toString().getBytes(Charset.defaultCharset());
                 // byte[] bytes = etSend.getText().toString().getBytes(Charset.defaultCharset());
                 try {
@@ -299,6 +306,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
 
 
     public void btnEnableDisable_Discoverable(View view) {
+        receiver = true;
         Log.d(TAG, "btnEnableDisable_Discoverable: Making device discoverable for 300 seconds.");
 
         Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
@@ -311,6 +319,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
     }
 
     public void btnDiscover(View view) {
+        receiver = true;
         Log.d(TAG, "btnDiscover: Looking for unpaired devices.");
 
         if(mBluetoothAdapter.isDiscovering()){

@@ -50,7 +50,6 @@
                     style="@style/buttonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="@dimen/fab_padding"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="Accueil" />
 
