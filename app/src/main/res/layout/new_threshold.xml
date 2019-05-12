@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:padding="40dp">
+
+    <TextView
+        android:id="@+id/thresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/productInput"
+        android:layout_centerHorizontal="true"
+        android:text="@string/NewThreshold" />
+
+    <EditText
+        android:id="@+id/ThreshInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/thresh"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:ems="10"
+        android:imeOptions="actionDone"
+        android:inputType="numberDecimal"
+        android:maxLines="1"
+        android:nextFocusForward="@id/add_dataButton_threshold" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ThreshInput"
+        android:layout_centerHorizontal="true">
+
+
+        <Button
+            android:id="@+id/add_dataButton_threshold"
+            style="@style/buttonStyle"
+            android:layout_width="101dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_toEndOf="@id/cancelButton"
+            android:backgroundTint="@color/green"
+            android:text="Confirmer" />
+    </RelativeLayout>
+
+</RelativeLayout>
