@@ -25,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import foodget.ihm.foodget.BluetoothActivity;
 import foodget.ihm.foodget.BluetoothConnectionService;
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.OnClickInMyAdapterListener;
@@ -47,6 +48,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
     Button btn_add_list;
     ArrayList<ShoppingList> shoppingItem;
     Button btn_accueil;
+    Button shareBluetooth;
     ShoppingListAdapter myAdapter;
     ShoppingListExtraAdapter myExtraAdapter;
     BluetoothConnectionService bluetoothConnectionService;
@@ -61,6 +63,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         tv_listes = findViewById(R.id.tv_listes);
         btn_add_list = findViewById(R.id.btn_add_list);
         btn_accueil = findViewById(R.id.accueilButton2);
+        shareBluetooth = findViewById(R.id.shareBluetooth);
         shoppingItem = new ArrayList<>();
         shopping_lists = findViewById(R.id.lists_list);
         shopping_lists.setOnItemClickListener(this);
@@ -83,6 +86,15 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
                 Intent MainMenu = new Intent(getApplicationContext(), ManagementActivity.class);
                 MainMenu.putExtra("user", currentUser);
                 startActivity(MainMenu);
+            }
+        });
+
+        shareBluetooth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent bluetoothIntent = new Intent(getApplicationContext(), BluetoothActivity.class);
+                bluetoothIntent.putExtra("user", currentUser);
+                startActivity(bluetoothIntent);
             }
         });
 

@@ -315,19 +315,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
-    public void deleteFoodFromList(ShoppingList shoppingListX, Shopping shopping) {
+    public void deleteList(ShoppingList currentShoppingList) {
         SQLiteDatabase db = this.getWritableDatabase();
-        Type listType = new TypeToken<ArrayList<Shopping>>() {
-        }.getType();
-        ArrayList<Shopping> shoppingList = new Gson().fromJson(LIST_FOOD, listType);
-        for (int i = 0; i<shoppingList.size(); i++){
-            if(shoppingList.contains(shopping)) {
-                shoppingList.remove(shopping);
-            }
-        }
-        shoppingListX.setShoppings(shoppingList);
-        String foodList2 = new Gson().toJson(shoppingListX.getShoppings());
-        String sqlUpdate = "UPDATE " + SHOPPING_TABLE + " SET " + LIST_FOOD + " = \"" + foodList2 + "\" WHERE " + LIST_NAME + " = \"" + shoppingListX.getName() + "\"";
-        db.execSQL(sqlUpdate);
+        String sql = "DELETE FROM " + SHOPPING_TABLE + " WHERE " + LIST_NAME +  "='" + currentShoppingList.getName() +"'";
+        db.execSQL(sql);
     }
 }

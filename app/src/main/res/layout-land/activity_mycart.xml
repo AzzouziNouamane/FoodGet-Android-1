@@ -37,12 +37,20 @@
                 android:orientation="vertical">
 
                 <Button
+                    android:id="@+id/shareBluetooth"
+                    style="@style/buttonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Recevoir une liste (via Bluetooth)" />
+
+                <Button
 
                     android:id="@+id/accueilButton2"
                     style="@style/buttonStyle"
-                    android:layout_width="218dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="@dimen/fab_padding"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="Accueil" />
 
