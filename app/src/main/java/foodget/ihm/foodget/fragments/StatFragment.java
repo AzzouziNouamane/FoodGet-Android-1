@@ -190,7 +190,6 @@ public class StatFragment extends Fragment {
         while (a != nowHour) {
             if (a == 24) {
                 a = 0;
-                break;
             }
             xValues[b] = (a) + "h";
             b++;
