@@ -6,6 +6,7 @@
     <string name="confirmPassword">Confirmez Mot de passe</string>
     <string name="register">Inscription</string>
     <string name="login">Connexion</string>
+    <string name="login2">Se connecter</string>
     <string name="email">Email</string>
     <string name="firstName">Prenom</string>
     <string name="accueil">Accueil</string>

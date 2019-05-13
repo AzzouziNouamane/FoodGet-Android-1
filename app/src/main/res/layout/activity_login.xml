@@ -59,7 +59,7 @@
         <Button
             android:id="@+id/loginButton"
             style="@style/buttonStyle"
-            android:text="Log in"
+            android:text="@string/login2"
             android:layout_gravity="center"/>
 
         <TextView

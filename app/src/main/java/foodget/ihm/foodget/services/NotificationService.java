@@ -14,7 +14,6 @@ import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.util.Log;
 
 import java.lang.ref.WeakReference;
 import java.util.Date;
@@ -93,7 +92,6 @@ public class NotificationService extends Service {
                 .addAction(R.drawable.account_icon, "FERMER", dismissPendingIntent)
                 .setContentIntent(resultPendingIntent);
 
-        Log.d("APP LAUNCHER", "Je suis là");
         mNotificationManager.notify(1, notifDepenses.build());
     }
 
