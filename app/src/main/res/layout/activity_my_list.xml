@@ -73,7 +73,7 @@ tools:context=".activities.MyListActivity">
                 <Button
                     android:id="@+id/fbButton"
                     style="@style/com_facebook_button_share"
-                    android:layout_width="178dp"
+                    android:layout_width="162dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:textSize="20dp"
