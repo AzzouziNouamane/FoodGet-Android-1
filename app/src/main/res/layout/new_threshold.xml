@@ -36,11 +36,21 @@
         <Button
             android:id="@+id/add_dataButton_threshold"
             style="@style/buttonStyle"
-            android:layout_width="101dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
+            android:layout_toEndOf="@id/cancelButton_threshold"
             android:backgroundTint="@color/green"
-            android:text="Confirmer" />
+            android:text="Valider" />
+
+        <Button
+            android:id="@+id/cancelButton_threshold"
+            style="@style/buttonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Annuler" />
     </RelativeLayout>
 
 </RelativeLayout>

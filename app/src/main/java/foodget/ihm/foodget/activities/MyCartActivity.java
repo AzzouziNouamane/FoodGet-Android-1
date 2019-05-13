@@ -59,7 +59,6 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         db = new DatabaseHelper(this);
         tv_listes = findViewById(R.id.tv_listes);
         btn_add_list = findViewById(R.id.btn_add_list);
-        btn_accueil = findViewById(R.id.accueilButton2);
         shareBluetooth = findViewById(R.id.shareBluetooth);
         shoppingItem = new ArrayList<>();
         shopping_lists = findViewById(R.id.lists_list);
@@ -76,15 +75,6 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
 //                Toast.makeText(MyCartActivity.this, "" + text, Toast.LENGTH_SHORT).show();
 //            }
 //        });
-
-        btn_accueil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent MainMenu = new Intent(getApplicationContext(), ManagementActivity.class);
-                MainMenu.putExtra("user", currentUser);
-                startActivity(MainMenu);
-            }
-        });
 
         shareBluetooth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +103,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
                 if (!nameList.equals("")) {
                     newShoppingList = new ShoppingList(nameList,newFoodList);
                 } else {
-                    popupAddShoppingList.dismiss();
+                    Toast.makeText(this, "Veuillez rentrer un nom pour votre liste !", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -138,7 +128,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
         Cursor cursor = db.viewShoppingListData(currentUser);
         shoppingItem.clear();
         if (cursor.getCount() == 0) {
-            Toast.makeText(this, "No data to view", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Votre liste est vide...", Toast.LENGTH_SHORT).show();
             tv_listes.setText("Vous n'avez aucune liste créée");
         } else {
             tv_listes.setText("Vos listes :");

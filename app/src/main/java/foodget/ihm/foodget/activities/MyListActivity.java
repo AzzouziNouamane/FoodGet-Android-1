@@ -43,6 +43,7 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
     TextView nameView;
     Button add_data;
     Button shareSoppingData;
+    Button btnAccueil;
     ArrayList<Shopping> listItem;
     ListView shoppingView;
     ShoppingList shoppingList;
@@ -61,6 +62,7 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
         shareSoppingData = findViewById(R.id.shareSoppingData);
         listItem = new ArrayList<>();
         shoppingView = findViewById(R.id.shopping_list);
+        btnAccueil = findViewById(R.id.accueilButton2);
 
         Bundle data = getIntent().getExtras();
         User tempUser = data.getParcelable("USER");
@@ -72,6 +74,15 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
 
         currentUser = tempUser;
         viewData(tempName);
+        
+        btnAccueil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent MainMenu = new Intent(getApplicationContext(), ManagementActivity.class);
+                MainMenu.putExtra("user", currentUser);
+                startActivity(MainMenu);
+            }
+        });
 
         Dialog popupAddShoppingProduct = new Dialog(this);
         add_data.setOnClickListener((View v) -> {
@@ -129,7 +140,7 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
 
         Cursor cursor = db.viewShoppingsOfList(currentUser, nameList);
         if (cursor.getCount() == 0) {
-            Toast.makeText(this, "No data to view", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Votre liste est vide...", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
                 Log.d(TAG, "Test User : " + cursor.getString(3));

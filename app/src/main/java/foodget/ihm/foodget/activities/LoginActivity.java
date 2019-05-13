@@ -59,14 +59,14 @@ public class LoginActivity extends AppCompatActivity{
                 }
                 else {
                     if (res != null) {
-                        Toast.makeText(LoginActivity.this, "Successfully Logged IN", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Connecté avec succès !", Toast.LENGTH_SHORT).show();
                         loggedUser = res;
                         Intent loginIntent = new Intent(getApplicationContext(), ManagementActivity.class);
                         loginIntent.putExtra("user",loggedUser);
                         startActivity(loginIntent);
                     }
                     else {
-                        Toast.makeText(LoginActivity.this, "Wrong username/password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Nom d'utilisateur ou Mot de passe incorrect", Toast.LENGTH_SHORT).show();
                     }
                 }
 

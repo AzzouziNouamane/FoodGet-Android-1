@@ -110,6 +110,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
 
             Button add = popupThreshold.findViewById(R.id.add_dataButton_threshold);
             EditText threshold = popupThreshold.findViewById(R.id.ThreshInput);
+            Button cancel = popupThreshold.findViewById(R.id.cancelButton_threshold);
 
             add.setOnClickListener((View v1) -> {
                 String thresh = threshold.getText().toString().trim();
@@ -125,6 +126,10 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                     Toast.makeText(getContext(), "ERREUR ! Veuillez rentrer les informations demandées.", Toast.LENGTH_SHORT).show();
                 }
 
+            });
+
+            cancel.setOnClickListener((View v1) -> {
+                popupThreshold.dismiss();
             });
 
             popupThreshold.show();
@@ -157,7 +162,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                 Log.d(TAG, "on avance");
 
                 if (db.addFood(newShopping, currentUser)) {
-                    Toast.makeText(getContext(), "data added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Produit ajouté !", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, " AJOUT");
                     db.addAlert(new Alert(Alerts.PRODUCT_ADDED.toString().replace("%product%", food)
                             .replace("%price%", price),
@@ -166,7 +171,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                     viewDataInMenu();
 
                 } else {
-                    Toast.makeText(getContext(), "Data not added", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Erreur, produit non ajouté...", Toast.LENGTH_SHORT).show();
                 }
                 popupAddSpentMoney.dismiss();
             });
@@ -182,7 +187,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
         listItem.clear();
         Log.d(TAG, "onCreate: " + currentUser);
         if (cursor.getCount() == 0) {
-            Toast.makeText(getContext(), "No data to view", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Votre liste est vide !", Toast.LENGTH_SHORT).show();
             listItem.clear();
             total = 0.0;
             welcomeView.setText(getString(R.string.welcome)

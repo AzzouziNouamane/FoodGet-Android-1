@@ -76,7 +76,6 @@ public class RegisterActivity extends AppCompatActivity {
                         if (val > 0) {
                             Toast.makeText(RegisterActivity.this, "Inscription réussie !", Toast.LENGTH_SHORT).show();
                             Intent registerIntent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            Toast.makeText(RegisterActivity.this, "" + StaticContentUsers.getRegisteredUsers().size(), Toast.LENGTH_LONG).show();
                             db.addAlert(new Alert(Alerts.WELCOME.toString().replace("%username%", username),
                                     LocalDateTime.now().format(DateTimeFormatter.ofPattern("d/MM/yy HH:mm", Locale.FRANCE))), newUser);
                             startActivity(registerIntent);

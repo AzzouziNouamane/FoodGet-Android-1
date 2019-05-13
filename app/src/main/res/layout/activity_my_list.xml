@@ -24,7 +24,8 @@ tools:context=".activities.MyListActivity">
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
                 android:layout_height="192dp"
-                app:srcCompat="@drawable/foodget" />
+                app:srcCompat="@drawable/foodget"
+                android:layout_gravity="center"/>
 
             <LinearLayout
                 style="@style/linearStyle"
@@ -61,7 +62,7 @@ tools:context=".activities.MyListActivity">
             <Button
                 android:id="@+id/addShoppingData"
                 style="@style/buttonStyle"
-                android:layout_width="389dp"
+                android:layout_width="match_parent"
                 android:text="@string/addShoppingProduct" />
 
             <Button
@@ -71,8 +72,16 @@ tools:context=".activities.MyListActivity">
                 android:backgroundTint="@color/colorPrimary"
                 android:text="Partager via Bluetooth" />
 
+                <Button
+                    android:id="@+id/accueilButton2"
+                    style="@style/buttonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Accueil" />
 
-        </LinearLayout>
+
+            </LinearLayout>
 
 
         </LinearLayout>
