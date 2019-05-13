@@ -156,7 +156,7 @@ public class CameraActivity extends AppCompatActivity {
         }
         try {
             MediaStore.Images.Media.insertImage(getContentResolver(), file.getPath(), pictureName, "");
-            Toast.makeText(getApplicationContext(), "Pic saved", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "La photo est enregistrée", Toast.LENGTH_LONG).show();
         } catch (FileNotFoundException e) {
             Log.d("DEBUG_FR", "ERROR: path not found");
             e.printStackTrace();

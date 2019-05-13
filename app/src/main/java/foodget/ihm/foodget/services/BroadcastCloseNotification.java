@@ -11,7 +11,7 @@ public class BroadcastCloseNotification extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        Log.d("APP RECEIVER", "I am here");
+        Log.d("APP RECEIVER", "Je suis là");
         if (action != null && action.equals("fermer")) {
             int notificationId = intent.getIntExtra("ID", -1);
             if (notificationId > 0) {
