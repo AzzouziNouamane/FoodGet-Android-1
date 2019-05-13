@@ -86,13 +86,13 @@ public class StatFragment extends Fragment {
     private void computeLineChart() {
         switch (choice) {
             case 0:
-                compute24hours();
+                compute30days();
                 break;
             case 1:
                 compute7days();
                 break;
             case 2:
-                compute30days();
+                compute24hours();
                 break;
         }
 
@@ -242,19 +242,19 @@ public class StatFragment extends Fragment {
             listItem.sort(Comparator.comparing(Shopping::getDateAsDate).reversed());
             switch (choice) {
                 case 0:
-                    listItem = listItem.stream().filter(shopping -> shopping.getDateAsDate().isAfter(LocalDateTime.now().minusHours(24)))
+                    listItem = listItem.stream().filter(shopping -> shopping.getDateAsDate().isAfter(LocalDateTime.now().minusDays(30)))
                             .collect(Collectors.toList());
-                    for (int i = 0; i < 24; i++) {
-                        xAXES.add(i, i + "h");
-                    }
                     break;
                 case 1:
                     listItem = listItem.stream().filter(shopping -> shopping.getDateAsDate().isAfter(LocalDateTime.now().minusDays(7)))
                             .collect(Collectors.toList());
                     break;
                 case 2:
-                    listItem = listItem.stream().filter(shopping -> shopping.getDateAsDate().isAfter(LocalDateTime.now().minusDays(30)))
+                    listItem = listItem.stream().filter(shopping -> shopping.getDateAsDate().isAfter(LocalDateTime.now().minusHours(24)))
                             .collect(Collectors.toList());
+                    for (int i = 0; i < 24; i++) {
+                        xAXES.add(i, i + "h");
+                    }
                     break;
             }
 

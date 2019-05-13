@@ -1,4 +1,4 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
     <string name="app_name">FoodGet</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="username">Nom d\'utilisateur</string>
@@ -32,9 +32,9 @@
 
 
     <string-array name="choice_array">
-        <item>24 heures</item>
-        <item>1 semaine</item>
         <item>30 derniers jours</item>
+        <item>1 semaine</item>
+        <item>24 heures</item>
     </string-array>
     <string name="NewThreshold">Nouveau Seuil</string>
 </resources>
