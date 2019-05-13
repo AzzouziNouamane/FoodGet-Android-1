@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import foodget.ihm.foodget.DatabaseHelper;
 import foodget.ihm.foodget.OnClickInMyAdapterListener;
@@ -23,13 +23,13 @@ public class FoodListAdapter extends ArrayAdapter<Shopping> {
 
     private Context context;
     private int resource;
-    private ArrayList<Shopping> objects;
+    private List<Shopping> objects;
     private static String TAG = "FoodListAdapter";
     private DatabaseHelper db;
     private OnClickInMyAdapterListener myActivityInterface;
 
 
-    public FoodListAdapter(Context context, int resource, ArrayList<Shopping> objects, OnClickInMyAdapterListener  myActivityInterface) {
+    public FoodListAdapter(Context context, int resource, List<Shopping> objects, OnClickInMyAdapterListener myActivityInterface) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;

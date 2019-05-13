@@ -22,7 +22,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import foodget.ihm.foodget.BluetoothActivity;
 import foodget.ihm.foodget.DatabaseHelper;
@@ -49,7 +51,7 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
     Button btn_cart;
     Button set_threshold;
     Button btn_stats;
-    ArrayList<Shopping> listItem;
+    List<Shopping> listItem;
     ArrayAdapter adapter;
     ListView shoppingView;
     User currentUser;
@@ -167,6 +169,11 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                     db.addAlert(new Alert(Alerts.PRODUCT_ADDED.toString().replace("%product%", food)
                             .replace("%price%", price),
                             LocalDateTime.now().format(DateTimeFormatter.ofPattern("d/MM/yy HH:mm", Locale.FRANCE))), currentUser);
+                    if ((total + newShopping.getPrice()) > currentUser.getThreshold()) {
+                        db.addAlert(new Alert(Alerts.THRESHOLD_OVER.toString().replace("%over%",
+                                String.valueOf((total + newShopping.getPrice()) - currentUser.getThreshold())),
+                                LocalDateTime.now().format(DateTimeFormatter.ofPattern("d/MM/yy HH:mm", Locale.FRANCE))), currentUser);
+                    }
                     listItem.clear();
                     viewDataInMenu();
 
@@ -203,7 +210,9 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
                     System.out.println(cursor.getString(4));
                     System.out.println(newShopping.getDateAsDate().toString());
                     listItem.add(newShopping);
-                    total += newShopping.getPrice();
+                    if (newShopping.getDateAsDate().isAfter(LocalDateTime.now().minusMonths(1))) {
+                        total += newShopping.getPrice();
+                    }
                     if (currentUser.getThreshold() > 0) {
                         welcomeView.setText(getString(R.string.welcome)
                                 .replace("%username%", currentUser.getfName())
@@ -224,7 +233,10 @@ public class TabMainMenu extends Fragment implements OnClickInMyAdapterListener 
 
             }
 
+
             listItem.sort(Comparator.comparing(Shopping::getDateAsDate).reversed());
+            listItem = listItem.stream().filter(shopping -> shopping.getDateAsDate().isAfter(LocalDateTime.now().minusMonths(1)))
+                    .collect(Collectors.toList());
 
             //adapter = new ArrayAdapter(getContext(), R.layout.da_food, listItem);
             FoodListAdapter adapterFood = new FoodListAdapter(getContext(), R.layout.da_food, listItem, this);
