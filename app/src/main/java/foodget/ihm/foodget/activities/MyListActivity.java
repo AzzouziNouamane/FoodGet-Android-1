@@ -3,6 +3,7 @@ package foodget.ihm.foodget.activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -44,21 +48,27 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
     Button add_data;
     Button shareSoppingData;
     Button btnAccueil;
+    Button facebookButon;
     ArrayList<Shopping> listItem;
     ListView shoppingView;
     ShoppingList shoppingList;
     User currentUser;
     String tempName;
     FoodListAdapter foodListAdapter;
+    CallbackManager callbackManager;
+    ShareDialog shareDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_list);
+        callbackManager = CallbackManager.Factory.create();
+        shareDialog = new ShareDialog(this);
 
         db = new DatabaseHelper(this);
         nameView = findViewById(R.id.nameShoppingView);
         add_data = findViewById(R.id.addShoppingData);
+        facebookButon = findViewById(R.id.fbButton);
         shareSoppingData = findViewById(R.id.shareSoppingData);
         listItem = new ArrayList<>();
         shoppingView = findViewById(R.id.shopping_list);
@@ -74,7 +84,29 @@ public class MyListActivity extends AppCompatActivity implements OnClickInMyAdap
 
         currentUser = tempUser;
         viewData(tempName);
-        
+
+        facebookButon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String list = "";
+                for ( int i = 0; i < shoppingList.getShoppings().size()  ; i++) {
+                    list = list.concat( "\n" + shoppingList.getShoppings().get(i).getFood() + "   "
+                            + shoppingList.getShoppings().get(i).getPrice() + " €");
+                }
+                if (ShareDialog.canShow(ShareLinkContent.class)) {
+                    ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                            .setQuote("Voici la liste de " + tempUser.getfName() + " : \n " + tempName.toUpperCase()
+                                    + "\n--------------------------------" + list)
+                            .setContentUrl(Uri.parse("https://ibb.co/JyXmPhq"))
+                            .build();
+                    shareDialog.show(linkContent);
+                }
+            }
+
+        });
+//        Toast.makeText(this, "SHARED ON FACEBOOK", Toast.LENGTH_SHORT).show();
+
+
         btnAccueil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

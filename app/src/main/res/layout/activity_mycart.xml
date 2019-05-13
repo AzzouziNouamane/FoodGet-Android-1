@@ -59,9 +59,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="123dp"
             android:gravity="bottom"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/shareBluetooth"
@@ -71,7 +71,7 @@
                 android:backgroundTint="@color/colorPrimary"
                 android:text="Recevoir une liste (via Bluetooth)" />
 
-<!--            <Button
+            <!--            <Button
                 android:id="@+id/accueilButton2"
                 style="@style/buttonStyle"
                 android:layout_width="match_parent"

@@ -44,7 +44,6 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
     DatabaseHelper db;
     Button btn_add_list;
     ArrayList<ShoppingList> shoppingItem;
-    Button btn_accueil;
     Button shareBluetooth;
     ShoppingListAdapter myAdapter;
     ShoppingListExtraAdapter myExtraAdapter;
@@ -84,6 +83,7 @@ public class MyCartActivity extends AppCompatActivity implements AdapterView.OnI
                 startActivity(bluetoothIntent);
             }
         });
+
 
         Dialog popupAddShoppingList = new Dialog(this);
         btn_add_list.setOnClickListener((View v) -> {
