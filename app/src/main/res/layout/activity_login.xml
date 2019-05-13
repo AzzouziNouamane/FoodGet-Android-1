@@ -22,11 +22,13 @@
             android:id="@+id/imageView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/foodget" />
+            app:srcCompat="@drawable/foodget"
+            android:layout_gravity="center"/>
 
         <LinearLayout
             style="@style/linearStyle"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/textView3"
@@ -57,7 +59,8 @@
         <Button
             android:id="@+id/loginButton"
             style="@style/buttonStyle"
-            android:text="Log in" />
+            android:text="Log in"
+            android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/registerText"
@@ -68,6 +71,7 @@
             android:textColor="#000"
             android:textSize="15dp"
             android:text="@string/register"
+            android:gravity="center"
             android:textAllCaps="true"/>
 
     </LinearLayout>

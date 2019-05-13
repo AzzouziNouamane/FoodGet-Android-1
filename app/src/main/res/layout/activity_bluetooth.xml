@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     style="@style/buttonBluetoothStyle"
                     android:onClick="btnEnableDisable_Discoverable"
-                    android:text="Enable Discoverable" />
+                    android:text="Chercher un périphérique" />
 
                 <!--                <Button
                                     android:id="@+id/btnONOFF"
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Start Connection"
+                android:text="Connexion avec un périphérique"
                 style="@style/buttonBluetoothStyle"
                 android:textAlignment="center" />
 

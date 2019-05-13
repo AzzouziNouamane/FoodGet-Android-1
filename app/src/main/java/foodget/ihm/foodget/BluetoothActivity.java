@@ -223,6 +223,7 @@ public class BluetoothActivity extends AppCompatActivity implements AdapterView.
                 try {
                     if (mBluetoothConnection != null) {
                         mBluetoothConnection.write(serialize(shoppingList));
+                        Toast.makeText(getApplicationContext(), "Liste \"" + shoppingList.getName() + "\" envoyée", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.d(TAG, "mBluetoothConnection is NULL");
                     }

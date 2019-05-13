@@ -67,7 +67,7 @@ tools:context=".activities.MyListActivity">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="82dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <Button
@@ -86,18 +86,25 @@ tools:context=".activities.MyListActivity">
                     android:layout_width="match_parent"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="Partager via Bluetooth" />
+
             </LinearLayout>
 
-            <Button
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
                     android:id="@+id/accueilButton2"
                     style="@style/buttonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/colorPrimary"
                     android:text="Accueil" />
-
-
             </LinearLayout>
+
+
+        </LinearLayout>
 
 
         </LinearLayout>
