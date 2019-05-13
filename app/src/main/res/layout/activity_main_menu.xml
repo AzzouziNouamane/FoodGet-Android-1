@@ -20,9 +20,10 @@
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="400dp"
+                android:layout_width="match_parent"
                 android:layout_height="150dp"
-                app:srcCompat="@drawable/foodget" />
+                app:srcCompat="@drawable/foodget"
+                android:layout_gravity="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,8 +81,8 @@
 
                 <ListView
                     android:id="@+id/food_list"
-                    android:layout_width="0dp"
-                    android:layout_height="199dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
                     android:layout_weight="1" />
 
             </LinearLayout>

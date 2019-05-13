@@ -24,7 +24,8 @@ tools:context=".activities.MyListActivity">
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
                 android:layout_height="192dp"
-                app:srcCompat="@drawable/foodget" />
+                app:srcCompat="@drawable/foodget"
+                android:layout_gravity="center"/>
 
             <LinearLayout
                 style="@style/linearStyle"
@@ -61,18 +62,42 @@ tools:context=".activities.MyListActivity">
             <Button
                 android:id="@+id/addShoppingData"
                 style="@style/buttonStyle"
-                android:layout_width="389dp"
+                android:layout_width="match_parent"
                 android:text="@string/addShoppingProduct" />
 
-            <Button
-                android:id="@+id/shareSoppingData"
-                style="@style/buttonStyle"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="Partager via Bluetooth" />
+                android:layout_height="82dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/fbButton"
+                    style="@style/com_facebook_button_share"
+                    android:layout_width="178dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:textSize="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/shareSoppingData"
+                    style="@style/buttonStyle"
+                    android:layout_width="match_parent"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Partager via Bluetooth" />
+            </LinearLayout>
+
+            <Button
+                    android:id="@+id/accueilButton2"
+                    style="@style/buttonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="Accueil" />
 
 
-        </LinearLayout>
+            </LinearLayout>
 
 
         </LinearLayout>

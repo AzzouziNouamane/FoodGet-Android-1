@@ -64,7 +64,7 @@ public class TabAlerts extends Fragment {
         listAlerts.clear();
         Cursor cursor = db.viewAlertsData(currentUser);
         if (cursor.getCount() == 0) {
-            Toast.makeText(getContext(), "No data to view", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Pas d'alertes...", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
                 if (cursor.getString(1).equals(currentUser.getUsername())) {

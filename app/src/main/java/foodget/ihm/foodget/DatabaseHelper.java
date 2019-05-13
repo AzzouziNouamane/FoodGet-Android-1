@@ -89,6 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Utilisateur par défaut
         User user = new User("julie", "123", "julie@gmail.com", "julie", 48);
+
         ContentValues contentValues = new ContentValues();
         contentValues.put("username", user.getUsername());
         contentValues.put("password", user.getPassword());
@@ -96,6 +97,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("fName", user.getfName());
         contentValues.put("threshold", user.getThreshold());
         sqLiteDatabase.insert(USER_TABLE, null, contentValues);
+
+
+        User userBruno = new User("bruno", "123", "bruno@gmail.com", "Bruno", 48);
+        ContentValues contentValuesBruno = new ContentValues();
+        contentValuesBruno.put("username", userBruno.getUsername());
+        contentValuesBruno.put("password", userBruno.getPassword());
+        contentValuesBruno.put("email", userBruno.getEmail());
+        contentValuesBruno.put("fName", userBruno.getfName());
+        contentValuesBruno.put("threshold", userBruno.getThreshold());
+        sqLiteDatabase.insert(USER_TABLE, null, contentValuesBruno);
 
         //Produits achetés par défaut
         Shopping shopping0 = new Shopping("Yaourt", 6.0, "15/04/19 19:30");
@@ -122,6 +133,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValuesShop2.put(FOOD_DATE, shopping2.getDateAsString());
         sqLiteDatabase.insert(FOOD_TABLE, null, contentValuesShop2);
 
+
+        Shopping shoppingBruno = new Shopping("Bananes", 4.0, "04/05/19 20:52");
+        ContentValues contentValues1 = new ContentValues();
+        contentValues1.put(FOOD_NAME, shoppingBruno.getFood());
+        contentValues1.put(FOOD_PRICE, shoppingBruno.getPrice());
+        contentValues1.put(USER_NAME, userBruno.getUsername());
+        contentValues1.put(FOOD_DATE, shoppingBruno.getDateAsString());
+        sqLiteDatabase.insert(FOOD_TABLE, null, contentValues1);
+
         //Listes créées par défaut
         Shopping shoppingA = new Shopping("Pain", 1.0, "");
         Shopping shoppingB = new Shopping("Poisson", 8.5, "");
@@ -142,6 +162,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValuesShopList1.put(LIST_FOOD, foodList1);
         contentValuesShopList1.put(USER_NAME, user.getUsername());
         sqLiteDatabase.insert(SHOPPING_TABLE, null, contentValuesShopList1);
+
+        ContentValues contentValuesBrunoList = new ContentValues();
+        ShoppingList shoppingListBruno = new ShoppingList("Liste Client", shoppings1);
+        contentValuesBrunoList.put(LIST_NAME, shoppingListBruno.getName());
+        Gson gson = new Gson();
+        String foodListBruno = gson.toJson(shoppingListBruno.getShoppings());
+        contentValuesBrunoList.put(LIST_FOOD, foodListBruno);
+        contentValuesBrunoList.put(USER_NAME, userBruno.getUsername());
+        sqLiteDatabase.insert(SHOPPING_TABLE, null, contentValuesBrunoList);
 
         ArrayList<Shopping> shoppings2 = new ArrayList<>();
         shoppings2.add(shoppingC);
@@ -164,6 +193,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValuesAlertWelcome.put(ALERT_DATE, alertWelcome.getDate());
         contentValuesAlertWelcome.put(USER_NAME, user.getUsername());
         sqLiteDatabase.insert(ALERTS_TABLE, null, contentValuesAlertWelcome);
+
+        Alert alertWelcomeBruno = new Alert(Alerts.WELCOME.toString().replace("%username%", userBruno.getfName()), "19/01/19 18:52");
+        ContentValues contentValuesAlertWelcomeBruno = new ContentValues();
+        contentValuesAlertWelcomeBruno.put(ALERT_STRING, alertWelcomeBruno.getAlert());
+        contentValuesAlertWelcomeBruno.put(ALERT_DATE, alertWelcomeBruno.getDate());
+        contentValuesAlertWelcomeBruno.put(USER_NAME, userBruno.getUsername());
+        sqLiteDatabase.insert(ALERTS_TABLE, null, contentValuesAlertWelcomeBruno);
 
 
         Log.d(TAG, "DatabaseHelper: Created");
