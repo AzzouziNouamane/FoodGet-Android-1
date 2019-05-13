@@ -3,6 +3,7 @@
     package="foodget.ihm.foodget">
 
     <uses-feature android:name="android.hardware.bluetooth" />
+    <uses-feature android:name="android.hardware.Camera" />
 
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -10,6 +11,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -30,7 +34,7 @@
         <service android:name=".services.NotificationService" />
         <receiver android:name=".services.BroadcastCloseNotification" />
 
-        <activity android:name=".activities.FacebookActivity" />
+        <!--<activity android:name=".activities.FacebookActivity" />-->
         <activity android:name=".activities.MyListActivity" />
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.MyCartActivity" />

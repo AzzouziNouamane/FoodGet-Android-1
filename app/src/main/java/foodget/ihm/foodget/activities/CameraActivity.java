@@ -6,12 +6,12 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,12 +26,19 @@ import foodget.ihm.foodget.R;
 
 public class CameraActivity extends AppCompatActivity {
 
-    static final int REQUEST_ID_IMAGE_CAPTURE = 100;
-    static final int PERMISSIONS_REQUEST_READ_MEDIA = 1000;
     String pictureName = "_test.jpg";
     ImageView imageView;
     Button buttonSave;
+    Button buttonLoad;
+    Button takeImage;
+    static final int PERMISSIONS_REQUEST_READ_MEDIA = 1000;
     Bitmap picture;
+
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putParcelable("picture", picture);
+        super.onSaveInstanceState(savedInstanceState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +46,15 @@ public class CameraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_camera);
 
         //getwidgets
-        Button takeImage = findViewById(R.id.button_image_capture);
-        buttonSave = findViewById(R.id.button_image_save);
-        Button buttonLoad = findViewById(R.id.button_image_load);
-        imageView = findViewById(R.id.takePicture);
+        takeImage = findViewById(R.id.button_image_capture);
+        buttonSave =  findViewById(R.id.button_image_save);
+        buttonLoad =  findViewById(R.id.button_image_load);
+        imageView =  findViewById(R.id.takePicture);
+
+        if (savedInstanceState != null) {
+            picture = savedInstanceState.getParcelable("picture");
+            imageView.setImageBitmap(picture);
+        }
 
         buttonSave.setAlpha(0.5f);
 
@@ -50,9 +62,8 @@ public class CameraActivity extends AppCompatActivity {
         takeImage.setOnClickListener((v) -> {
             //create an implicit intent, for image capture.
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
             //start camera and wait for results
-            startActivityForResult(intent, REQUEST_ID_IMAGE_CAPTURE);
+            startActivityForResult(intent, 1);
         });
 
         buttonSave.setOnClickListener((v) -> {
@@ -68,16 +79,9 @@ public class CameraActivity extends AppCompatActivity {
         });
 
         buttonLoad.setOnClickListener((v) -> {
-            if (picture != null) {
-                //manage authorizations
-                int permissionCheck = ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
-                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(CameraActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST_READ_MEDIA);
-                } else {
-                    System.out.println("on rentre ici");
-                    loadImageFromStorage("data/user/0/foodget.ihm.foodget/app_imageDir");
-                }
-            }
+            Intent pickIntent = new Intent(Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(pickIntent, 0);
         });
     }
 
@@ -98,11 +102,22 @@ public class CameraActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Check which request we're responding to
-        if (requestCode == REQUEST_ID_IMAGE_CAPTURE) {
+        if (requestCode == 1) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                picture = (Bitmap) data.getExtras().get("data/user/0/foodget.ihm.foodget/app_imageDir" + pictureName);
+                picture = (Bitmap) data.getExtras().get("data");
                 imageView = setImageBitmap(picture);
+                buttonSave.setAlpha(1f);
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "action cancelled", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "action false", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == 0){
+            if (resultCode == RESULT_OK) {
+                Uri imageSelected = data.getData();
+                imageView.setImageURI(imageSelected);
                 buttonSave.setAlpha(1f);
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "action cancelled", Toast.LENGTH_SHORT).show();
@@ -149,13 +164,8 @@ public class CameraActivity extends AppCompatActivity {
 
     }
 
-    private void loadImageFromStorage(String path) {
-        ImageView imageView = this.findViewById(R.id.takePicture);
-        imageView.setImageBitmap(BitmapFactory.decodeFile(path));
-    }
-
     private ImageView setImageBitmap(Bitmap bitmap) {
-        ImageView imageView = this.findViewById(R.id.takePicture);
+        imageView = this.findViewById(R.id.takePicture);
         imageView.setImageBitmap(bitmap);
         return imageView;
     }
