@@ -56,7 +56,7 @@ public class NotificationService extends Service {
         if (myAlarmService != null)
             myAlarmService.set(
                     AlarmManager.ELAPSED_REALTIME,
-                    SystemClock.elapsedRealtime() + 500,
+                    SystemClock.elapsedRealtime() + 1000 ,
                     restartPendingIntent);
 
         super.onTaskRemoved(rootIntent);
@@ -81,7 +81,7 @@ public class NotificationService extends Service {
                 stackBuilder.getPendingIntent(1, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        notifDepenses = new NotificationCompat.Builder(context.get(), "channel_notif_id_meal")
+        notifDepenses = new NotificationCompat.Builder(context.get(), "channel_notif_depenses")
                 .setContentTitle("FOODGET: Dépenses quotidiennes")
                 .setContentText("Avez-vous pensé à saisir vos dépenses d'aujourd'hui?")
                 .setSmallIcon(R.drawable.foodget)
@@ -93,7 +93,7 @@ public class NotificationService extends Service {
                 .addAction(R.drawable.account_icon, "FERMER", dismissPendingIntent)
                 .setContentIntent(resultPendingIntent);
 
-        Log.d("APP LAUNCHER", "je suis là");
+        Log.d("APP LAUNCHER", "Je suis là");
         mNotificationManager.notify(1, notifDepenses.build());
     }
 
@@ -123,7 +123,7 @@ public class NotificationService extends Service {
         public void run() {
             Date now = new Date();
             long tmp = next.getTime() + 60000;
-            if (now.getTime() > tmp - 500 && now.getTime() < tmp + 500) {
+            if (now.getTime() > tmp - 5000 && now.getTime() < tmp + 5000) {
                 createNotificationDepenses();
             }
         }
